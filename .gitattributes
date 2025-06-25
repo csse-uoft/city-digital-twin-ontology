@@ -1,0 +1,9 @@
+RoadNetwork/ORNELEM/ORN_ADDRESS_INFO.csv filter=lfs diff=lfs merge=lfs -text
+RoadNetwork/ORNELEM/ORN_ROAD_NET_ELEMENT.dbf filter=lfs diff=lfs merge=lfs -text
+RoadNetwork/ORNELEM/ORN_ROAD_NET_ELEMENT.shp filter=lfs diff=lfs merge=lfs -text
+RoadNetwork/ORNELEM.zip filter=lfs diff=lfs merge=lfs -text
+RoadNetwork/ORNELEM/toronto_roads.ttl filter=lfs diff=lfs merge=lfs -text
+RoadNetwork/ORN_ADDRESS_INFO.csv filter=lfs diff=lfs merge=lfs -text
+RoadNetwork/ORN_ROAD_NET_ELEMENT.dbf filter=lfs diff=lfs merge=lfs -text
+RoadNetwork/ORN_ROAD_NET_ELEMENT.shp filter=lfs diff=lfs merge=lfs -text
+RoadNetwork/toronto_roads.ttl filter=lfs diff=lfs merge=lfs -text
