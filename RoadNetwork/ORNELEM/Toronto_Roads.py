@@ -182,9 +182,10 @@ for _, row in data_frames["junctions"].iterrows():
 
     # Add triples for the junction
     g.add((junction_uri, GEN.hasIdentifier, Literal(int(junction_id), datatype=XSD.integer)))
-    g.add((junction_uri, RDFS.subClassOf, TRANSPORT.TransportNode))
-    g.add((junction_uri, RDFS.subClassOf, TRANSPORT.Junction))
+    g.add((TRANSPORT.Junction, RDFS.subClassOf, TRANSPORT.TransportNode))
+    g.add((CDT.Junction, RDFS.subClassOf, TRANSPORT.Junction))
     g.add((junction_uri, GEO_LOC.hasLocation, location_uri))
+    g.add((junction_uri, RDF.type, CDT.Junction))
 
     g.add((junction_uri, CDT.hasJunctionType, junction_type_uri))
     g.add((junction_type_uri, RDF.type, CDT.JunctionType))
@@ -198,7 +199,8 @@ for _, row in data_frames["junctions"].iterrows():
 
     # Add geospatial coordinates
     wkt_point = f"POINT ({longitude} {latitude})"
-    g.add((location_uri, RDFS.subClassOf, GEO.Geometry))
+    g.add((location_uri, RDF.type, GEO_LOC.Location))
+    g.add((GEO_LOC.Location, RDFS.subClassOf, GEO.Geometry))
     g.add((location_uri, GEO.asWKT, Literal(wkt_point, datatype=GEO.wktLiteral)))
 
 
@@ -264,9 +266,10 @@ for road_name, group in road_groups:
         road_links.append(road_link_uri)  # Collect all road links for the road
 
         # RoadLink
-        g.add((road_link_uri, RDFS.subClassOf, INFRAS.RoadLink))
-        g.add((road_link_uri, RDFS.subClassOf, TRANSPORT.TravelledWayLink))
-        g.add((road_link_uri, RDFS.subClassOf, INFRASTRUCTURE.InfrastructureElement))
+        g.add((road_link_uri, RDF.type, CDT.RoadLink))
+        g.add((CDT.RoadLink, RDFS.subClassOf, INFRAS.RoadLink))
+        g.add((INFRAS.RoadLink, RDFS.subClassOf, TRANSPORT.TravelledWayLink))
+        g.add((TRANSPORT.TravelledWayLink, RDFS.subClassOf, INFRASTRUCTURE.InfrastructureElement))
         g.add((road_link_uri, PARTWHOLE.properPartOf, road_uri))
         g.add((road_link_uri, ROAD.usedBy, road_user_uri))
         g.add((road_user_uri, ROAD.uses, road_link_uri))
@@ -286,7 +289,7 @@ for road_name, group in road_groups:
             g.add((speed_uri, RDF.type, CITYUNITS.Speed))
             g.add((speed_unit_uri, RDF.type, I72.kilometersPerHr))
 
-            g.add((speed_uri, RDFS.subClassOf, I72.Quantity))
+            g.add((CITYUNITS.Speed, RDFS.subClassOf, I72.Quantity))
             g.add((speed_uri, I72.value, speed_measure))
 
             g.add((speed_measure, I72.unit_of_measure, speed_unit_uri))
@@ -303,7 +306,7 @@ for road_name, group in road_groups:
             g.add((length_measurement, RDF.type, CITYUNITS.Length))
             g.add((length_unit_uri, RDF.type, I72.Meters))
 
-            g.add((length_measurement, RDFS.subClassOf, I72.Quantity))
+            g.add((CITYUNITS.Length, RDFS.subClassOf, I72.Quantity))
             g.add((length_measurement, I72.value, length_measure))
 
             g.add((length_measure, I72.unit_of_measure, length_unit_uri))
@@ -320,7 +323,7 @@ for road_name, group in road_groups:
             g.add((accuracy_measurement, RDF.type, CITYUNITS.Length))
             g.add((accuracy_unit_uri, RDF.type, I72.Meters))
 
-            g.add((accuracy_measurement, RDFS.subClassOf, I72.Quantity))
+            g.add((CITYUNITS.Length, RDFS.subClassOf, I72.Quantity))
             g.add((accuracy_measurement, I72.value, accuracy_measure))
 
             g.add((accuracy_measure, I72.unit_of_measure, accuracy_unit_uri))
@@ -394,7 +397,7 @@ for road_name, group in road_groups:
         if pd.notna(jurisdiction):
             gov_org_uri = ORG[f"govOrg_{road_id}"]
 
-            g.add((gov_org_uri, RDFS.subClassOf, ORG.Organization))
+            g.add((ORG.GovernmentOrganization, RDFS.subClassOf, ORG.Organization))
             g.add((gov_org_uri, RDF.type, ORG.GovernmentOrganization))
 
             g.add((gov_org_uri, CDT.responsibleFor, road_link_uri))
@@ -467,14 +470,15 @@ for road_name, group in road_groups:
                 g.add((road_link_uri, predicate, Literal(formatted_date, datatype=XSD.date)))
 
         # Geolocation
-        g.add((location_uri, RDFS.subClassOf, GEO.Geometry))
+        g.add((location_uri, RDF.type, GEO_LOC.Location))
+        g.add((GEO_LOC.Location, RDFS.subClassOf, GEO.Geometry))
         g.add((location_uri, GEO.asWKT, Literal(row["geometry"].wkt, datatype=GEO.wktLiteral)))
         g.add((road_link_uri, GEO_LOC.hasLocation, location_uri))
 
     # Creates the Road entity and adds all RoadLinks as part of the Road entity
     if road_links:
-        g.add((road_uri, RDFS.subClassOf, TRANSPORT.TravelledWay))
-        g.add((road_uri, RDFS.subClassOf, INFRAS.Road))
+        g.add((CDT.Road, RDFS.subClassOf, INFRAS.Road))
+        g.add((road_uri, RDF.type, CDT.Road))
         g.add((road_uri, GEN.hasName, Literal(road_name, datatype=XSD.string)))
         for road_link in road_links:
             g.add((road_uri, PARTWHOLE.hasProperPart, road_link))
