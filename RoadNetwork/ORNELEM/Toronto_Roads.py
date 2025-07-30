@@ -443,14 +443,17 @@ for road_name, group in road_groups:
                 physical_uri = CDT[f"Physical_{road_id}"]
                 g.add((toll_point_measurement, CDT.hasTollPointType, physical_uri))
                 g.add((physical_uri, RDF.type, CDT.PhyicalTP))
+                g.add((CDT.PhysicalTP, RDFS.subClassOf, CDT.TollPoint))
             if toll_point_type == "Hybrid":
                 hybrid_uri = CDT[f"Hybrid_{road_id}"]
                 g.add((toll_point_measurement, CDT.hasTollPointType, hybrid_uri))
                 g.add((hybrid_uri, RDF.type, CDT.HybirdTP))
+                g.add((CDT.HybridTP, RDFS.subClassOf, CDT.TollPoint))
             if toll_point_type == "Virtual":
                 virtual_uri = CDT[f"Virtual_{road_id}"]
                 g.add((toll_point_measurement, CDT.hasTollPointType, virtual_uri))
                 g.add((virtual_uri, RDF.type, CDT.VirtualTP))
+                g.add((CDT.VirtualTP, RDFS.subClassOf, CDT.TollPoint))
 
         if pd.notna(underpass_type):
             underpass_measurement = CDT[f"underpass_{road_id}"]
