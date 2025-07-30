@@ -120,17 +120,6 @@ g.bind("city", CITY)
 g.bind("contact", CONTACT)
 g.bind("road", ROAD)
 
-# ***
-
-direction_enum_uris = {
-    "Forward": CDT.Forward,
-    "Reverse": CDT.Reverse,
-    "Bi-directional": CDT.Bidirectional
-}
-
-for label, enum_uri in direction_enum_uris.items():
-    g.add((enum_uri, RDF.type, TRANSPORT.LinkDirection))
-    g.add((enum_uri, RDFS.label, Literal(label)))
 
 # Function to safely convert date strings to XSD.date format
 def format_date(value: str) -> str | None:
@@ -335,6 +324,7 @@ for road_name, group in road_groups:
             g.add((road_link_uri, CDT.nationUUID, Literal(nid, datatype=XSD.string)))
 
         if pd.notna(surface_type):
+
             surface_type_measurement = CDT[f"surface_type_{road_id}"]
             surface_Code = CODE[f"surfaceType_Code_{road_id}"]
 
@@ -344,13 +334,11 @@ for road_name, group in road_groups:
             g.add((surface_Code, RDF.type, CODE.Code))
             g.add((surface_Code, GEN.hasName, Literal(surface_type, datatype=XSD.string)))
 
-        if pd.notna(direction): # *** Need to be Link Directions
-            if direction == "Positive":
-                g.add((road_link_uri, TRANSPORT.allowedDirections, CDT.Forward))
-            elif direction == "Negative":
-                g.add((road_link_uri, TRANSPORT.allowedDirections, CDT.Reverse))
-            else:
-                g.add((road_link_uri, TRANSPORT.allowedDirections, CDT.Bidirectional))
+        if pd.notna(direction):
+            direction_code = CODE[f"direction_Code_{road_id}"]
+            g.add((road_link_uri, TRANSPORT.allowedDirections, direction_code))
+            g.add((direction_code, GEN.hasName, Literal(direction, datatype=XSD.string))
+)
 
         if pd.notna(exit_num):
             g.add((road_link_uri, CDT.exitNum, Literal(exit_num, datatype=XSD.string)))
@@ -365,7 +353,7 @@ for road_name, group in road_groups:
             acqtech_measurement = CDT[f"acqtech_{road_id}"]
             acqtech_Code = CODE[f"acqtechCode_{road_id}"]
 
-            g.add((road_link_uri, CDT.hasAquisitionTechnique, acqtech_measurement))
+            g.add((road_link_uri, CDT.dataAquisitionTechnique, acqtech_measurement))
             g.add((acqtech_measurement, RDF.type, CDT.AquisitionTechnique))
             g.add((acqtech_measurement, CODE.hasCode, acqtech_Code))
             g.add((acqtech_Code, RDF.type, CODE.Code))
@@ -373,7 +361,7 @@ for road_name, group in road_groups:
 
         if pd.notna(road_class):
             road_class_uri = CDT[f"roadClass_{road_id}"]
-            codeRoadClass_uri = CDT[f"roadClass_Code_{road_id}"]
+            codeRoadClass_uri = CODE[f"roadClass_Code_{road_id}"]
 
             g.add((road_link_uri, CDT.roadClass, road_class_uri))
             g.add((road_class_uri, RDF.type, CDT.RoadClass))
@@ -384,15 +372,15 @@ for road_name, group in road_groups:
         if pd.notna(road_name):
             g.add((road_link_uri, GEN.hasName, Literal(road_name, datatype=XSD.string)))
 
-        if pd.notna(blocked_passage):
-            blocked_uri = CDT[f"blockedPassage_{road_id}"]
-            blocked_code = CDT[f"blockedPassage_Code_{road_id}"]
-
-            g.add((road_link_uri, CDT.hasBlockedPassage, blocked_uri))
-            g.add((blocked_uri, RDF.type, CDT.BlockedPassageType))
-            g.add((blocked_uri, CODE.hasCode, blocked_code))
-            g.add((blocked_code, RDF.type, CODE.Code))
-            g.add((blocked_code, GEN.hasName, Literal(blocked_passage, datatype=XSD.string)))
+        # if pd.notna(blocked_passage):
+        #     blocked_uri = CDT[f"blockedPassage_{road_id}"]
+        #     blocked_code = CDT[f"blockedPassage_Code_{road_id}"]
+        #
+        #     g.add((road_link_uri, CDT.hasBlockedPassage, blocked_uri))
+        #     g.add((blocked_uri, RDF.type, CDT.BlockedPassageType))
+        #     g.add((blocked_uri, CODE.hasCode, blocked_code))
+        #     g.add((blocked_code, RDF.type, CODE.Code))
+        #     g.add((blocked_code, GEN.hasName, Literal(blocked_passage, datatype=XSD.string)))
 
         if pd.notna(jurisdiction):
             gov_org_uri = ORG[f"govOrg_{road_id}"]
@@ -404,7 +392,7 @@ for road_name, group in road_groups:
             g.add((road_link_uri, CDT.hasCustodian, gov_org_uri))
 
         if pd.notna(num_lanes):
-            g.add((road_link_uri, ROAD.numLanes, Literal(int(num_lanes), datatype=XSD.integer)))
+            g.add((road_link_uri, ROAD.maxLanes, Literal(int(num_lanes), datatype=XSD.integer)))
 
         if pd.notna(pavement_status):
             if pavement_status == "Paved":
@@ -419,33 +407,66 @@ for road_name, group in road_groups:
             g.add((road_link_uri, CDT.routeNumber, Literal(str(route_number), datatype=XSD.string)))
 
         if pd.notna(structure_type):
-            structure_type_measurement = CDT[f"structure_type_{road_id}"]
-            structure_type_Code = CODE[f"structureTypeCode_{road_id}"]
+            road_seg_uri = ROAD[f"road_seg_{road_id}"]
+            g.add((road_seg_uri, RDFS.subClassOf, INFRAS.RoadSegment))
+            g.add((road_seg_uri, PARTWHOLE.properPartOf, road_link_uri))
+            g.add((road_link_uri, PARTWHOLE.hasProperPart, road_seg_uri))
 
-            g.add((road_link_uri, CDT.hasStructureType, structure_type_measurement))
-            g.add((structure_type_measurement, RDF.type, CDT.StructureType))
-            g.add((structure_type_measurement, CODE.hasCode, structure_type_Code))
-            g.add((structure_type_Code, RDF.type, CODE.Code))
-            g.add((structure_type_Code, GEN.hasName, Literal(structure_type, datatype=XSD.string)))
+            if structure_type == "Bridge":
+                bridge_uri = INFRAS[f"Bridge_{road_id}"]
+                g.add((bridge_uri, RDF.type, INFRAS.Bridge))
+                g.add((bridge_uri, INFRAS.supports, road_seg_uri))
+            elif structure_type == "Bridge Covered":
+                bridgeC_uri = INFRAS[f"BridgeCovered_{road_id}"]
+                g.add((bridgeC_uri, RDFS.subClassOf, INFRAS.Bridge))
+                g.add((bridgeC_uri, INFRAS.supports, road_seg_uri))
+            elif structure_type == "Bridge Moveable":
+                bridgeM_uri = INFRAS[f"BridgeMoveable_{road_id}"]
+                g.add((bridgeM_uri, RDFS.subClassOf, INFRAS.Bridge))
+                g.add((bridgeM_uri, INFRAS.supports, road_seg_uri))
+            elif structure_type == "Tunnel":
+                tunnel_uri = INFRAS[f"Tunnel_{road_id}"]
+                g.add((tunnel_uri, RDF.type, INFRAS.Tunnel))
+                g.add((tunnel_uri, INFRAS.supports, road_seg_uri))
+            elif structure_type == "Dam":
+                Dam_uri = CDT[f"Dam_{road_id}"]
+                g.add((Dam_uri, RDF.type, CDT.Dam))
+                g.add((CDT.Dam, RDFS.subClassOf, INFRASTRUCTURE.InfrastructureElement))
+                g.add((Dam_uri, INFRAS.supports, road_seg_uri))
+
 
         if pd.notna(toll_point_type):
-            toll_type_measurement = CDT[f"tollPoint_type_{road_id}"]
-            toll_type_Code = CODE[f"tollTypeCode_{road_id}"]
+            toll_point_measurement = CDT[f"tollPoint_{road_id}"]
+            g.add((road_link_uri, CDT.hasTollPoint, toll_point_measurement))
 
-            g.add((road_link_uri, CDT.hasTollPointType, toll_type_measurement))
-            g.add((toll_type_measurement, RDF.type, CDT.TollPointType))
-            g.add((toll_type_measurement, CODE.hasCode, toll_type_Code))
-            g.add((toll_type_Code, RDF.type, CODE.Code))
-            g.add((toll_type_Code, GEN.hasName, Literal(toll_point_type, datatype=XSD.string)))
+            if toll_point_type == "Physical":
+                physical_uri = CDT[f"Physical_{road_id}"]
+                g.add((toll_point_measurement, CDT.hasTollPointType, physical_uri))
+                g.add((physical_uri, RDF.type, CDT.PhyicalTP))
+            if toll_point_type == "Hybrid":
+                hybrid_uri = CDT[f"Hybrid_{road_id}"]
+                g.add((toll_point_measurement, CDT.hasTollPointType, hybrid_uri))
+                g.add((hybrid_uri, RDF.type, CDT.HybirdTP))
+            if toll_point_type == "Virtual":
+                virtual_uri = CDT[f"Virtual_{road_id}"]
+                g.add((toll_point_measurement, CDT.hasTollPointType, virtual_uri))
+                g.add((virtual_uri, RDF.type, CDT.VirtualTP))
 
         if pd.notna(underpass_type):
+            underpass_measurement = CDT[f"underpass_{road_id}"]
             underpass_type_measurement = CDT[f"underpass_type_{road_id}"]
             underpass_type_Code = CODE[f"underpassTypeCode_{road_id}"]
 
-            g.add((road_link_uri, CDT.hasUnderpassType, underpass_type_measurement))
+            g.add((road_link_uri, CDT.hasUnderpass, underpass_measurement))
+            g.add((underpass_measurement, RDF.type, CDT.Underpass))
+            g.add((CDT.Underpass, RDFS.subClassOf, INFRASTRUCTURE.InfrastructureElement))
+
+            g.add((underpass_measurement, CDT.hasUnderpassType, underpass_type_measurement))
             g.add((underpass_type_measurement, RDF.type, CDT.UnderpassType))
+
             g.add((underpass_type_measurement, CODE.hasCode, underpass_type_Code))
             g.add((underpass_type_Code, RDF.type, CODE.Code))
+
             g.add((underpass_type_Code, GEN.hasName, Literal(underpass_type, datatype=XSD.string)))
 
 
