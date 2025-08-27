@@ -497,10 +497,9 @@ for feature in geojson_data["features"]:
 
             location_uri = GEO_LOC[f"location_{id}"]
             g.add((site_uri, GEO_LOC.hasLocation, location_uri))
-            wkt_point = f"{loc['type']} ({loc['coordinates']})"
             g.add((location_uri, RDF.type, GEO_LOC.Location))
             g.add((GEO_LOC.Location, RDFS.subClassOf, GEO.Geometry))
-            g.add((location_uri, GEO.asWKT, Literal(wkt_point, datatype=GEO.wktLiteral)))
+            g.add((location_uri, GEO.asWKT, Literal(geometry, datatype=GEO.wktLiteral)))
 
         if "access" in props:
             if props["access"] == 'yes':
@@ -729,13 +728,6 @@ for feature in geojson_data["features"]:
                 g.add((site_uri, CDT.hasToilets, Literal('true', datatype=XSD.boolean)))
             else:
                 g.add((site_uri, CDT.hasToilets, Literal('false', datatype=XSD.boolean)))
-
-        if "type" in props:
-            location_uri = GEO_LOC[f"library_loc_{id}"]
-            g.add((location_uri, RDF.type, GEO_LOC.Location))
-            g.add((GEO_LOC.Location, RDFS.subClassOf, GEO.Geometry))
-            g.add((location_uri, GEO.asWKT, Literal(geometry.wkt, datatype=GEO.wktLiteral)))
-            g.add((branch_uri, GEO_LOC.hasLocation, location_uri))
 
         if "website" in props:
             g.add((branch_uri, CDT.website, Literal(props['website'], datatype=XSD.string)))
