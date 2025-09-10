@@ -1,4 +1,3 @@
-# Re-run everything after reset
 import json
 from types import NoneType
 
