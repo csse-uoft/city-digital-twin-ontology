@@ -340,7 +340,6 @@ for feature in geojson_data["features"]:
             g.add((code_uri, RDF.type, CODE.Code))
             g.add((material_uri, CODE.hasCode, code_uri))
             g.add((code_uri, GENPROP.hasName, Literal(props['building:material'], datatype=XSD.string)))
-            g.add((site_uri, CDT.hasColor, material_uri))
             g.add((site_uri, CDT.madeOf, Literal((props['building:material']), datatype=XSD.string)))
 
         if "capacity" in props:
@@ -365,7 +364,10 @@ for feature in geojson_data["features"]:
             g.add((site_uri, CDT.height, Literal((props['height']), datatype=XSD.string)))
 
         if "internet_access" in props:
-            g.add((site_uri, CDT.hasWIFI, Literal((props['internet_access']), datatype=XSD.string)))
+            if props["internet_access"] != "no":
+                g.add((site_uri, CDT.hasInternetAccess, Literal('true', datatype=XSD.boolean)))
+            else:
+                g.add((site_uri, CDT.hasInternetAccess, Literal('false', datatype=XSD.boolean)))
 
         if "internet_access:fee" in props:
             if props['internet_access:fee'] == 'yes':
