@@ -416,8 +416,14 @@ for feature in geojson_data["features"]:
                     g.add((operator_uri, RDF.type, ORG.Organization))
 
         if "parking" in props:
-            g.add((site_uri, CDT.parkingType, Literal(props['parking'], datatype=XSD.string)))
+            parking_uri = CDT[f"parking_{id}"]
+            code_uri = CODE[f"parking_Code_{id}"]
 
+            g.add((parking_uri, RDF.type, CDT.ParkingType))
+            g.add((code_uri, RDF.type, CODE.Code))
+            g.add((parking_uri, CODE.hasCode, code_uri))
+            g.add((code_uri, GENPROP.hasName, Literal(props['parking'], datatype=XSD.string)))
+            g.add((site_uri, CDT.hasParkingType, parking_uri))
 
         if "return_machine" in props:
             if props['return_machine'] == "yes":
@@ -585,7 +591,6 @@ for feature in geojson_data["features"]:
             g.add((code_uri, RDF.type, CODE.Code))
             g.add((material_uri, CODE.hasCode, code_uri))
             g.add((code_uri, GENPROP.hasName, Literal(props['building:material'], datatype=XSD.string)))
-            g.add((site_uri, CDT.hasColor, material_uri))
             g.add((site_uri, CDT.madeOf, Literal((props['building:material']), datatype=XSD.string)))
 
         if "built_date" in props:
@@ -611,7 +616,10 @@ for feature in geojson_data["features"]:
             g.add((site_uri, CDT.height, Literal((props['height']), datatype=XSD.string)))
 
         if "internet_access" in props:
-            g.add((site_uri, CDT.hasWIFIType, Literal((props['internet_access']), datatype=XSD.string)))
+            if props["internet_access"] != "no":
+                g.add((site_uri, CDT.hasInternetAccess, Literal('true', datatype=XSD.boolean)))
+            else:
+                g.add((site_uri, CDT.hasInternetAccess, Literal('false', datatype=XSD.boolean)))
 
         if "internet_access:fee" in props:
             if props['internet_access:fee'] == 'yes':
@@ -665,7 +673,14 @@ for feature in geojson_data["features"]:
                     g.add((operator_uri, RDF.type, ORG.Organization))
 
         if "parking" in props:
-            g.add((site_uri, CDT.parkingType, Literal(props['parking'], datatype=XSD.string)))
+            parking_uri = CDT[f"parking_{props['parking']}"]
+            code_uri = CODE[f"parking_Code_{props['parking']}"]
+
+            g.add((parking_uri, RDF.type, CDT.ParkingType))
+            g.add((code_uri, RDF.type, CODE.Code))
+            g.add((parking_uri, CODE.hasCode, code_uri))
+            g.add((code_uri, GENPROP.hasName, Literal(props['parking'], datatype=XSD.string)))
+            g.add((site_uri, CDT.hasParkingType, parking_uri))
 
         if "phone" in props:
             phone_uri = CONTACT[f"phone_{id}"]
