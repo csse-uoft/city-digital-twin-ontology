@@ -451,7 +451,6 @@ for feature in geojson_data["features"]:
             g.add((code_uri, RDF.type, CODE.Code))
             g.add((material_uri, CODE.hasCode, code_uri))
             g.add((code_uri, GENPROP.hasName, Literal(props['roof:material'], datatype=XSD.string)))
-            g.add((site_uri, CDT.hasColor, material_uri))
             g.add((site_uri, CDT.roofMaterial, Literal((props['roof:material']), datatype=XSD.string)))
 
         if "self_checkout" in props:
@@ -718,7 +717,6 @@ for feature in geojson_data["features"]:
             g.add((code_uri, RDF.type, CODE.Code))
             g.add((material_uri, CODE.hasCode, code_uri))
             g.add((code_uri, GENPROP.hasName, Literal(props['roof:material'], datatype=XSD.string)))
-            g.add((site_uri, CDT.hasColor, material_uri))
             g.add((site_uri, CDT.roofMaterial, Literal((props['roof:material']), datatype=XSD.string)))
 
         if "self_checkout" in props:
