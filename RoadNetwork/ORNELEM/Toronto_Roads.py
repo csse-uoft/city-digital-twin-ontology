@@ -364,7 +364,7 @@ for road_name, group in road_groups:
             road_class_uri = CDT[f"roadClass_{road_id}"]
             codeRoadClass_uri = CODE[f"roadClass_Code_{road_id}"]
 
-            g.add((road_link_uri, CDT.roadClass, road_class_uri))
+            g.add((road_link_uri, CDT.hasRoadClass, road_class_uri))
             g.add((road_class_uri, RDF.type, CDT.RoadClass))
             g.add((road_class_uri, CODE.hasCode, codeRoadClass_uri))
             g.add((codeRoadClass_uri, RDF.type, CODE.Code))
