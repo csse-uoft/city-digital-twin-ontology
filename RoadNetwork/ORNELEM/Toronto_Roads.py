@@ -388,6 +388,8 @@ for road_name, group in road_groups:
 
             g.add((ORG.GovernmentOrganization, RDFS.subClassOf, ORG.Organization))
             g.add((gov_org_uri, RDF.type, ORG.GovernmentOrganization))
+            g.add((gov_org_uri, GEN.hasName, Literal(str(jurisdiction), datatype=XSD.string)))
+
 
             g.add((gov_org_uri, CDT.responsibleFor, road_link_uri))
             g.add((road_link_uri, CDT.hasCustodian, gov_org_uri))
