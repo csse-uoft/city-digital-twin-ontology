@@ -256,6 +256,7 @@ for road_name, group in road_groups:
 
         # RoadLink
         g.add((road_link_uri, RDF.type, CDT.RoadLink))
+        g.add((road_user_uri, RDF.type, CDT.RoadLinkUser))
         g.add((CDT.RoadLink, RDFS.subClassOf, INFRAS.RoadLink))
         g.add((INFRAS.RoadLink, RDFS.subClassOf, TRANSPORT.TravelledWayLink))
         g.add((TRANSPORT.TravelledWayLink, RDFS.subClassOf, INFRASTRUCTURE.InfrastructureElement))
