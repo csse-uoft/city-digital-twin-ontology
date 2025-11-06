@@ -107,8 +107,9 @@ for _, row in tpl_df.iterrows():
     g.add((phone_uri, CONTACT.hasTelephoneNumber, Literal(row['Telephone'].replace("-", ""), datatype=XSD.nonNegativeInteger)))
     g.add((branch_uri, CDT.hasWebsite, Literal(row['Website'], datatype=XSD.string)))
 
-    site_uri = CDT[f"site_{row['_id']}"]
-    g.add((site_uri, RDF.type, CDT.Site))
+    site_uri = CDT[f"library_Site_{row['_id']}"]
+    g.add((site_uri, RDF.type, CDT.LibrarySite))
+    g.add((site_uri, RDFS.subClassOf, CDT.Site))
     g.add((CDT.Site, RDFS.subClassOf, ORG.Site))
     g.add((branch_uri, ORG.hasSite, site_uri))
 
@@ -492,9 +493,9 @@ for feature in geojson_data["features"]:
             g.add((branch_uri, GENPROP.hasIdentifier, Literal(id, datatype=XSD.string)))
             g.add((branch_uri, RDF.type, CDT.Library))
 
-            site_uri = CDT[f"site_{id}"]
-            g.add((site_uri, RDF.type, CDT.Site))
-            g.add((CDT.Site, RDFS.subClassOf, ORG.Site))
+            site_uri = CDT[f"library_Site_{row['_id']}"]
+            g.add((site_uri, RDF.type, CDT.LibrarySite))
+            g.add((site_uri, RDFS.subClassOf, CDT.Site))
             g.add((branch_uri, ORG.hasSite, site_uri))
 
             branch_add_uri = CDT[f"addLibrary_{id}"]

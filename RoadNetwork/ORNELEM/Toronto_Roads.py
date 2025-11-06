@@ -167,7 +167,7 @@ for _, row in data_frames["junctions"].iterrows():
     junction_uri = CDT[f"junction_{junction_id}"]
     location_uri = GEO_LOC[f"junction_loc_{junction_id}"]
     junction_type_uri = CDT[f"junction_type_{junction_id}"]
-    junction_type_code = CODE[f"junctionType_Code{junction_id}"]
+    junction_type_code = CODE[f"junctionType_Code_{junction_id}"]
 
     # Add triples for the junction
     g.add((junction_uri, GEN.hasIdentifier, Literal(int(junction_id), datatype=XSD.integer)))
@@ -280,10 +280,10 @@ for road_name, group in road_groups:
             g.add((speed_unit_uri, RDF.type, I72.kilometersPerHr))
 
             g.add((CITYUNITS.Speed, RDFS.subClassOf, I72.Quantity))
-            g.add((speed_uri, I72.value, speed_measure))
+            g.add((speed_uri, I72.hasValue, speed_measure))
 
-            g.add((speed_measure, I72.unit_of_measure, speed_unit_uri))
-            g.add((speed_measure, I72.numerical_value, Literal(int(speed_limit), datatype=XSD.integer)))
+            g.add((speed_measure, I72.hasUnit, speed_unit_uri))
+            g.add((speed_measure, I72.hasNumericalValue, Literal(int(speed_limit), datatype=XSD.integer)))
 
             g.add((road_user_uri, ROAD.speedLimit, speed_uri))
 
@@ -297,10 +297,10 @@ for road_name, group in road_groups:
             g.add((length_unit_uri, RDF.type, I72.Meters))
 
             g.add((CITYUNITS.Length, RDFS.subClassOf, I72.Quantity))
-            g.add((length_measurement, I72.value, length_measure))
+            g.add((length_measurement, I72.hasValue, length_measure))
 
-            g.add((length_measure, I72.unit_of_measure, length_unit_uri))
-            g.add((length_measure, I72.numerical_value, Literal(int(length), datatype=XSD.decimal)))
+            g.add((length_measure, I72.hasUnit, length_unit_uri))
+            g.add((length_measure, I72.hasNumericalValue, Literal(int(length), datatype=XSD.decimal)))
 
             g.add((road_link_uri, CDT.length, length_measurement))
 
@@ -314,10 +314,10 @@ for road_name, group in road_groups:
             g.add((accuracy_unit_uri, RDF.type, I72.Meters))
 
             g.add((CITYUNITS.Length, RDFS.subClassOf, I72.Quantity))
-            g.add((accuracy_measurement, I72.value, accuracy_measure))
+            g.add((accuracy_measurement, I72.hasValue, accuracy_measure))
 
-            g.add((accuracy_measure, I72.unit_of_measure, accuracy_unit_uri))
-            g.add((accuracy_measure, I72.numerical_value, Literal(int(accuracy), datatype=XSD.decimal)))
+            g.add((accuracy_measure, I72.hasUnitOfMeasure, accuracy_unit_uri))
+            g.add((accuracy_measure, I72.hasNumericalValue, Literal(int(accuracy), datatype=XSD.decimal)))
 
             g.add((road_link_uri, CDT.roadAbsoluteAccuracy, accuracy_measurement))
 
