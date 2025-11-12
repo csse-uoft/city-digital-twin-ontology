@@ -87,7 +87,7 @@ for _, row in tpl_df.iterrows():
     if isinstance(row['Address'], str):
         address = row['Address'].split(',')
 
-        g.add((branch_add_uri, CONTACT.hasStreet, Literal(address[0].split()[1:], datatype=XSD.string)))
+        g.add((branch_add_uri, CONTACT.hasStreet, Literal(address[0], datatype=XSD.string)))
 
         if address[0].split()[0].isdigit():
             g.add((branch_add_uri, CONTACT.hasStreetNumber, Literal((address[0].split()[0]), datatype=XSD.string)))
@@ -283,21 +283,18 @@ for feature in geojson_data["features"]:
     name = props.get("name")
     loc = feature['geometry']
     geometry = shape(loc)
+    library = None
 
-    match_index = None
-    match_entry = None
-
-    for idx, entry in enumerate(tpl_library):
-        if entry[0] is not None and name is not None:  # avoid NoneType errors
-            if entry[0] in name:  # check if name is substring
-                match_index = idx
-                match_entry = entry
+    if name:
+        for entry in tpl_library:
+            if entry[0] in name:
+                library = entry
                 break
 
-    if match_entry:
-        site_uri = tpl_library[match_index][2]
-        branch_uri = tpl_library[match_index][1]
-        id = tpl_library[match_index][3]
+    if library:
+        site_uri = library[2]
+        branch_uri = library[1]
+        id = library[3]
 
         if "addr:floor" in props:
             g.add((site_uri, CDT.numFloors, Literal(int(props['addr:floor']), datatype=XSD.integer)))
@@ -493,7 +490,7 @@ for feature in geojson_data["features"]:
             g.add((branch_uri, GENPROP.hasIdentifier, Literal(id, datatype=XSD.string)))
             g.add((branch_uri, RDF.type, CDT.Library))
 
-            site_uri = CDT[f"library_Site_{row['_id']}"]
+            site_uri = CDT[f"library_Site_{id}"]
             g.add((site_uri, RDF.type, CDT.LibrarySite))
             g.add((site_uri, RDFS.subClassOf, CDT.Site))
             g.add((branch_uri, ORG.hasSite, site_uri))
@@ -757,5 +754,5 @@ for feature in geojson_data["features"]:
 # Save to TTL
 ttl_output_path = "toronto_libraries.ttl"
 g.serialize(destination=ttl_output_path, format="turtle")
-ttl_output_path
+
 

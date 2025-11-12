@@ -1,6 +1,7 @@
 """
 Generate TTL file with ORN Road Data mapped onto the Transportation ontology.
 """
+import random
 
 import geopandas as gpd
 import pandas as pd
@@ -24,6 +25,9 @@ ORG = Namespace("https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Orga
 CODE = Namespace("https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Code/")
 CITY = Namespace("https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/City/")
 CONTACT = Namespace("https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Contact/")
+HP = Namespace("http://ontology.eil.utoronto.ca/HPCDM#")
+RES = Namespace("https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Resource/")
+ORN = Namespace("http://ontology.eil.toronto.ca/Ontario/OMNR/ORNELEM#")
 
 """
 BASE_URI: The root base for ISO/IEC 5087-3 ontology definitions
@@ -58,6 +62,21 @@ toronto_bounds = {
     "lon_max": -79.1152,
 }
 
+road_class_capacity = {"Freeway": 26,
+    "Expressway / Highway": 24,
+    "Arterial": 20,
+    "Collector": 18,
+    "Ramp": 22,
+    "Local / Street": 12,
+    "Local / Strata": 12,
+    "Local / Unknown": 12,
+    "Service": 10,
+    "Alleyway / Laneway": 10,
+    "Resource / Recreation" : 16,
+    "Rapid Transit": 28,
+    "Winter": 18,
+                       }
+
 # Load CSV files with proper column renaming
 csv_files = {
     "speed_limits": "ORN_SPEED_LIMIT.csv",
@@ -75,6 +94,8 @@ csv_files = {
     "toll_point": "ORN_TOLL_POINT.csv",
     "underpass": "ORN_UNDERPASS.csv"
 }
+
+road_user_uri = ORN[f"typicalRoadLinkUser"]
 
 # Load CSVs into a dictionary with renamed columns
 data_frames = {}
@@ -119,6 +140,8 @@ g.bind("code", CODE)
 g.bind("city", CITY)
 g.bind("contact", CONTACT)
 g.bind("road", ROAD)
+g.bind("hpcdm", HP)
+g.bind("orn", ORN)
 
 
 # Function to safely convert date strings to XSD.date format
@@ -164,9 +187,9 @@ for _, row in data_frames["junctions"].iterrows():
         continue
 
     # Create URIs
-    junction_uri = CDT[f"junction_{junction_id}"]
+    junction_uri = ORN[f"junction_{junction_id}"]
     location_uri = GEO_LOC[f"junction_loc_{junction_id}"]
-    junction_type_uri = CDT[f"junction_type_{junction_id}"]
+    junction_type_uri = ORN[f"junction_type_{junction_id}"]
     junction_type_code = CODE[f"junctionType_Code_{junction_id}"]
 
     # Add triples for the junction
@@ -202,7 +225,7 @@ for road_name, group in road_groups:
     if pd.isna(road_name):
         continue
 
-    road_uri = CDT[f"road_{id}"]
+    road_uri = ORN[f"road_{id}"]
     id += 1
     road_links = []  # Store all road link URIs for a given road
 
@@ -248,9 +271,11 @@ for road_name, group in road_groups:
         eff_date = row.get("EFF_DATE")
 
         # Create URIs
-        location_uri = GEO_LOC[f"location_{road_id}"]
-        road_link_uri = CDT[f"roadLink_{road_id}"]
-        road_user_uri = INFRAS[f"roadLinkUser_{road_id}"]
+        location_uri = GEO_LOC[f"roadLinkLocation_{road_id}"]
+        road_link_uri = ORN[f"roadLink_{road_id}"]
+
+        if elem_type == "Virtual Road": # Filters all Virtual Roads
+            continue
 
         road_links.append(road_link_uri)  # Collect all road links for the road
 
@@ -265,9 +290,6 @@ for road_name, group in road_groups:
         g.add((road_user_uri, ROAD.uses, road_link_uri))
         g.add((road_link_uri, GEN.hasIdentifier, Literal(str(road_id), datatype=XSD.string)))
 
-        if elem_type == "Virtual Road": # Filters all Virtual Roads
-            continue
-
         # Add attributes conditionally
 
         if pd.notna(speed_limit):
@@ -277,7 +299,7 @@ for road_name, group in road_groups:
 
             g.add((speed_measure, RDF.type, CITYUNITS.Measure))
             g.add((speed_uri, RDF.type, CITYUNITS.Speed))
-            g.add((speed_unit_uri, RDF.type, I72.kilometersPerHr))
+            g.add((speed_unit_uri, RDF.type, HP.kilometre_per_hour))
 
             g.add((CITYUNITS.Speed, RDFS.subClassOf, I72.Quantity))
             g.add((speed_uri, I72.hasValue, speed_measure))
@@ -285,7 +307,58 @@ for road_name, group in road_groups:
             g.add((speed_measure, I72.hasUnit, speed_unit_uri))
             g.add((speed_measure, I72.hasNumericalValue, Literal(int(speed_limit), datatype=XSD.integer)))
 
-            g.add((road_user_uri, ROAD.speedLimit, speed_uri))
+            g.add((road_user_uri, CDT.speedLimit, speed_uri))
+
+        if pd.notna(road_class):
+            road_class_uri = ORN[f"roadClass_{road_id}"]
+            codeRoadClass_uri = CODE[f"roadClass_Code_{road_id}"]
+
+            g.add((road_link_uri, CDT.hasRoadClass, road_class_uri))
+            g.add((road_class_uri, RDF.type, CDT.RoadClass))
+            g.add((road_class_uri, CODE.hasCode, codeRoadClass_uri))
+            g.add((codeRoadClass_uri, RDF.type, CODE.Code))
+            g.add((codeRoadClass_uri, GEN.hasName, Literal(road_class, datatype=XSD.string)))
+
+        if pd.notna(num_lanes):
+            g.add((road_link_uri, CDT.numLanes, Literal(int(num_lanes), datatype=XSD.integer)))
+
+
+        if pd.notna(road_class and speed_limit and num_lanes): # ORN Capacity
+            capacity_uri = ORN[f"roadLinkCapacity_{road_id}"]
+            capacity_measure_uri = ORN[f"roadLinkCapacityMeasure_{road_id}"]
+            in_use_uri = ORN[f"roadLinkCapacityUse_{road_id}"]
+            in_use_measure_uri = ORN[f"roadLinkCapacityUseMeasure_{road_id}"]
+            avail_uri = ORN[f"roadLinkCapacityAvail_{road_id}"]
+            avail_measure_uri = ORN[f"roadLinkCapacityAvailMeasure_{road_id}"]
+
+
+            if road_class in road_class_capacity:
+                capacity = road_class_capacity[road_class] * int(speed_limit) * int(num_lanes)
+            else:
+                capacity = 20 * int(speed_limit) * int(num_lanes)
+
+            capacity_use = capacity * random.uniform(0.5, 0.95)
+
+            g.add((road_link_uri, RES.hasCapacity, capacity_uri))
+            g.add((capacity_uri, RDF.type, HP.VehicleThroughputRate))
+            g.add((capacity_uri, I72.hasValue, capacity_measure_uri))
+            g.add((capacity_measure_uri, I72.hasNumericalValue, Literal(capacity, datatype=XSD.integer)))
+            g.add((capacity_measure_uri, I72.hasUnit, HP.vehicles_per_hour))
+
+            g.add((road_link_uri, RES.capacityInUse, in_use_uri))
+            g.add((in_use_uri, RDF.type, HP.VehicleThroughputRate))
+            g.add((in_use_uri, I72.hasValue, in_use_measure_uri))
+            g.add((in_use_measure_uri, I72.hasNumericalValue, Literal(capacity_use,
+                                                                      datatype=XSD.integer)))
+            g.add((in_use_measure_uri, I72.hasUnit, HP.vehicles_per_hour))
+
+            g.add((road_link_uri, RES.hasAvailableCapacity, avail_uri))
+            g.add((avail_uri, RDF.type, HP.AvailableVehicleThroughputRate))
+            g.add((avail_uri, I72.hasValue, avail_measure_uri))
+            g.add((avail_measure_uri, I72.hasNumericalValue, Literal(capacity - capacity_use,
+                                                                      datatype=XSD.integer)))
+            g.add((avail_measure_uri, I72.hasUnit, HP.vehicles_per_hour))
+
 
         if pd.notna(length):
             length_measurement = CITYUNITS[f"length_{road_id}"]
@@ -294,7 +367,7 @@ for road_name, group in road_groups:
 
             g.add((length_measure, RDF.type, CITYUNITS.Measure))
             g.add((length_measurement, RDF.type, CITYUNITS.Length))
-            g.add((length_unit_uri, RDF.type, I72.Meters))
+            g.add((length_unit_uri, RDF.type, I72.metre))
 
             g.add((CITYUNITS.Length, RDFS.subClassOf, I72.Quantity))
             g.add((length_measurement, I72.hasValue, length_measure))
@@ -311,12 +384,12 @@ for road_name, group in road_groups:
 
             g.add((accuracy_measure, RDF.type, CITYUNITS.Measure))
             g.add((accuracy_measurement, RDF.type, CITYUNITS.Length))
-            g.add((accuracy_unit_uri, RDF.type, I72.Meters))
+            g.add((accuracy_unit_uri, RDF.type, I72.metre))
 
             g.add((CITYUNITS.Length, RDFS.subClassOf, I72.Quantity))
             g.add((accuracy_measurement, I72.hasValue, accuracy_measure))
 
-            g.add((accuracy_measure, I72.hasUnitOfMeasure, accuracy_unit_uri))
+            g.add((accuracy_measure, I72.hasUnit, accuracy_unit_uri))
             g.add((accuracy_measure, I72.hasNumericalValue, Literal(int(accuracy), datatype=XSD.decimal)))
 
             g.add((road_link_uri, CDT.roadAbsoluteAccuracy, accuracy_measurement))
@@ -326,7 +399,7 @@ for road_name, group in road_groups:
 
         if pd.notna(surface_type):
 
-            surface_type_measurement = CDT[f"surface_type_{road_id}"]
+            surface_type_measurement = ORN[f"surface_type_{road_id}"]
             surface_Code = CODE[f"surfaceType_Code_{road_id}"]
 
             g.add((road_link_uri, CDT.hasSurfaceType, surface_type_measurement))
@@ -351,7 +424,7 @@ for road_name, group in road_groups:
                 g.add((road_link_uri, CDT.tollRoad, Literal('false', datatype=XSD.boolean)))
 
         if pd.notna(acqtech):
-            acqtech_measurement = CDT[f"acqtech_{road_id}"]
+            acqtech_measurement = ORN[f"acqtech_{road_id}"]
             acqtech_Code = CODE[f"acqtechCode_{road_id}"]
 
             g.add((road_link_uri, CDT.dataAquisitionTechnique, acqtech_measurement))
@@ -360,22 +433,12 @@ for road_name, group in road_groups:
             g.add((acqtech_Code, RDF.type, CODE.Code))
             g.add((acqtech_Code, GEN.hasName, Literal(acqtech, datatype=XSD.string)))
 
-        if pd.notna(road_class):
-            road_class_uri = CDT[f"roadClass_{road_id}"]
-            codeRoadClass_uri = CODE[f"roadClass_Code_{road_id}"]
-
-            g.add((road_link_uri, CDT.hasRoadClass, road_class_uri))
-            g.add((road_class_uri, RDF.type, CDT.RoadClass))
-            g.add((road_class_uri, CODE.hasCode, codeRoadClass_uri))
-            g.add((codeRoadClass_uri, RDF.type, CODE.Code))
-            g.add((codeRoadClass_uri, GEN.hasName, Literal(road_class, datatype=XSD.string)))
-
         if pd.notna(road_name):
             g.add((road_link_uri, GEN.hasName, Literal(road_name, datatype=XSD.string)))
 
         # if pd.notna(blocked_passage):
-        #     blocked_uri = CDT[f"blockedPassage_{road_id}"]
-        #     blocked_code = CDT[f"blockedPassage_Code_{road_id}"]
+        #     blocked_uri = ORN[f"blockedPassage_{road_id}"]
+        #     blocked_code = CODE[f"blockedPassage_Code_{road_id}"]
         #
         #     g.add((road_link_uri, CDT.hasBlockedPassage, blocked_uri))
         #     g.add((blocked_uri, RDF.type, CDT.BlockedPassageType))
@@ -393,9 +456,6 @@ for road_name, group in road_groups:
 
             g.add((gov_org_uri, CDT.responsibleFor, road_link_uri))
             g.add((road_link_uri, CDT.hasCustodian, gov_org_uri))
-
-        if pd.notna(num_lanes):
-            g.add((road_link_uri, ROAD.maxLanes, Literal(int(num_lanes), datatype=XSD.integer)))
 
         if pd.notna(pavement_status):
             if pavement_status == "Paved":
@@ -432,35 +492,35 @@ for road_name, group in road_groups:
                 g.add((tunnel_uri, RDF.type, INFRAS.Tunnel))
                 g.add((tunnel_uri, INFRAS.supports, road_seg_uri))
             elif structure_type == "Dam":
-                Dam_uri = CDT[f"Dam_{road_id}"]
+                Dam_uri = ORN[f"Dam_{road_id}"]
                 g.add((Dam_uri, RDF.type, CDT.Dam))
                 g.add((CDT.Dam, RDFS.subClassOf, INFRASTRUCTURE.InfrastructureElement))
                 g.add((Dam_uri, INFRAS.supports, road_seg_uri))
 
 
         if pd.notna(toll_point_type):
-            toll_point_measurement = CDT[f"tollPoint_{road_id}"]
+            toll_point_measurement = ORN[f"tollPoint_{road_id}"]
             g.add((road_link_uri, CDT.hasTollPoint, toll_point_measurement))
 
             if toll_point_type == "Physical":
-                physical_uri = CDT[f"Physical_{road_id}"]
+                physical_uri = ORN[f"Physical_{road_id}"]
                 g.add((toll_point_measurement, CDT.hasTollPointType, physical_uri))
                 g.add((physical_uri, RDF.type, CDT.PhyicalTP))
                 g.add((CDT.PhysicalTP, RDFS.subClassOf, CDT.TollPoint))
             if toll_point_type == "Hybrid":
-                hybrid_uri = CDT[f"Hybrid_{road_id}"]
+                hybrid_uri = ORN[f"Hybrid_{road_id}"]
                 g.add((toll_point_measurement, CDT.hasTollPointType, hybrid_uri))
                 g.add((hybrid_uri, RDF.type, CDT.HybirdTP))
                 g.add((CDT.HybridTP, RDFS.subClassOf, CDT.TollPoint))
             if toll_point_type == "Virtual":
-                virtual_uri = CDT[f"Virtual_{road_id}"]
+                virtual_uri = ORN[f"Virtual_{road_id}"]
                 g.add((toll_point_measurement, CDT.hasTollPointType, virtual_uri))
                 g.add((virtual_uri, RDF.type, CDT.VirtualTP))
                 g.add((CDT.VirtualTP, RDFS.subClassOf, CDT.TollPoint))
 
         if pd.notna(underpass_type):
-            underpass_measurement = CDT[f"underpass_{road_id}"]
-            underpass_type_measurement = CDT[f"underpass_type_{road_id}"]
+            underpass_measurement = ORN[f"underpass_{road_id}"]
+            underpass_type_measurement = ORN[f"underpass_type_{road_id}"]
             underpass_type_Code = CODE[f"underpassTypeCode_{road_id}"]
 
             g.add((road_link_uri, CDT.hasUnderpass, underpass_measurement))
@@ -478,12 +538,12 @@ for road_name, group in road_groups:
 
         # Add Junction relationships
         if pd.notna(from_junction_id):
-            from_junction_uri = CDT[f"junction_{from_junction_id}"]
+            from_junction_uri = ORN[f"junction_{from_junction_id}"]
             g.add((road_link_uri, TRANSPORT["from"], from_junction_uri))
             g.add((from_junction_uri, TRANSPORT.egress, road_link_uri))
 
         if pd.notna(to_junction_id):
-            to_junction_uri = CDT[f"junction_{to_junction_id}"]
+            to_junction_uri = ORN[f"junction_{to_junction_id}"]
             g.add((road_link_uri, TRANSPORT.to, to_junction_uri))
             g.add((to_junction_uri, TRANSPORT.ingress, road_link_uri))
 
