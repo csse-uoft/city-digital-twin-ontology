@@ -59,6 +59,7 @@ for idx, row in df.iterrows():
     
     g.add((toronto[instancename + "Service"], res.capacityInUse, toronto[instancename + "CapacityUse"]))
     g.add((toronto[instancename + "CapacityUse"], iso21972.hasValue, toronto[instancename + "CapacityUseMeasure"]))
+    g.add((toronto[instancename + "CapacityUse"], RDF.type, hp.HospitalBedPopulationRatio))
 
     g.add((toronto[instancename + "CapacityUseMeasure"], RDF.type, iso21972.Measure))
     g.add((toronto[instancename + "CapacityUseMeasure"], iso21972.hasNumericalValue, Literal(row['Metric value'])))
@@ -66,11 +67,20 @@ for idx, row in df.iterrows():
 
     g.add((toronto[instancename + "Service"], res.hasCapacity, toronto[instancename + "Capacity"]))
     g.add((toronto[instancename + "Capacity"], iso21972.hasValue, toronto[instancename + "CapacityMeasure"]))
+    g.add((toronto[instancename + "Capacity"], RDF.type, hp.MinHospitalBedPopulationRatio))
 
     g.add((toronto[instancename + "CapacityMeasure"], RDF.type, iso21972.Measure))
     g.add((toronto[instancename + "CapacityMeasure"], iso21972.hasNumericalValue, Literal(1)))
     g.add((toronto[instancename + "CapacityMeasure"], iso21972.hasUnit, hp.avg_inpatients_daily_per_bed))
     
+    g.add((toronto[instancename + "Service"], res.hasAvailableCapacity, toronto[instancename + "CapacityAvail"]))
+    g.add((toronto[instancename + "CapacityAvail"], RDF.type, hp.AvailableHospitalBedPopulationRatio))
+    g.add((toronto[instancename + "CapacityAvail"], iso21972.hasValue, toronto[instancename + "CapacityAvailMeasure"]))
+    
+    g.add((toronto[instancename + "CapacityAvailMeasure"], RDF.type, iso21972.Measure))
+    g.add((toronto[instancename + "CapacityAvailMeasure"], iso21972.hasNumericalValue, Literal(1 - row['Metric value'])))
+    g.add((toronto[instancename + "CapacityAvailMeasure"], iso21972.hasUnit, hp.avg_inpatients_daily_per_bed))
+
 # Export the RDF graph as a .ttl file    
 g.serialize(destination="HospitalCapacity.ttl")
 

@@ -4,7 +4,7 @@ FeederCapacity.py
 
 Author: Anderson Wong
 
-Date: November 25, 2025
+Date: February 13, 2026
 
 Description: This is a Python program that generates RDF triples 
 for hydro power services using data from a CSV file.
@@ -15,7 +15,9 @@ import rdflib
 import pandas
 import re
 import json
+import shapely
 
+from shapely.validation import make_valid
 from shapely.geometry import Polygon
 from shapely.ops import transform
 from pyproj import Transformer
@@ -84,7 +86,7 @@ def rings_to_wkt(rings):
     polygon_4326 = transform(transformer.transform, polygon)
     
     # Step 5: Return WKT
-    return polygon_4326.wkt
+    return shapely.to_wkt(make_valid(polygon_4326), rounding_precision=-1)
 
 # Create RDF graph
 g = Graph()
@@ -99,15 +101,20 @@ df = df.merge(df2, on="Network_id")
 for idx, row in df.iterrows():
     objectid = str(row['Network_id'])
     
-    g.add((toronto["hydro_feeder_service" + objectid], RDF.type, hp.ElectricService))
+    g.add((toronto["hydro_feeder_service" + objectid], RDF.type, toronto.TorElectricService))
     g.add((toronto["hydro_feeder_service" + objectid], genprop.hasIdentifier, Literal(row['Network_id'])))
     g.add((toronto["hydro_feeder_service" + objectid], service.hasCatchmentArea, toronto["hydro_feeder_service" + objectid + "Area" + str(row['OBJECTID_x'])]))
+    g.add((toronto["hydro_feeder_service" + objectid], hp.providedFromSite, toronto["hydro_feeder_service_site" + objectid]))
+
+    g.add((toronto["hydro_feeder_service_site" + objectid], RDF.type, cdt.Site))
+    g.add((toronto["hydro_feeder_service_site" + objectid], genprop.hasName, Literal("Feeder Station " + objectid)))
     
     g.add((toronto["hydro_feeder_service" + objectid + "Area" + str(row['OBJECTID_x'])], RDF.type, loc.Location))
     g.add((toronto["hydro_feeder_service" + objectid + "Area" + str(row['OBJECTID_x'])], geo.asWKT, Literal(rings_to_wkt(row["SHAPE"]))))
     
     g.add((toronto["hydro_feeder_service" + objectid], res.hasAvailableCapacity, toronto["hydro_feeder_service" + objectid + "CapacityAvail"]))
     g.add((toronto["hydro_feeder_service" + objectid + "CapacityAvail"], iso21972.hasValue, toronto["hydro_feeder_service" + objectid + "CapacityAvailMeasure"]))
+    g.add((toronto["hydro_feeder_service" + objectid + "CapacityAvail"], RDF.type, hp.AvailableElectricalCapacity))
 
     g.add((toronto["hydro_feeder_service" + objectid + "CapacityAvailMeasure"], RDF.type, iso21972.Measure))
     g.add((toronto["hydro_feeder_service" + objectid + "CapacityAvailMeasure"], iso21972.hasNumericalValue,  Literal(extract_max_value(row['Feeder_Capacity_x']))))
@@ -115,7 +122,8 @@ for idx, row in df.iterrows():
     
     g2.add((toronto["hydro_feeder_service" + objectid], res.hasCapacity, toronto["hydro_feeder_service" + objectid + "Capacity"]))
     g2.add((toronto["hydro_feeder_service" + objectid + "Capacity"], iso21972.hasValue, toronto["hydro_feeder_service" + objectid + "CapacityMeasure"]))
-    
+    g2.add((toronto["hydro_feeder_service" + objectid + "Capacity"], RDF.type, hp.ElectricalLoadCapacity))
+
     g2.add((toronto["hydro_feeder_service" + objectid + "CapacityMeasure"], RDF.type, iso21972.Measure))
     g2.add((toronto["hydro_feeder_service" + objectid + "CapacityMeasure"], iso21972.hasNumericalValue,  Literal(row['Fake Max Avail Capacity (kVA)'])))
     g2.add((toronto["hydro_feeder_service" + objectid + "CapacityMeasure"], iso21972.hasUnit,  hp.kilovolt_ampere))

@@ -19,6 +19,7 @@ import shapely
 import usaddress
 import phonenumbers
 
+from shapely.validation import make_valid
 from rdflib import Graph, Literal, XSD, RDF
 
 # Declare namespaces
@@ -150,11 +151,11 @@ g.add((cdt.hospitalsNAICSCode, genprop.hasName, Literal("622 - Hospitals")))
 g.add((cdt.hospitalsNAICSCode, genprop.hasDescription, Literal("This subsector comprises establishments, licensed as hospitals, primarily engaged in providing diagnostic and medical treatment services, and specialized accommodation services to in-patients. These establishments have an organized medical staff of physicians, nurses and other health professionals, technologists and technicians. Hospitals use specialized facilities and equipment that form a significant and integral part of the production process. Hospitals may also provide a wide variety of out-patient services as a secondary activity.")))
 g.add((cdt.hospitalsNAICSCode, genprop.hasIdentifier, Literal("622")))
 
-g.add((cdt.CDTCompleteCommunityAmenity, cdt.providesService, cdt[amenityname + "Service"]))
-g.add((cdt[amenityname + "Service"], rdfs.subClassOf, cdt.Service))
+g.add((cdt.CDTCompleteCommunityAmenity, cdt.providesService, hp[amenityname + "Service"]))
+g.add((hp[amenityname + "Service"], rdfs.subClassOf, cdt.Service))
 
-g.add((cdt.CDTCompleteCommunityAmenity, cdt.providesService, cdt[amenityname + "EmergencyService"]))
-g.add((cdt[amenityname + "EmergencyService"], rdfs.subClassOf, cdt.Service))
+g.add((cdt.CDTCompleteCommunityAmenity, cdt.providesService, hp[amenityname + "EmergencyService"]))
+g.add((hp[amenityname + "EmergencyService"], rdfs.subClassOf, cdt.Service))
 
 g.add((cdt.PublicHospital, rdfs.subClassOf, cdt.Hospital))
 g.add((cdt.PublicHospital, rdfs.subClassOf, cdt.GovernmentOrganization))
@@ -162,7 +163,7 @@ g.add((cdt.PublicHospital, rdfs.subClassOf, cdt.GovernmentOrganization))
 g.add((cdt.PrivateHospital, rdfs.subClassOf, cdt.Hospital))
 g.add((cdt.PrivateHospital, rdfs.subClassOf, cdt.ForProfitOrganization))
 
-g.add((cdt[amenityname + "Site"], rdfs.subClassOf, cdt.Site))
+g.add((hp[amenityname + "Site"], rdfs.subClassOf, cdt.Site))
 
 # Generate triples for CompleteCommunityAmneity superclass and displayColor
 g.add((cdt.Hospital, rdfs.subClassOf, cdt.Organization))
@@ -205,21 +206,17 @@ for element in amenity["features"]:
     # Generate triple for identifier
     g.add((toronto[instancename], genprop.hasIdentifier, Literal(osmid)))
 
-    # Generate triple for site
-    #
-    # TO DO move to the scripts g.add((cdt[amenityname + "Site"], rdfs.subClassOf, cdt.Site))
-    #
-    g.add((toronto[sitename], RDF.type, cdt[amenityname + "Site"]))
+    g.add((toronto[sitename], RDF.type, hp[amenityname + "Site"]))
     g.add((toronto[instancename], org.hasSite, toronto[sitename]))
     g.add((toronto[sitename], loc.hasLocation, toronto[instancename + "Site" + "Location"]))
 
 
     # Generate triple for location instance
     g.add((toronto[instancename + "Site" + "Location"], RDF.type, loc.Location))
-    g.add((toronto[instancename + "Site" + "Location"], geo.asWKT, Literal(shapely.to_wkt(shapely.geometry.shape(element["geometry"])), datatype=geo.wktLiteral)))
+    g.add((toronto[instancename + "Site" + "Location"], geo.asWKT, Literal(shapely.to_wkt(make_valid(shapely.geometry.shape(element["geometry"])), rounding_precision=-1), datatype=geo.wktLiteral)))
     
     # Generate triples for service
-    g.add((toronto[instancename + "Service"], RDF.type, hp.HospitalService))
+    g.add((toronto[instancename + "Service"], RDF.type, toronto.TorHospitalService))
     g.add((toronto[instancename], cdt.providesService, toronto[instancename + "Service"]))
     g.add((toronto[instancename + "Service"], hp.providedFromSite, toronto[sitename]))
 
@@ -228,6 +225,7 @@ for element in amenity["features"]:
     # Generate triples for name
     try:    
         g.add((toronto[instancename], genprop.hasName, Literal(element['properties']['name'])))
+        g.add((toronto[sitename], genprop.hasName, Literal(element['properties']['name'])))
     except:
         pass
     
@@ -349,7 +347,7 @@ for element in amenity["features"]:
     # Generate triples for hospital emergency services
     try:  
         if amenityname == "Hospital" and element['properties']['emergency'] == "yes":
-            g.add((toronto[instancename + "EmergencyService"], RDF.type, hp.HospitalEmergencyService))
+            g.add((toronto[instancename + "EmergencyService"], RDF.type, toronto.TorHospitalEmergencyService))
             g.add((toronto[instancename + "EmergencyDepartment"], RDF.type, org.OrganizationalUnit))
             
             g.add((toronto[instancename], cdt.providesService, toronto[instancename + "EmergencyService"]))

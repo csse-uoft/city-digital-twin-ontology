@@ -4,7 +4,7 @@ PublicSchoolsCapacity.py
 
 Author: Anderson Wong
 
-Date: November 27, 2025
+Date: February 13, 2026
 
 Description: This is a Python program that generates RDF triples 
 for public school capacity using Microsoft Excel data.
@@ -13,6 +13,7 @@ for public school capacity using Microsoft Excel data.
 # Import modules
 import rdflib
 import pandas
+import re
 
 from rdflib import Graph, Literal, RDF, XSD
 
@@ -48,12 +49,16 @@ for idx, row in df.iterrows():
         
         objectid = str(int(row["School Number"]))
         
+        capacityusevalue = round(float(re.sub(r"[^\d.]", "", str(row["Enrolment"]))))
+        capacityvalue = round(capacityusevalue / row["Random Capacity Factor=87.6 * (1 + (RAND() - 0.5) * 0.10)"])
+        capacityavailvalue = round(capacityvalue - capacityusevalue)
+        
         g.add((toronto[objectid + "SchoolService"], res.capacityInUse, toronto[objectid + "SchoolServiceCapacityUse"]))
         g.add((toronto[objectid + "SchoolServiceCapacityUse"], RDF.type, hp.SchoolEnrollmentSize))
         g.add((toronto[objectid + "SchoolServiceCapacityUse"], iso21972.hasValue, toronto[objectid + "SchoolServiceCapacityUseMeasure"]))
         
         g.add((toronto[objectid + "SchoolServiceCapacityUseMeasure"], RDF.type, iso21972.Measure))
-        g.add((toronto[objectid + "SchoolServiceCapacityUseMeasure"], iso21972.hasNumericalValue, Literal(row["Enrolment"])))
+        g.add((toronto[objectid + "SchoolServiceCapacityUseMeasure"], iso21972.hasNumericalValue, Literal(capacityusevalue)))
         g.add((toronto[objectid + "SchoolServiceCapacityUseMeasure"], iso21972.hasUnit, iso21972.population_cardinality_unit))
         
         g.add((toronto[objectid + "SchoolService"], change.existsAt, toronto["September12023August312024Interval"]))
@@ -70,9 +75,17 @@ for idx, row in df.iterrows():
         g2.add((toronto[objectid + "SchoolServiceCapacity"], iso21972.hasValue, toronto[objectid + "SchoolServiceCapacityMeasure"]))
         
         g2.add((toronto[objectid + "SchoolServiceCapacityMeasure"], RDF.type, iso21972.Measure))
-        g2.add((toronto[objectid + "SchoolServiceCapacityMeasure"], iso21972.hasNumericalValue, Literal(row["Fake Capcity"])))
+        g2.add((toronto[objectid + "SchoolServiceCapacityMeasure"], iso21972.hasNumericalValue, Literal(capacityvalue)))
         g2.add((toronto[objectid + "SchoolServiceCapacityMeasure"], iso21972.hasUnit, iso21972.population_cardinality_unit))
         
+        g2.add((toronto[objectid + "SchoolService"], res.hasAvailableCapacity , toronto[objectid + "SchoolServiceCapacityAvail"]))
+        g2.add((toronto[objectid + "SchoolServiceCapacityAvail"], RDF.type, hp.SchoolAvailableEnrollmentSpaces))
+        g2.add((toronto[objectid + "SchoolServiceCapacityAvail"], iso21972.hasValue, toronto[objectid + "SchoolServiceCapacityAvailMeasure"]))
+        
+        g2.add((toronto[objectid + "SchoolServiceCapacityAvailMeasure"], RDF.type, iso21972.Measure))
+        g2.add((toronto[objectid + "SchoolServiceCapacityAvailMeasure"], iso21972.hasNumericalValue, Literal(capacityavailvalue)))
+        g2.add((toronto[objectid + "SchoolServiceCapacityAvailMeasure"], iso21972.hasUnit, iso21972.population_cardinality_unit))
+
 # Export the RDF graph as a .ttl file    
 g.serialize(destination="PublicSchoolsEnrollment.ttl")
 g2.serialize(destination="PublicSchoolsCapacity.ttl")

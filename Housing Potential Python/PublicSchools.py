@@ -4,7 +4,7 @@ PublicSchools.py
 
 Author: Anderson Wong
 
-Date: December 3, 2025
+Date: January 26, 2026
 
 Description: This is a Python program that generates RDF triples 
 for public schools using Microsoft Excel data from the Government of Ontario.
@@ -18,7 +18,7 @@ import math
 
 from shapely.geometry import Point
 from geopy.geocoders import ArcGIS
-from rdflib import Graph, Literal, XSD, RDF
+from rdflib import Graph, Literal, XSD, RDF, URIRef
 
 # Declare namespaces
 toronto = rdflib.Namespace('http://ontology.eil.utoronto.ca/Toronto/Toronto#')
@@ -109,7 +109,7 @@ for idx, row in df.iterrows():
             g.add((toronto[instancename], RDF.type, cdt.SecondarySchool))
     
         g.add((toronto[instancename], cdt.providesService, toronto[instancename + "Service"]))
-        g.add((toronto[instancename + "Service"], RDF.type, hp.SchoolService))
+        g.add((toronto[instancename + "Service"], RDF.type, toronto.TorSchoolService))
         g.add((toronto[instancename + "Service"], hp.providedFromSite, toronto[instancename + "Site"]))
 
         # Generate triples for name and identifier
@@ -131,6 +131,7 @@ for idx, row in df.iterrows():
         
         # Generate triples for site and site location
         g.add((toronto[instancename + "Site"], RDF.type, cdt.SchoolSite))
+        g.add((toronto[instancename + "Site"], genprop.hasName, Literal(row["School Name"])))
         g.add((toronto[instancename], org.hasSite, toronto[instancename + "Site"]))
         g.add((toronto[instancename + "Site"], loc.hasLocation, toronto[instancename + "SiteLocation"]))
         

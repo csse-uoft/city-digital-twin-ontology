@@ -4,7 +4,7 @@ TransitRoute.py
 
 Author: Anderson Wong
 
-Date: November 17, 2025
+Date: February 17, 2025
 
 Description: This is a Python program that generates RDF triples 
 for transit routes from GTFS data.
@@ -43,6 +43,9 @@ capacity = pd.read_excel("TTCCapacity.xlsx")
 # Create RDF graph
 g = Graph()
 
+# Create empty dictionary
+d = {}
+
 # Merge trips with stop_times to connect route_id -> trip_id -> stop_id
 trips_stop_times = pd.merge(trips[['trip_id', 'route_id']], 
                             stop_times[['trip_id', 'stop_id']], 
@@ -58,13 +61,11 @@ route_stops = pd.merge(route_stops, capacity[['route_short_name', 'Ridership']],
 # Convert numpy arrays to lists for readability
 route_stops['stop_id'] = route_stops['stop_id'].apply(list)
 
-g.add((cdt["TransitRouteService"], rdfs.subClassOf, cdt.Service))
-
 # Generate triples for each route
 for _, row in route_stops.iterrows():
     routeid = str(row['route_id'])
     
-    g.add((toronto[routeid + "RouteService"], RDF.type, cdt["TransitRouteService"]))   
+    g.add((toronto[routeid + "RouteService"], RDF.type, toronto.TorPublicTransitService))   
     g.add((toronto.ttc, cdt.providesService, toronto[routeid + "RouteService"])) 
     g.add((toronto[routeid + "RouteService"], genprop.hasName, Literal(row['route_long_name'])))   
     g.add((toronto[routeid + "RouteService"], genprop.hasIdentifier, Literal(row['route_short_name'])))
@@ -74,12 +75,51 @@ for _, row in route_stops.iterrows():
     
     g.add((toronto[routeid + "RouteServiceCapacityUse"], iso21972.hasValue, toronto[routeid + "RouteServiceCapacityUseMeasure"]))
     g.add((toronto[routeid + "RouteServiceCapacityUseMeasure"], RDF.type, iso21972.Measure))
-    g.add((toronto[routeid + "RouteServiceCapacityUseMeasure"], iso21972.hasNumericalValue, Literal(row['Ridership'])))
+    try:
+        g.add((toronto[routeid + "RouteServiceCapacityUseMeasure"], iso21972.hasNumericalValue, Literal(int(row['Ridership']))))
+        d[routeid] = int(row['Ridership'])
+    except:
+        g.add((toronto[routeid + "RouteServiceCapacityUseMeasure"], iso21972.hasNumericalValue, Literal(0)))
+        d[routeid] = 0
     g.add((toronto[routeid + "RouteServiceCapacityUseMeasure"], iso21972.hasUnit, hp.person_per_day))
     
     # Generate triples for each stop
     for stop in row['stop_id']:
         g.add((toronto[routeid + "RouteService"], hp.providedFromSite, toronto[str(stop) + "TransitStop"]))   
+
+# Load files for synthetic data
+synthetic = pd.read_csv("TTCSynthetic.csv")
+
+# Create RDF graph
+g2 = Graph()
+
+# Generate triples for each route
+for row in synthetic.itertuples():
+    routeid = str(row.route_id)
+    
+    try:
+        g2.add((toronto[routeid + "RouteServiceCapacityAvailMeasure"], iso21972.hasNumericalValue, Literal(int(row.daily_passenger_throughput) - d[str(routeid)])))   
+    
+        g2.add((toronto[routeid + "RouteService"], res.hasCapacity, toronto[routeid + "RouteServiceCapacityTotal"]))   
+        
+        g2.add((toronto[routeid + "RouteServiceCapacityTotal"], iso21972.hasValue, toronto[routeid + "RouteServiceCapacityTotalMeasure"]))  
+        g2.add((toronto[routeid + "RouteServiceCapacityTotal"], RDF.type, hp.MinPassengerThroughputRate))   
+    
+        g2.add((toronto[routeid + "RouteServiceCapacityTotalMeasure"], RDF.type, iso21972.Measure))   
+        g2.add((toronto[routeid + "RouteServiceCapacityTotalMeasure"], iso21972.hasNumericalValue, Literal(row.daily_passenger_throughput)))   
+        g2.add((toronto[routeid + "RouteServiceCapacityTotalMeasure"], iso21972.hasUnit, hp.person_per_day))   
+    
+        g2.add((toronto[routeid + "RouteService"], res.hasAvailableCapacity, toronto[routeid + "RouteServiceCapacityAvail"]))   
+        
+        g2.add((toronto[routeid + "RouteServiceCapacityAvail"], iso21972.hasValue, toronto[routeid + "RouteServiceCapacityAvailMeasure"]))  
+        g2.add((toronto[routeid + "RouteServiceCapacityAvail"], RDF.type, hp.AvailablePassengerThroughputRate))   
+    
+        g2.add((toronto[routeid + "RouteServiceCapacityAvailMeasure"], RDF.type, iso21972.Measure))   
+        g2.add((toronto[routeid + "RouteServiceCapacityAvailMeasure"], iso21972.hasUnit, hp.person_per_day))   
+    except:
+        print (routeid)
+# Export the RDF graph as a .ttl file
+g2.serialize(destination="TransitSynthetic.ttl")
 
 # Export the RDF graph as a .ttl file
 g.serialize(destination="TransitRoute.ttl")

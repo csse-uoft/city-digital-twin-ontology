@@ -46,6 +46,7 @@ for idx, row in perimeter.iterrows():
     
     g.add((toronto["Property" + parcelid], hp.hasPerimeter, toronto["PropertyPerimeter" + parcelid]))
     g.add((toronto["PropertyPerimeter" + parcelid], iso21972.hasValue, toronto["PropertyPerimeterMeasure" + parcelid]))
+    g.add((toronto["PropertyPerimeterMeasure" + parcelid], RDF.type, iso21972.Measure))
     g.add((toronto["PropertyPerimeterMeasure" + parcelid], iso21972.hasNumericalValue, Literal(row['Perimeter'])))
     g.add((toronto["PropertyPerimeterMeasure" + parcelid], iso21972.hasUnit, iso21972.metre))
 

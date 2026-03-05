@@ -4,7 +4,7 @@ Buildings.py
 
 Author: Anderson Wong
 
-Date: January 5, 2025
+Date: January 13, 2025
 
 Description: This is a Python program that generates RDF triples 
 for buildings and land parcels using data from a GeoJSON file.
@@ -18,7 +18,8 @@ import usaddress
 import gc
 import geopandas
 
-from rdflib import Graph, Literal, RDF
+from shapely.validation import make_valid
+from rdflib import Graph, Literal, RDF, XSD
 
 # Declare namespaces
 toronto = rdflib.Namespace('http://ontology.eil.utoronto.ca/Toronto/Toronto#')
@@ -40,7 +41,7 @@ time = rdflib.Namespace('http://www.w3.org/2006/time#')
 g = Graph()
 
 # Get the data and remove unused columns
-building = geopandas.read_file("TorontoBuildings2.geojson")
+building = geopandas.read_file("TorontoBuildings1.geojson")
 building = building.drop(columns=["Join_Count", "TARGET_FID", "JOIN_FID", "source_id", "source", "dataset", "csduid", "csdname", "prov_terr", "units", "F_id", "FEATURE_TYPE", "DATE_EFFECTIVE", "DATE_EXPIRY", "TRANS_ID_CREATE", "TRANS_ID_EXPIRE", "Shape_Length_1", "Shape_Area_1"])
 
 parcel = geopandas.read_file("Parcel.geojson")
@@ -55,17 +56,17 @@ counter = 0
 
 # Counter for output file number (i.e., Buildings{counter2}.ttl)
 # Should start with 1 if working on the first file or 6 if working on the second to avoid overwriting the files
-counter2 = 6
+counter2 = 1
 
 # Generate triples for each row
-for idx, row in df.iterrows():
+for row in df.itertuples():
     # Initialize variables
-    parcelid = str(row['PARCELID'])
-    buildingid = str(row['id'])
+    parcelid = str(row.PARCELID)
+    buildingid = str(row.id)
     
     # Generate triples for area data
     try:
-        g.add((toronto["PropertyAreaMeasure" + parcelid], iso21972.hasNumericalValue, Literal(float(re.findall(r'\d+(?:\.\d+)?', row['STATEDAREA'])[0]))))
+        g.add((toronto["PropertyAreaMeasure" + parcelid], iso21972.hasNumericalValue, Literal(float(re.findall(r'\d+(?:\.\d+)?', row.STATEDAREA)[0]))))
 
         g.add((toronto["Property" + parcelid], RDF.type, hp.Parcel))
         g.add((toronto["PropertyArea" + parcelid], RDF.type, cityunits.Area))
@@ -81,22 +82,22 @@ for idx, row in df.iterrows():
     g.add((toronto["PropertyLoc" + parcelid], RDF.type, loc.Location))
 
     g.add((toronto["Property" + parcelid], loc.hasLocation, toronto["PropertyLoc" + parcelid]))
-    g.add((toronto["PropertyLoc" + parcelid], geo.asWKT, Literal(shapely.to_wkt(shapely.geometry.shape(row["geometry_y"])), datatype=geo.wktLiteral)))
+    g.add((toronto["PropertyLoc" + parcelid], geo.asWKT, Literal(shapely.to_wkt(make_valid(shapely.geometry.shape(row.geometry_y)), rounding_precision=-1), datatype=geo.wktLiteral)))
 
     # Generate triples for building data
     g.add((toronto["Building" + buildingid], RDF.type, hp.Building))
     
     # Generate triples for building name
 
-    if row['name'] != "..":
-        g.add((toronto["Building" + buildingid], genprop.hasName, Literal(row['name'])))
+    if row.name != "..":
+        g.add((toronto["Building" + buildingid], genprop.hasName, Literal(row.name)))
     
     # Generate triples for address data    
     try:
-        if row['address'] != "..":
-            streetstring = row['address']
-        elif row['ADDRESS_NUMBER'] != "None":
-            streetstring = " ".join([str(row['ADDRESS_NUMBER']), row['LINEAR_NAME_FULL']])
+        if row.address != "..":
+            streetstring = row.address
+        elif row.ADDRESS_NUMBER != "None":
+            streetstring = " ".join([str(row.ADDRESS_NUMBER), row.LINEAR_NAME_FULL])
 
         # Split by semicolon
         addr_list = streetstring.split(";")
@@ -148,8 +149,8 @@ for idx, row in df.iterrows():
         pass
     
     # Generate triples for building type
-    if row['type'] != "..":
-        buildingtype = str(row['type'].replace(" ", ""))
+    if row.type != "..":
+        buildingtype = str(row.type.replace(" ", ""))
         
         g.add((toronto["BuildingUse" + buildingtype], RDF.type, bdg.BuildingUse))
         g.add((toronto["BuildingUseCode" + buildingtype], RDF.type, code.Code))
@@ -159,32 +160,32 @@ for idx, row in df.iterrows():
         g.add((toronto["BuildingUse" + buildingtype], code.hasCode, toronto["BuildingUseCode" + buildingtype]))
         g.add((toronto["BuildingUseCode" + buildingtype], genprop.hasName, Literal(buildingtype)))
         
-    if row['height'] != "..":
+    if row.height != "..":
         g.add((toronto["BuildingHeight" + buildingid], RDF.type, hp.BuildingHeight))
         
-        g.add((toronto["Building" + buildingid], hp.hasHeight, toronto["BuildingHeight" + buildingid]))
+        g.add((toronto["Building" + buildingid], hp.hasBuildingHeight , toronto["BuildingHeight" + buildingid]))
     
         g.add((toronto["BuildingHeight" + buildingid], iso21972.hasValue, toronto["BuildingHeightMeasure" + buildingid]))
         
         g.add((toronto["BuildingHeightMeasure" + buildingid], RDF.type, iso21972.Measure))
-        g.add((toronto["BuildingHeightMeasure" + buildingid], iso21972.hasNumericalValue, Literal(row['height'])))
+        g.add((toronto["BuildingHeightMeasure" + buildingid], iso21972.hasNumericalValue, Literal(row.height)))
         g.add((toronto["BuildingHeightMeasure" + buildingid], iso21972.hasUnit, iso21972.metre))
     
     # Generate triples for year built
-    if row['year_built'] != "..":
-        year = str(row['year_built'])
+    if row.year_built != "..":
+        year = str(row.year_built)
         
         g.add((toronto["Year" + year], RDF.type, time.DateTimeDescription))
         
         g.add((toronto["Building" + buildingid], bdg.yearOfConstruction, toronto["Year" + year]))
 
-        g.add((toronto["Year" + year], time.year, Literal(row['year_built'])))
+        g.add((toronto["Year" + year], time.year, Literal(row.year_built, datatype=XSD.gYear)))
     
     # Generate triples for geometry data
     g.add((toronto["BuildingLoc" + buildingid], RDF.type, loc.Location))
 
     g.add((toronto["Building" + buildingid], loc.hasLocation, toronto["BuildingLoc" + buildingid]))
-    g.add((toronto["BuildingLoc" + buildingid], geo.asWKT, Literal(shapely.to_wkt(shapely.geometry.shape(row["geometry_x"])), datatype=geo.wktLiteral)))
+    g.add((toronto["BuildingLoc" + buildingid], geo.asWKT, Literal(shapely.to_wkt(make_valid(shapely.geometry.shape(row.geometry_x)), rounding_precision=-1), datatype=geo.wktLiteral)))
 
     
     # Generate triple for linking the building with the parcel
@@ -197,6 +198,8 @@ for idx, row in df.iterrows():
         counter2 += 1
         counter = 0
         g = Graph()
+        
+        # Run garbage collection to free up RAM
         gc.collect()
         
     

@@ -4,7 +4,7 @@ SolidWasteCapacity.py
 
 Author: Anderson Wong
 
-Date: November 20, 2025
+Date: February 13, 2026
 
 Description: This is a Python program that generates RDF triples 
 for solid waste services capacity using synthetic data from a CSV file.
@@ -45,7 +45,8 @@ for idx, row in df.iterrows():
     
     g.add((toronto["solidwaste_service" + objectid], res.hasCapacity, toronto["solidwaste_service" + objectid + "Capacity"]))
     g.add((toronto["solidwaste_service" + objectid + "Capacity"], iso21972.hasValue, toronto["solidwaste_service" + objectid + "CapacityMeasure"]))
-    
+    g.add((toronto["solidwaste_service" + objectid + "Capacity"], RDF.type, hp.MaxWasteProcessingRate))
+
     g.add((toronto["solidwaste_service" + objectid + "CapacityMeasure"], RDF.type, iso21972.Measure))
     g.add((toronto["solidwaste_service" + objectid + "CapacityMeasure"], iso21972.hasNumericalValue,  Literal(row['Randomized total capacity per area'])))
     g.add((toronto["solidwaste_service" + objectid + "CapacityMeasure"], iso21972.hasUnit,  hp.tonnes_per_year))
@@ -60,7 +61,8 @@ for idx, row in df.iterrows():
 
     g.add((toronto["solidwaste_service" + objectid], res.hasAvailableCapacity, toronto["solidwaste_service" + objectid + "CapacityAvail"]))
     g.add((toronto["solidwaste_service" + objectid + "CapacityAvail"], iso21972.hasValue, toronto["solidwaste_service" + objectid + "CapacityAvailMeasure"]))
-
+    g.add((toronto["solidwaste_service" + objectid + "CapacityAvail"], RDF.type, hp.AvailableWasteProcessingRate))
+   
     g.add((toronto["solidwaste_service" + objectid + "CapacityAvailMeasure"], RDF.type, iso21972.Measure))
     g.add((toronto["solidwaste_service" + objectid + "CapacityAvailMeasure"], iso21972.hasNumericalValue,  Literal(row['Available capacity'])))
     g.add((toronto["solidwaste_service" + objectid + "CapacityAvailMeasure"], iso21972.hasUnit,  hp.tonnes_per_year))

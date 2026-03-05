@@ -4,7 +4,7 @@ Childcare.py
 
 Author: Anderson Wong
 
-Date: November 27, 2025
+Date: February 18, 2025
 
 Description: This is a Python program that generates RDF triples 
 for child care data using Microsoft Excel data.
@@ -17,6 +17,7 @@ import shapely
 import json
 
 from rdflib import Graph, Literal, RDF
+from shapely.validation import make_valid
 
 # Declare namespaces
 toronto = rdflib.Namespace('http://ontology.eil.utoronto.ca/Toronto/Toronto#')
@@ -50,7 +51,7 @@ g.add((cdt.ChildcareServiceSite, rdfs.subClassOf, cdt.Site))
 for idx, row in df.iterrows():
     objectid = str(row["_id"])
     
-    g.add((toronto["childcareservice_toronto" + objectid], RDF.type, hp.ChildcareService))
+    g.add((toronto["childcareservice_toronto" + objectid], RDF.type, toronto.TorChildcareService))
     g.add((toronto["childcareservice_toronto" + objectid], hp.providedFromSite, toronto["childcareservice_toronto" + objectid + "Site"]))
     
     g.add((toronto["childcareservice_toronto" + objectid + "Site"], RDF.type, cdt.ChildcareServiceSite))
@@ -58,7 +59,7 @@ for idx, row in df.iterrows():
     g.add((toronto["childcareservice_toronto" + objectid + "Site"], genprop.hasName, Literal(row["LOC_NAME"])))
     
     g.add((toronto["childcareservice_toronto" + objectid + "Site"], loc.hasLocation, toronto["childcareservice_toronto" + objectid + "SiteLoc"]))
-    g.add((toronto["childcareservice_toronto" + objectid + "SiteLoc"], geo.asWKT, Literal(shapely.to_wkt(shapely.geometry.shape(json.loads(row["geometry"]))), datatype=geo.wktLiteral)))
+    g.add((toronto["childcareservice_toronto" + objectid + "SiteLoc"], geo.asWKT, Literal(shapely.to_wkt(make_valid(shapely.geometry.shape(json.loads(row["geometry"]))), rounding_precision=-1), datatype=geo.wktLiteral)))
     
     g.add((toronto["childcareservice_toronto" + objectid], res.hasCapacity, toronto["childcareservice_toronto" + objectid + "Capacity"]))
     g.add((toronto["childcareservice_toronto" + objectid + "Capacity"], RDF.type, hp.ChildcareEnrollmentSpaces))
@@ -75,6 +76,15 @@ for idx, row in df.iterrows():
     g2.add((toronto["childcareservice_toronto" + objectid + "CapacityUseMeasure"], RDF.type, iso21972.Measure))
     g2.add((toronto["childcareservice_toronto" + objectid + "CapacityUseMeasure"], iso21972.hasNumericalValue, Literal(row["FAKE ENROLLMENT"])))
     g2.add((toronto["childcareservice_toronto" + objectid + "CapacityUseMeasure"], iso21972.hasUnit, iso21972.population_cardinality_unit))
+
+    g2.add((toronto["childcareservice_toronto" + objectid], res.hasAvailableCapacity , toronto["childcareservice_toronto" + objectid + "CapacityAvail"]))
+    g2.add((toronto["childcareservice_toronto" + objectid + "CapacityAvail"], RDF.type, hp.ChildcareAvailableEnrollmentSpaces))
+    g2.add((toronto["childcareservice_toronto" + objectid + "CapacityAvail"], iso21972.hasValue, toronto["childcareservice_toronto" + objectid + "CapacityAvailMeasure"]))
+    
+    g2.add((toronto["childcareservice_toronto" + objectid + "CapacityAvailMeasure"], RDF.type, iso21972.Measure))
+    g2.add((toronto["childcareservice_toronto" + objectid + "CapacityAvailMeasure"], iso21972.hasNumericalValue, Literal(row["TOTSPACE"] - row["FAKE ENROLLMENT"])))
+    g2.add((toronto["childcareservice_toronto" + objectid + "CapacityAvailMeasure"], iso21972.hasUnit, iso21972.population_cardinality_unit))
+
 
 # Export the RDF graph as a .ttl file    
 g.serialize(destination="Childcare.ttl")

@@ -4,7 +4,7 @@ Park.py
 
 Author: Anderson Wong
 
-Date: November 27, 2025
+Date: February 27, 2025
 
 Description: This is a Python program that generates RDF triples 
 for parks using OpenStreetMap data in a geojson file.
@@ -18,6 +18,7 @@ import re
 import usaddress
 import geopandas
 
+from shapely.validation import make_valid
 from shapely.geometry import shape
 from pyproj import Geod
 from rdflib import Graph, Literal, XSD, RDF
@@ -244,10 +245,10 @@ for element in parks["features"]:
 
     # Generate triple for location instance
     g.add((toronto[instancename + "Site" + "Loc"], RDF.type, loc.Location))
-    g.add((toronto[instancename + "Site" + "Loc"], geo.asWKT, Literal(shapely.to_wkt(shapely.geometry.shape(element["geometry"])), datatype=geo.wktLiteral)))
+    g.add((toronto[instancename + "Site" + "Loc"], geo.asWKT, Literal(shapely.to_wkt(make_valid(shapely.geometry.shape(element["geometry"])), rounding_precision=-1), datatype=geo.wktLiteral)))
     
     # Generate triples for service
-    g.add((toronto[instancename + "Service"], RDF.type, cdt[amenityname + "Service"]))
+    g.add((toronto[instancename + "Service"], RDF.type, toronto.TorParkService))
     g.add((cdt.CDTCompleteCommunityAmenityToronto, cdt.providesService, toronto[instancename + "Service"]))
     g.add((toronto[instancename + "Org"], cdt.providesService, toronto[instancename + "Service"]))
     g.add((toronto[instancename + "Service"], hp.providedFromSite, toronto[sitename]))
@@ -375,6 +376,14 @@ for element in parks["features"]:
     g2.add((toronto[instancename + "ServiceCapacityMeasure"], RDF.type, iso21972.Measure))
     g2.add((toronto[instancename + "ServiceCapacityMeasure"], iso21972.hasNumericalValue, Literal(20)))
     g2.add((toronto[instancename + "ServiceCapacityMeasure"], iso21972.hasUnit, hp.square_metres_per_person))
+
+    g2.add((toronto[instancename + "ServiceCapacityAvail"], RDF.type, hp.AvailableRecreationAreaPopulationRatio))
+    g2.add((toronto[instancename + "Service"], res.hasAvailableCapacity, toronto[instancename + "ServiceCapacityAvail"]))
+
+    g2.add((toronto[instancename + "ServiceCapacityAvail"], iso21972.hasValue, toronto[instancename + "ServiceCapacityAvailMeasure"]))
+    g2.add((toronto[instancename + "ServiceCapacityAvailMeasure"], RDF.type, iso21972.Measure))
+    g2.add((toronto[instancename + "ServiceCapacityAvailMeasure"], iso21972.hasNumericalValue, Literal(20 - poly_area/8855)))
+    g2.add((toronto[instancename + "ServiceCapacityAvailMeasure"], iso21972.hasUnit, hp.square_metres_per_person))
 
     
 # Export the RDF graph as a .ttl file

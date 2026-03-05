@@ -45,7 +45,8 @@ for idx, row in df.iterrows():
     
     g.add((toronto["wastewaterservicepressurizedmain" + objectid], res.hasCapacity, toronto["wastewaterservicepressurizedmain" + objectid + "Capacity"]))
     g.add((toronto["wastewaterservicepressurizedmain" + objectid + "Capacity"], iso21972.hasValue, toronto["wastewaterservicepressurizedmain" + objectid + "CapacityMeasure"]))
-    
+    g.add((toronto["wastewaterservicepressurizedmain" + objectid + "Capacity"], RDF.type, hp.MaxWaterProcessingRate))
+
     g.add((toronto["wastewaterservicepressurizedmain" + objectid + "CapacityMeasure"], RDF.type, iso21972.Measure))
     g.add((toronto["wastewaterservicepressurizedmain" + objectid + "CapacityMeasure"], iso21972.hasNumericalValue,  Literal(row['Synthetic Capacity (annual flow m3)'])))
     g.add((toronto["wastewaterservicepressurizedmain" + objectid + "CapacityMeasure"], iso21972.hasUnit,  hp.cubic_metre_per_year))
@@ -60,6 +61,7 @@ for idx, row in df.iterrows():
 
     g.add((toronto["wastewaterservicepressurizedmain" + objectid], res.hasAvailableCapacity, toronto["wastewaterservicepressurizedmain" + objectid + "CapacityAvail"]))
     g.add((toronto["wastewaterservicepressurizedmain" + objectid + "CapacityAvail"], iso21972.hasValue, toronto["wastewaterservicepressurizedmain" + objectid + "CapacityAvailMeasure"]))
+    g.add((toronto["wastewaterservicepressurizedmain" + objectid + "CapacityAvail"], RDF.type, hp.AvailableWaterProcessingRate))
 
     g.add((toronto["wastewaterservicepressurizedmain" + objectid + "CapacityAvailMeasure"], RDF.type, iso21972.Measure))
     g.add((toronto["wastewaterservicepressurizedmain" + objectid + "CapacityAvailMeasure"], iso21972.hasNumericalValue,  Literal(row['Available Annual Flow'])))

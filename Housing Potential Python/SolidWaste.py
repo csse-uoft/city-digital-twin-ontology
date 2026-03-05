@@ -4,7 +4,7 @@ SolidWaste.py
 
 Author: Anderson Wong
 
-Date: November 18, 2025
+Date: February 13, 2026
 
 Description: This is a Python program that generates RDF triples 
 for solid waste collection using data from a GeoJSON file.
@@ -15,7 +15,8 @@ import rdflib
 import json
 import shapely
 
-from rdflib import Graph, Literal, RDF
+from shapely.validation import make_valid
+from rdflib import Graph, Literal, RDF, URIRef
 
 # Declare namespaces
 toronto = rdflib.Namespace('http://ontology.eil.utoronto.ca/Toronto/Toronto#')
@@ -50,14 +51,14 @@ for element in data["features"]:
     # Initialize variables
     objectid = str(counter)
     
-    g.add((toronto["solidwaste_service" + objectid], RDF.type, hp.SolidWasteService))
+    g.add((toronto["solidwaste_service" + objectid], RDF.type, toronto.TorSolidWasteService))
     g.add((toronto["solidwaste_service" + objectid], service.hasCatchmentArea, toronto["solidwaste_servicearea_" + str(element['properties']['AREA_ID'])]))
     
     g.add((toronto["solidwaste_servicearea_" + str(element['properties']['AREA_ID'])], RDF.type, loc.Location))
     g.add((toronto["solidwaste_servicearea_" + str(element['properties']['AREA_ID'])], genprop.hasIdentifier, Literal(element['properties']['AREA_ID'])))
     g.add((toronto["solidwaste_servicearea_" + str(element['properties']['AREA_ID'])], genprop.hasIdentifier, Literal(element['properties']['AREA_LONG_'])))
     g.add((toronto["solidwaste_servicearea_" + str(element['properties']['AREA_ID'])], genprop.hasName, Literal(element['properties']['AREA_NAME'])))
-    g.add((toronto["solidwaste_servicearea_" + str(element['properties']['AREA_ID'])], geo.asWKT, Literal(shapely.to_wkt(shapely.geometry.shape(element["geometry"])), datatype=geo.wktLiteral)))
+    g.add((toronto["solidwaste_servicearea_" + str(element['properties']['AREA_ID'])], geo.asWKT, Literal(shapely.to_wkt(make_valid(shapely.geometry.shape(element["geometry"])), rounding_precision=-1), datatype=geo.wktLiteral)))
 
     counter += 1
 # Export the RDF graph as a .ttl file

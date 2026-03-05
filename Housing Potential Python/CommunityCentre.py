@@ -4,7 +4,7 @@ Community Centre.py
 
 Author: Anderson Wong
 
-Date: December 1, 2025
+Date: February 18, 2025
 
 Description: This is a Python program that generates RDF triples 
 for community centres using data in a Microsoft Excel file.
@@ -21,6 +21,7 @@ import shapely
 import pandas
 import ast
 
+from shapely.validation import make_valid
 from shapely.geometry import shape
 from rdflib import Graph, Literal, XSD, RDF
 
@@ -58,7 +59,7 @@ for idx, row in df.iterrows():
         objectid = str(row['_id'])
         siteid = str(row['ASSET_ID'])
         
-        g.add((toronto["communitycentre_service" + objectid], RDF.type, hp.CommunityCentreService))
+        g.add((toronto["communitycentre_service" + objectid], RDF.type, toronto.TorCommunityCentreService))
         g.add((toronto["communitycentre_service" + objectid], hp.providedFromSite, toronto["communitycentresite" + objectid]))
         
         g.add((toronto["communitycentresite" + objectid], RDF.type, cdt.CommunityCentreSite))
@@ -67,7 +68,7 @@ for idx, row in df.iterrows():
         g.add((toronto["communitycentresite" + objectid], loc.hasLocation, toronto["communitycentresite" + objectid + "_location"]))
         
         g.add((toronto["communitycentresite" + objectid + "_location"], RDF.type, loc.Location))
-        g.add((toronto["communitycentresite" + objectid + "_location"], geo.asWKT, Literal(shapely.to_wkt(shapely.geometry.shape(ast.literal_eval(row["geometry"]))), datatype=geo.wktLiteral)))
+        g.add((toronto["communitycentresite" + objectid + "_location"], geo.asWKT, Literal(shapely.to_wkt(make_valid(shapely.geometry.shape(ast.literal_eval(row["geometry"]))), rounding_precision=-1), datatype=geo.wktLiteral)))
         
         g2.add((toronto["communitycentre_service" + objectid], res.hasCapacity, toronto["communitycentre_service" + objectid + "Capacity"]))
         g2.add((toronto["communitycentre_service" + objectid + "Capacity"], RDF.type, hp.CommunityCentreClientSpaces))
@@ -84,6 +85,14 @@ for idx, row in df.iterrows():
         g2.add((toronto["communitycentre_service" + objectid + "CapacityUseMeasure"], RDF.type, iso21972.Measure))
         g2.add((toronto["communitycentre_service" + objectid + "CapacityUseMeasure"], iso21972.hasNumericalValue, Literal(13903)))
         g2.add((toronto["communitycentre_service" + objectid + "CapacityUseMeasure"], iso21972.hasUnit, iso21972.population_cardinality_unit))
+
+        g2.add((toronto["communitycentre_service" + objectid], res.hasAvailableCapacity , toronto["communitycentre_service" + objectid + "CapacityAvail"]))
+        g2.add((toronto["communitycentre_service" + objectid + "CapacityAvail"], RDF.type, hp.CommunityCentreAvailableSpaces))
+        g2.add((toronto["communitycentre_service" + objectid + "CapacityAvail"], iso21972.hasValue, toronto["communitycentre_service" + objectid + "CapacityAvailMeasure"]))
+        
+        g2.add((toronto["communitycentre_service" + objectid + "CapacityAvailMeasure"], RDF.type, iso21972.Measure))
+        g2.add((toronto["communitycentre_service" + objectid + "CapacityAvailMeasure"], iso21972.hasNumericalValue, Literal(row['FAKE CAPACITY'] - 13903)))
+        g2.add((toronto["communitycentre_service" + objectid + "CapacityAvailMeasure"], iso21972.hasUnit, iso21972.population_cardinality_unit))
 
 # Export the RDF graph as a .ttl file
 g.serialize(destination= "CommunityCentre.ttl")

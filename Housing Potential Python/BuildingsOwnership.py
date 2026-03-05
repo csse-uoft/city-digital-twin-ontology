@@ -18,6 +18,7 @@ import rdflib
 import json
 import shapely
 
+from shapely.validation import make_valid
 from rdflib import Graph, Literal, RDF
 
 # Declare namespaces
@@ -50,11 +51,13 @@ def camelcase(s: str) -> str:
 g = Graph()
 
 # Initialize variables
+# Values for different datasets: gthaUpperTier, gthaLowerTier, provincialLands
 dataset = "gthaUpperTier"
-filename = "GTHAUpperTier.geojson"
+# Values for different datasets: GTHAUpperTier, GTHALowerTier, ProvincialLands
+filename = "GTHAUpperTier"
 
 # Get the data
-data = json.loads(open(filename, encoding='utf8').read())
+data = json.loads(open(filename + ".geojson", encoding='utf8').read())
 
 # Generate triples for each instance
 for element in data["features"]:
@@ -70,10 +73,10 @@ for element in data["features"]:
         
     g.add((toronto[dataset + "Property" + objectid + "Loc"], RDF.type, loc.Location))  
     g.add((toronto[dataset + "Property" + objectid], loc.hasLocation, toronto[dataset + "Property" + objectid + "Loc"]))
-    g.add((toronto[dataset + "Property" + objectid + "Loc"], geo.asWKT, Literal(shapely.to_wkt(shapely.geometry.shape(element["geometry"])), datatype=geo.wktLiteral)))
+    g.add((toronto[dataset + "Property" + objectid + "Loc"], geo.asWKT, Literal(shapely.to_wkt(make_valid(shapely.geometry.shape(element["geometry"])), rounding_precision=-1), datatype=geo.wktLiteral)))
 
 # Export the RDF graph as a .ttl file
-g.serialize(destination="GTHAUpperTier.ttl")
+g.serialize(destination= filename + ".ttl")
     
 
 
