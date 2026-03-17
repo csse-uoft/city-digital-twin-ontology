@@ -61,17 +61,12 @@ synthetic.bind('hp', HP)
 synthetic.bind('i72', I72)
 synthetic.bind('res', RES)
 
-g.add((CDT.Library, RDFS.subClassOf, CDT.GovernmentOrganization))
-g.add((CDT.GovernmentOrganization, RDFS.subClassOf, ORG.GovernmentOrganization))
-g.add((ORG.GovernmentOrganization, RDFS.subClassOf, ORG.Organization))
-g.add((TORONTO.TorLibraryService, RDFS.subClassOf, CDT.LibraryService))
 
 tpl_uri = TORONTO[f"Toronto_Public_Library_1"]
 square_foot = HP[f"square_foot"]
 square_metre = HP[f"square_metre_per_person"]
 
 g.add((tpl_uri, RDF.type, ORG.GovernmentOrganization))
-g.add((CDT.LibraryService, RDFS.subClassOf, CDT.Service))
 
 
 tpl_library = []
@@ -233,6 +228,9 @@ for _, row in tpl_df.iterrows():
 
     g.add((service_uri, HP.providedFromSite, site_uri))
 
+
+    synthetic.add((service_uri, RDF.type, TORONTO.TorLibraryService))
+
     synthetic.add((service_uri, RES.hasCapacity, service_capacity_uri))
     synthetic.add((service_capacity_uri, RDF.type, HP.MinAreaPopulation))
     synthetic.add((service_capacity_uri, I72.hasValue, service_capacity_measure_uri))
@@ -243,14 +241,14 @@ for _, row in tpl_df.iterrows():
     synthetic.add((service_capacity_use_uri, RDF.type, HP.LibraryAreaPopulationRatio))
     synthetic.add((service_capacity_use_uri, I72.hasValue, service_capacity_use_measure_uri))
     synthetic.add((service_capacity_use_measure_uri, I72.hasNumericalValue,
-           Literal(int(row['SquareFootage']) // 55613, datatype=XSD.integer)))
+           Literal(float(row['SquareFootage']) / 55613, datatype=XSD.decimal)))
     synthetic.add((service_capacity_use_measure_uri, I72.hasUnit, square_metre))
 
-    synthetic.add((service_capacity_measure_uri, RES.hasAvailableCapacity, avail_capacity_use_uri))
+    synthetic.add((service_uri, RES.hasAvailableCapacity, avail_capacity_use_uri))
     synthetic.add((avail_capacity_use_uri, RDF.type, HP.AvailableLibraryPopulationRatio))
-    synthetic.add((service_capacity_use_uri, I72.hasValue, avail_capacity_use_measure_uri))
+    synthetic.add((avail_capacity_use_uri, I72.hasValue, avail_capacity_use_measure_uri))
     synthetic.add((avail_capacity_use_measure_uri, I72.hasNumericalValue,
-           Literal(1 - int(row['SquareFootage']) // 55613, datatype=XSD.integer)))
+           Literal(1 - float(row['SquareFootage']) / 55613, datatype=XSD.decimal)))
     synthetic.add((avail_capacity_use_measure_uri, I72.hasUnit, square_metre))
 
 
