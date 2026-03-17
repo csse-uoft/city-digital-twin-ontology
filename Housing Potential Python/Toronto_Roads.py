@@ -137,7 +137,6 @@ synthetic.bind('tor', TORONTO)
 synthetic.bind('gen', GEN)
 
 
-synthetic.add((TORONTO.TorTransportationNetworkService, RDFS.subClassOf, HP.TransportationNetworkService))
 
 
 # Function to safely convert date strings to XSD.date format
@@ -338,7 +337,7 @@ for road_name, group in road_groups:
 
             capacity_use = capacity * random.uniform(0.5, 0.95)
 
-            synthetic.add((service_uri, RDF.type, TORONTO.TorTransportationNetworkServicee))
+            synthetic.add((service_uri, RDF.type, TORONTO.TorTransportationNetworkService))
             synthetic.add((service_uri, HP.providedFromSite, road_link_uri))
 
             synthetic.add((road_link_uri, GEN.hasName, Literal(f"Road Element {road_id}", datatype=XSD.string)))
