@@ -45,7 +45,7 @@ CHANGE = Namespace("https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/C
 TIME = Namespace("http://www.w3.org/2006/time#")
 RES = Namespace("https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Resource/")
 I72 = Namespace("http://ontology.eil.utoronto.ca/ISO21972/iso21972#")
-TOR = Namespace("http://ontology.eil.utoronto.ca/HPCDM/TorontoHPCDM/")
+TOR = Namespace("http://ontology.eil.utoronto.ca/Toronto/Toronto#")
 
 
 g = Graph()
@@ -68,8 +68,8 @@ capacity_g.bind('i72', I72)
 
 water_serv_uri = TOR["waterservice"]
 g.add((water_serv_uri, RDF.type, TOR.TorWaterService))
-g.add((TOR.TorWaterService, RDFS.subClassOf, HP.WaterService))
-g.add((water_serv_uri, RDFS.subClassOf, HP.Service))
+capacity_g.add((water_serv_uri, RDF.type, TOR.TorWaterService))
+
 
 for _, row in capacity_df.iterrows():
     if not(pd.isna(row['city ward'])) and not(pd.isna(row['year'])):
@@ -78,6 +78,9 @@ for _, row in capacity_df.iterrows():
         measure_uri = TOR[f"water_distributionservice_ward{int(row['city ward'])}_{int(row['year'])}_CapacityMeasure"]
         avacapacity_uri = TOR[f"water_distributionservice_ward{int(row['city ward'])}_{int(row['year'])}_AvailCapacity"]
         avameasure_uri = TOR[f"water_distributionservice_ward{int(row['city ward'])}_{int(row['year'])}_AvailCapacityMeasure"]
+
+        capacity_g.add((distribution_uri, RDF.type, TOR.TorWaterService))
+        capacity_g.add((water_serv_uri, HP.hasSubService, distribution_uri))
 
         capacity_g.add((distribution_uri, RES.hasCapacity, capacity_uri))
         capacity_g.add((capacity_uri, RDF.type, HP.WaterDistributionRate))
