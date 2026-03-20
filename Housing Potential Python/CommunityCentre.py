@@ -68,7 +68,13 @@ for idx, row in df.iterrows():
         g.add((toronto["communitycentresite" + objectid], loc.hasLocation, toronto["communitycentresite" + objectid + "_location"]))
         
         g.add((toronto["communitycentresite" + objectid + "_location"], RDF.type, loc.Location))
-        g.add((toronto["communitycentresite" + objectid + "_location"], geo.asWKT, Literal(shapely.to_wkt(make_valid(shapely.geometry.shape(ast.literal_eval(row["geometry"]))), rounding_precision=-1), datatype=geo.wktLiteral)))
+        
+        # Convert multipoint geometry to point geometry if there is only one point
+        geom = shapely.geometry.shape(ast.literal_eval(row["geometry"]))
+        if geom.geom_type == "MultiPoint" and len(geom.geoms) == 1:
+            geom = geom.geoms[0]
+            
+        g.add((toronto["communitycentresite" + objectid + "_location"], geo.asWKT, Literal(shapely.to_wkt(make_valid(geom), rounding_precision=-1), datatype=geo.wktLiteral)))
         
         g2.add((toronto["communitycentre_service" + objectid], res.hasCapacity, toronto["communitycentre_service" + objectid + "Capacity"]))
         g2.add((toronto["communitycentre_service" + objectid + "Capacity"], RDF.type, hp.CommunityCentreClientSpaces))

@@ -59,7 +59,14 @@ for idx, row in df.iterrows():
     g.add((toronto["childcareservice_toronto" + objectid + "Site"], genprop.hasName, Literal(row["LOC_NAME"])))
     
     g.add((toronto["childcareservice_toronto" + objectid + "Site"], loc.hasLocation, toronto["childcareservice_toronto" + objectid + "SiteLoc"]))
-    g.add((toronto["childcareservice_toronto" + objectid + "SiteLoc"], geo.asWKT, Literal(shapely.to_wkt(make_valid(shapely.geometry.shape(json.loads(row["geometry"]))), rounding_precision=-1), datatype=geo.wktLiteral)))
+    g.add((toronto["childcareservice_toronto" + objectid + "SiteLoc"], RDF.type, loc.Location))  
+
+    # Convert multipoint geometry to point geometry if there is only one point
+    geom = shapely.geometry.shape(json.loads(row["geometry"]))
+    if geom.geom_type == "MultiPoint" and len(geom.geoms) == 1:
+        geom = geom.geoms[0]
+
+    g.add((toronto["childcareservice_toronto" + objectid + "SiteLoc"], geo.asWKT, Literal(shapely.to_wkt(make_valid(geom), rounding_precision=-1), datatype=geo.wktLiteral)))
     
     g.add((toronto["childcareservice_toronto" + objectid], res.hasCapacity, toronto["childcareservice_toronto" + objectid + "Capacity"]))
     g.add((toronto["childcareservice_toronto" + objectid + "Capacity"], RDF.type, hp.ChildcareEnrollmentSpaces))

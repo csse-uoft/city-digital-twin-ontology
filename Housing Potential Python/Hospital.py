@@ -4,7 +4,7 @@ Hospital.py
 
 Author: Anderson Wong
 
-Date: December 3, 2025
+Date: March 19, 2025
 
 Description: This is a Python program that generates RDF triples 
 for hospitals using OpenStreetMap data in a geojson file.
@@ -150,12 +150,6 @@ g.add((cdt.hospitalsNAICSCode, RDF.type, cdt.NAICSCode))
 g.add((cdt.hospitalsNAICSCode, genprop.hasName, Literal("622 - Hospitals")))
 g.add((cdt.hospitalsNAICSCode, genprop.hasDescription, Literal("This subsector comprises establishments, licensed as hospitals, primarily engaged in providing diagnostic and medical treatment services, and specialized accommodation services to in-patients. These establishments have an organized medical staff of physicians, nurses and other health professionals, technologists and technicians. Hospitals use specialized facilities and equipment that form a significant and integral part of the production process. Hospitals may also provide a wide variety of out-patient services as a secondary activity.")))
 g.add((cdt.hospitalsNAICSCode, genprop.hasIdentifier, Literal("622")))
-
-g.add((cdt.CDTCompleteCommunityAmenity, cdt.providesService, hp[amenityname + "Service"]))
-g.add((hp[amenityname + "Service"], rdfs.subClassOf, cdt.Service))
-
-g.add((cdt.CDTCompleteCommunityAmenity, cdt.providesService, hp[amenityname + "EmergencyService"]))
-g.add((hp[amenityname + "EmergencyService"], rdfs.subClassOf, cdt.Service))
 
 g.add((cdt.PublicHospital, rdfs.subClassOf, cdt.Hospital))
 g.add((cdt.PublicHospital, rdfs.subClassOf, cdt.GovernmentOrganization))

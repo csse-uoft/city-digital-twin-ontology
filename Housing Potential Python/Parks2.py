@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Park.py
+Parks.py
 
 Author: Anderson Wong
 
-Date: February 27, 2025
+Date: March 19, 2025
 
 Description: This is a Python program that generates RDF triples 
 for parks using OpenStreetMap data in a geojson file.
@@ -367,7 +367,7 @@ for element in parks["features"]:
     g2.add((toronto[instancename + "ServiceCapacityUse"], iso21972.hasValue, toronto[instancename + "ServiceCapacityUseMeasure"]))
     g2.add((toronto[instancename + "ServiceCapacityUseMeasure"], RDF.type, iso21972.Measure))
     g2.add((toronto[instancename + "ServiceCapacityUseMeasure"], iso21972.hasNumericalValue, Literal(poly_area/8855)))
-    g2.add((toronto[instancename + "ServiceCapacityUseMeasure"], iso21972.hasUnit, hp.square_metres_per_person))
+    g2.add((toronto[instancename + "ServiceCapacityUseMeasure"], iso21972.hasUnit, hp.square_metre_per_person))
     
     g2.add((toronto[instancename + "ServiceCapacity"], RDF.type, hp.MinRecreationAreaPopulationRatio))
     g2.add((toronto[instancename + "Service"], res.hasCapacity, toronto[instancename + "ServiceCapacity"]))
@@ -375,7 +375,7 @@ for element in parks["features"]:
     g2.add((toronto[instancename + "ServiceCapacity"], iso21972.hasValue, toronto[instancename + "ServiceCapacityMeasure"]))
     g2.add((toronto[instancename + "ServiceCapacityMeasure"], RDF.type, iso21972.Measure))
     g2.add((toronto[instancename + "ServiceCapacityMeasure"], iso21972.hasNumericalValue, Literal(20)))
-    g2.add((toronto[instancename + "ServiceCapacityMeasure"], iso21972.hasUnit, hp.square_metres_per_person))
+    g2.add((toronto[instancename + "ServiceCapacityMeasure"], iso21972.hasUnit, hp.square_metre_per_person))
 
     g2.add((toronto[instancename + "ServiceCapacityAvail"], RDF.type, hp.AvailableRecreationAreaPopulationRatio))
     g2.add((toronto[instancename + "Service"], res.hasAvailableCapacity, toronto[instancename + "ServiceCapacityAvail"]))
@@ -383,7 +383,7 @@ for element in parks["features"]:
     g2.add((toronto[instancename + "ServiceCapacityAvail"], iso21972.hasValue, toronto[instancename + "ServiceCapacityAvailMeasure"]))
     g2.add((toronto[instancename + "ServiceCapacityAvailMeasure"], RDF.type, iso21972.Measure))
     g2.add((toronto[instancename + "ServiceCapacityAvailMeasure"], iso21972.hasNumericalValue, Literal(20 - poly_area/8855)))
-    g2.add((toronto[instancename + "ServiceCapacityAvailMeasure"], iso21972.hasUnit, hp.square_metres_per_person))
+    g2.add((toronto[instancename + "ServiceCapacityAvailMeasure"], iso21972.hasUnit, hp.square_metre_per_person))
 
     
 # Export the RDF graph as a .ttl file

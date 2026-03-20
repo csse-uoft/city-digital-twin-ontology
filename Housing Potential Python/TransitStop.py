@@ -33,7 +33,7 @@ sc = rdflib.Namespace('http://schema.org/')
 gcih = rdflib.Namespace('http://ontology.eil.utoronto.ca/GCI/Health/GCI-Health.owl#')
 org = rdflib.Namespace('http://www.w3.org/ns/org#')
 
-with open(os.path.join(os.getcwd(), "TTC", "stops.csv"), newline='', encoding='utf-8') as csvfile:
+with open(os.path.join(os.getcwd(), "TTC", "stops.txt"), newline='', encoding='utf-8') as csvfile:
     reader = csv.reader(csvfile)
     data = list(reader)
 

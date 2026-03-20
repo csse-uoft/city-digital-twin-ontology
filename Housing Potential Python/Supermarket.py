@@ -4,7 +4,7 @@ Supermarket.py
 
 Author: Anderson Wong
 
-Date: February 27, 2025
+Date: March 19, 2025
 
 Description: This is a Python program that generates RDF triples 
 for supermarkets using OpenStreetMap data in a geojson file.
@@ -145,6 +145,9 @@ g2 = Graph()
 filename = "supermarket.geojson"
 amenityname = "Supermarket"
 
+# List of supermarkets that have numerator data
+numeratorlist = []
+
 # Get the data
 amenity = json.loads(open(filename, encoding='utf8').read())
 df = pandas.read_csv("SupermarketNumerator.csv")
@@ -175,6 +178,32 @@ g.add((cdt.Supermarket, cdt.displayProperties, org.hasSite))
 g.add((cdt.Supermarket, cdt.displayProperties, contact.hasAddress))
 g.add((cdt.Supermarket, cdt.displayProperties, org_city.operatingHours))
 g.add((cdt.Supermarket, cdt.displayProperties, cdt.email))
+
+# Generate synthetic capacity triples
+for row in df.itertuples(index=False):
+    str_id = "".join(filter(str.isdigit, row.s))
+    numeratorlist.append(str_id)
+    
+    g2.add((toronto[str_id + "SupermarketServiceCapacityUse"], iso21972.numerator, toronto[str_id + "CatchmentSupermarketCount"]))
+    g2.add((toronto[str_id + "CatchmentSupermarketCount"], RDF.type, iso21972.Population))
+    g2.add((toronto[str_id + "CatchmentSupermarketCount"], iso21972.hasValue, toronto[str_id + "CatchmentSupermarketCountMeasure"]))
+    g2.add((toronto[str_id + "CatchmentSupermarketCountMeasure"], RDF.type, iso21972.Measure))
+    g2.add((toronto[str_id + "CatchmentSupermarketCountMeasure"], iso21972.hasNumericalValue, Literal(row.nearbySchoolCount)))
+    g2.add((toronto[str_id + "CatchmentSupermarketCountMeasure"], iso21972.hasUnit, iso21972.population_cardinality_unit))
+
+    g2.add((toronto[str_id + "SupermarketServiceCapacityUse"], iso21972.hasValue, toronto[str_id + "SupermarketServiceCapacityUseMeasure"]))
+    g2.add((toronto[str_id + "SupermarketServiceCapacityUseMeasure"], RDF.type, iso21972.Measure))
+    g2.add((toronto[str_id + "SupermarketServiceCapacityUseMeasure"], iso21972.hasNumericalValue, Literal(row.nearbySchoolCount/22139)))
+    g2.add((toronto[str_id + "SupermarketServiceCapacityUseMeasure"], iso21972.hasUnit, hp.sites_per_person))
+    
+    g2.add((toronto[str_id + "SupermarketService"], res.hasAvailableCapacity, toronto[str_id + "SupermarketServiceCapacityAvail"]))
+    g2.add((toronto[str_id + "SupermarketServiceCapacityAvail"], RDF.type, hp.SupermarketsPopulationRatio))
+
+    g2.add((toronto[str_id + "SupermarketServiceCapacityAvail"], iso21972.hasValue, toronto[str_id + "SupermarketServiceCapacityAvailMeasure"]))
+    g2.add((toronto[str_id + "SupermarketServiceCapacityAvailMeasure"], RDF.type, iso21972.Measure))
+    g2.add((toronto[str_id + "SupermarketServiceCapacityAvailMeasure"], iso21972.hasNumericalValue, Literal(0.001 - row.nearbySchoolCount/22139)))
+    g2.add((toronto[str_id + "SupermarketServiceCapacityAvailMeasure"], iso21972.hasUnit, hp.sites_per_person))
+
 
 # Generate triples for each instance
 for element in amenity["features"]:
@@ -215,11 +244,37 @@ for element in amenity["features"]:
         
     g2.add((toronto[instancename + "Service"], res.hasCapacity, toronto[instancename + "ServiceCapacity"]))
     g2.add((toronto[instancename + "ServiceCapacity"], RDF.type, hp.MinSupermarketsPopulationRatio))    
-
     g2.add((toronto[instancename + "ServiceCapacity"], iso21972.hasValue, toronto[instancename + "ServiceCapacityMeasure"]))
     g2.add((toronto[instancename + "ServiceCapacityMeasure"], RDF.type, iso21972.Measure))
     g2.add((toronto[instancename + "ServiceCapacityMeasure"], iso21972.hasNumericalValue, Literal(0.001)))
     g2.add((toronto[instancename + "ServiceCapacityMeasure"], iso21972.hasUnit, hp.sites_per_person))
+    
+    # If the current supermarket does not have a numerator, assume a numerator 
+    # value of 1 and create triples for available capacity information
+    if str(osmid) not in numeratorlist:
+        str_id = str(osmid)
+        
+        g2.add((toronto[str_id + "SupermarketServiceCapacityUse"], iso21972.numerator, toronto[str_id + "CatchmentSupermarketCount"]))
+        g2.add((toronto[str_id + "CatchmentSupermarketCount"], RDF.type, iso21972.Population))
+        g2.add((toronto[str_id + "CatchmentSupermarketCount"], iso21972.hasValue, toronto[str_id + "CatchmentSupermarketCountMeasure"]))
+        g2.add((toronto[str_id + "CatchmentSupermarketCountMeasure"], RDF.type, iso21972.Measure))
+        g2.add((toronto[str_id + "CatchmentSupermarketCountMeasure"], iso21972.hasNumericalValue, Literal(1)))
+        g2.add((toronto[str_id + "CatchmentSupermarketCountMeasure"], iso21972.hasUnit, iso21972.population_cardinality_unit))
+
+        g2.add((toronto[str_id + "SupermarketServiceCapacityUse"], iso21972.hasValue, toronto[str_id + "SupermarketServiceCapacityUseMeasure"]))
+        g2.add((toronto[str_id + "SupermarketServiceCapacityUseMeasure"], RDF.type, iso21972.Measure))
+        g2.add((toronto[str_id + "SupermarketServiceCapacityUseMeasure"], iso21972.hasNumericalValue, Literal(1/22139)))
+        g2.add((toronto[str_id + "SupermarketServiceCapacityUseMeasure"], iso21972.hasUnit, hp.sites_per_person))
+        
+        g2.add((toronto[str_id + "SupermarketService"], res.hasAvailableCapacity, toronto[str_id + "SupermarketServiceCapacityAvail"]))
+        g2.add((toronto[str_id + "SupermarketServiceCapacityAvail"], RDF.type, hp.SupermarketsPopulationRatio))
+
+        g2.add((toronto[str_id + "SupermarketServiceCapacityAvail"], iso21972.hasValue, toronto[str_id + "SupermarketServiceCapacityAvailMeasure"]))
+        g2.add((toronto[str_id + "SupermarketServiceCapacityAvailMeasure"], RDF.type, iso21972.Measure))
+        g2.add((toronto[str_id + "SupermarketServiceCapacityAvailMeasure"], iso21972.hasNumericalValue, Literal(0.001 - 1/22139)))
+        g2.add((toronto[str_id + "SupermarketServiceCapacityAvailMeasure"], iso21972.hasUnit, hp.sites_per_person))
+
+
     
     # Initialize variables
     osmid = re.sub("[^0-9]", "", element["id"])
@@ -368,20 +423,7 @@ for element in amenity["features"]:
     except:
         pass
 
-for row in df.itertuples(index=False):
-    str_id = "".join(filter(str.isdigit, row.s))
-    
-    g2.add((toronto[str_id + "SupermarketServiceCapacityUse"], iso21972.numerator, toronto[str_id + "CatchmentSupermarketCount"]))
-    g2.add((toronto[str_id + "CatchmentSupermarketCount"], RDF.type, iso21972.Population))
-    g2.add((toronto[str_id + "CatchmentSupermarketCount"], iso21972.hasValue, toronto[str_id + "CatchmentSupermarketCountMeasure"]))
-    g2.add((toronto[str_id + "CatchmentSupermarketCountMeasure"], RDF.type, iso21972.Measure))
-    g2.add((toronto[str_id + "CatchmentSupermarketCountMeasure"], iso21972.hasNumericalValue, Literal(row.nearbySchoolCount)))
-    g2.add((toronto[str_id + "CatchmentSupermarketCountMeasure"], iso21972.hasUnit, iso21972.population_cardinality_unit))
 
-    g2.add((toronto[str_id + "SupermarketServiceCapacityUse"], iso21972.hasValue, toronto[str_id + "SupermarketServiceCapacityUseMeasure"]))
-    g2.add((toronto[str_id + "SupermarketServiceCapacityUseMeasure"], RDF.type, iso21972.Measure))
-    g2.add((toronto[str_id + "SupermarketServiceCapacityUseMeasure"], iso21972.hasNumericalValue, Literal(row.nearbySchoolCount/22139)))
-    g2.add((toronto[str_id + "SupermarketServiceCapacityUseMeasure"], iso21972.hasUnit, hp.sites_per_person))
 # Export the RDF graph as a .ttl file
 g.serialize(destination= amenityname + ".ttl")
 g2.serialize(destination= amenityname + "Capacity.ttl")

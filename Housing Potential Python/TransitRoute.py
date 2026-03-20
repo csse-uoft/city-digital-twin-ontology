@@ -118,6 +118,7 @@ for row in synthetic.itertuples():
         g2.add((toronto[routeid + "RouteServiceCapacityAvailMeasure"], iso21972.hasUnit, hp.person_per_day))   
     except:
         print (routeid)
+        
 # Export the RDF graph as a .ttl file
 g2.serialize(destination="TransitSynthetic.ttl")
 
