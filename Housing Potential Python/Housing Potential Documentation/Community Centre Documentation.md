@@ -1,4 +1,4 @@
-Community Centre Documentation
+# Community Centre Documentation
 
 
 Relevant Python Scripts: 
