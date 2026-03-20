@@ -1,4 +1,4 @@
-Hospital Documentation
+# Hospital Documentation
 
 
 Relevant Python Scripts: 
