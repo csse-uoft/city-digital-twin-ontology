@@ -1,4 +1,4 @@
-Wastewater Documentation
+# Wastewater Documentation
 
 
 Relevant Python Scripts: 
