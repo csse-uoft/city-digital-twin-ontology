@@ -1,4 +1,4 @@
-Solid Waste Documentation
+# Solid Waste Documentation
 
 
 Relevant Python Scripts: 
