@@ -1,4 +1,4 @@
-CACensus Documentation
+# CACensus Documentation
 
 
 Relevant Python Scripts: 
