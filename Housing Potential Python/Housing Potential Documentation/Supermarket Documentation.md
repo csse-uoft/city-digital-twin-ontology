@@ -1,4 +1,4 @@
-Supermarket Documentation
+# Supermarket Documentation
 
 
 Relevant Python Scripts: 
