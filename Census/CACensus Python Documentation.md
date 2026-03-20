@@ -10,15 +10,13 @@ Relevant Python Scripts:
         * 2016 census profiles for all of Canada can be found here
 
 
-
-
 **Inputs**
 
 
   1. **Census Profiles for All Census Tracts In Toronto as CSV Files**
      * Dataset links
        * <https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/prof/index.cfm?Lang=E>
-     * For convenience, the census profiles for every census tract in Toronto can be found in the CensusCSV folder in our shared OneDrive as CSV files (GitHub has file size limitations that prevent the uploading of this data).
+     * For convenience, the census profiles for every census tract in Toronto can be found in the CensusCSV folder in our shared OneDrive as CSV files.
   2. **census3.json**
      * GitHub link
        * <https://github.com/csse-uoft/city-digital-twin-ontology/blob/main/Census/census3.json>
