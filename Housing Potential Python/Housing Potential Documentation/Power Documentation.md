@@ -1,4 +1,4 @@
-Power Documentation
+# Power Documentation
 
 
 Relevant Python Scripts: 
