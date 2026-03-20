@@ -1,4 +1,4 @@
-Public Schools Documentation
+# Public Schools Documentation
 
 
 Relevant Python Scripts: 
