@@ -53,8 +53,7 @@ ontology definitions that follow:
 - mer:
   https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/
 
-opr:
-http://www.theworldavatar.com/ontology/ontoplanningregulation/OntoPlanningRegulation.owl#
+- opr:http://www.theworldavatar.com/ontology/ontoplanningregulation/OntoPlanningRegulation.owl#
 
 - rdfs: http://www.w3.org/2000/01/rdf-schema#
 
