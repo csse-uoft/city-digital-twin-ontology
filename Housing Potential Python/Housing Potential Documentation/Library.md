@@ -40,7 +40,8 @@ This section provides a brief summary of how the tags used in OpenStreetMap and 
 
 ![Figure 1](https://github.com/csse-uoft/city-digital-twin-ontology/blob/d7a47ad419f6db2977fadaf32cc502cc4592e8ea/Housing%20Potential%20Python/Housing%20Potential%20Diagrams/Figure%201%20Diagram%20of%20Library%20Pattern.png)
 
-*<u>Figure 1: Diagram of Library Pattern</u>*
+*<u>**Figure 1**: Diagram of Library Pattern</u>*
+
 
 <table>
 <colgroup>
@@ -519,7 +520,7 @@ This section provides a brief summary of how the tags used in OpenStreetMap and 
 </tbody>
 </table>
 
-Table 1: Mapping OpenStreetMap Library Data to City Digital Twin
+**Table 1**: Mapping OpenStreetMap Library Data to City Digital Twin
 
 <table>
 <colgroup>
@@ -1019,7 +1020,7 @@ Table 1: Mapping OpenStreetMap Library Data to City Digital Twin
 </tbody>
 </table>
 
-Table 2: Mapping Toronto Open Data Portal Library Data to City Digital Twin
+**Table 2**: Mapping Toronto Open Data Portal Library Data to City Digital Twin
 
 ### Implementation of Library Data in Mapping TTL
 
@@ -1189,4 +1190,3 @@ The script iterates through OSM GeoJSON features:
 
 - **Address parsing** assumes the TPL Address field is a comma-separated string with street and city components; unusual formats may parse imperfectly.
 
-If you want, paste your preferred “Library Implementation” formatting (exact bullet/numbering style like Water), and I’ll match it 1:1 (including your exact heading names and indentation).
