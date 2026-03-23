@@ -436,6 +436,7 @@ restrict parameters more precisely - that should be addressed by
 </tr>
 </tbody>
 </table>
+
 Table 3: Mapping the defined Frontage restriction for lots in the zone
 in Toronto
 
@@ -574,6 +575,7 @@ specified by the geometry, e.g. tor:area_{OBJECTID}_geometry</td>
 </tr>
 </tbody>
 </table>
+
 Table 4: Mapping the maximum number of units per lot in the zone in
 Toronto
 
@@ -692,6 +694,7 @@ letter "d" in residential zones.)</p>
 </tr>
 </tbody>
 </table>
+
 Table 5: Mapping of density regulation in a zone in Toronto
 
 
@@ -724,6 +727,7 @@ layer)
 |                             | tor:height_zone{\_id}MaxHeight             | i72:parameter_of_var   | tor:height_zone{\_id}BuildingHeight        |                                                                 |
 |                             | tor:height_zone{\_id}BuildingHeight        | i72:hasName            | "hp:hasBuildngHeight"                      |                                                                 |
 |                             | tor:BuildingPopulation                     | rdfs:subClassOf        | i72:Population                             |                                                                 |
+
 Table 6: Mapping of Zoning Height Overlay in Toronto
 
 
