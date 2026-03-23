@@ -82,7 +82,7 @@ These references are useful for referencing the relevant parts of a
 document for a restriction.
 
 
-![alt text](Picture1.png)
+![Figure 1](https://github.com/csse-uoft/city-digital-twin-ontology/blob/48f10fcb7b7cc4179f7bf0068468f43fa7bb4c6d/Housing%20Potential%20Python/Housing%20Potential%20Diagrams/Figure%201%20Diagram%20of%20bylaw%20reference%20mapping%20result.png)
 Figure 1: Diagram of bylaw reference mapping result
 
 - ZN_STATUS = (Status of the Zone, primarily indicating whether the
