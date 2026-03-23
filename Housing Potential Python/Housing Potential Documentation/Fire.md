@@ -27,8 +27,9 @@ The following is a list of namespace prefixes<u> used in the mappings and ontol
 - res: https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Resource/
 
 - i72: http://ontology.eil.utoronto.ca/ISO21972/iso21972#
+- 
 
-<img src="media/image1.png" style="width:6.5in;height:3.31736in" alt="A black screen with white rectangles AI-generated content may be incorrect." />
+![Figure 1](https://github.com/csse-uoft/city-digital-twin-ontology/blob/e7ddff502e8b82190e12781280852868372c9853/Housing%20Potential%20Python/Housing%20Potential%20Diagrams/Figure%201%20Diagram%20of%20Fire%20Pattern..png)
 
 Figure 1: Diagram of Fire Pattern.
 
