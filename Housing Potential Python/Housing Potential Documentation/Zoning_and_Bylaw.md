@@ -92,7 +92,7 @@ Figure 1: Diagram of bylaw reference mapping result
 
 - Used as a filter; map as follows if {ZN_STATUS} != 5
 
-Table 1: Mapping bylaw references from Toronto "Zone Categories" data
+
 
 | **"Zone Categories" Field**               | **Mapping to HPCDM**                        |                             |                                             |           |
 |-------------------------------------------|---------------------------------------------|-----------------------------|---------------------------------------------|-----------|
@@ -108,6 +108,9 @@ Table 1: Mapping bylaw references from Toronto "Zone Categories" data
 | ZBL_SECTN = (By-law text section number)  | tor:zoning_by-law_569-2013_CH{ZBL_CHAPTR}   | mer:hasProperPart           | tor:zoning_by-law_569-2013_SECTN{ZBL_SECTN} |           |
 |                                           | tor:zoning_by-law_569-2013_SECTN{ZBL_SECTN} | rdf:type                    | hp:ZoiningBylawPart                         |           |
 |                                           | tor:zoning_by-law_569-2013_SECTN{ZBL_SECTN} | genprop:hasIdentifier       | {ZBL_SECTN}                                 |           |
+
+Table 1: Mapping bylaw references from Toronto "Zone Categories" data
+
 
 ![Figure 2](https://github.com/csse-uoft/city-digital-twin-ontology/blob/8805fc77c472c008d82c617f019b663efd477a6e/Housing%20Potential%20Python/Housing%20Potential%20Diagrams/Figure%202%20Diagram%20of%20zoning%20type%20assignment%20mapping%20result.png)
 
@@ -131,7 +134,7 @@ details of the exception(s) are defined furtherby the bylaw (chapter
 900) and should be incorported into the definition of the individual
 zoning type (ZN_STRING)
 
-Table 2: Mapping zoning type assignments in Toronto
+
 
 <table>
 <colgroup>
@@ -290,6 +293,9 @@ bylaw</td>
 </tr>
 </tbody>
 </table>
+Table 2: Mapping zoning type assignments in Toronto
+
+
 
 The zoning type is defined with the instantiation of any applicable
 regulations. Here, we outline example mappings for frontage, unit, and
@@ -310,8 +316,7 @@ implementation.
 
 Figure 3: Diagram of Frontage restriction mapping result
 
-Table 3: Mapping the defined Frontage restriction for lots in the zone
-in Toronto
+
 
 <table>
 <colgroup>
@@ -431,6 +436,9 @@ restrict parameters more precisely - that should be addressed by
 </tr>
 </tbody>
 </table>
+Table 3: Mapping the defined Frontage restriction for lots in the zone
+in Toronto
+
 
 Table 4 specifies the mapping to formalize the maximum number of
 dwelling units per lot for a particular zone. It is defined as another
@@ -442,8 +450,7 @@ represent the quantity associated with the regulation
 in the HPCDM. Any characteristics not covered by the model could be
 defined in an extension.
 
-Table 4: Mapping the maximum number of units per lot in the zone in
-Toronto
+
 
 <table>
 <colgroup>
@@ -567,13 +574,15 @@ specified by the geometry, e.g. tor:area_{OBJECTID}_geometry</td>
 </tr>
 </tbody>
 </table>
+Table 4: Mapping the maximum number of units per lot in the zone in
+Toronto
+
 
 Table 5 specifies the mapping to represent a regulation on density in
 the zone. This regulation specifies a limit on floor space index (FSI)
 and so is defined as a LotFSI value. LotFSI is defined in the HPCDM as a
 ratio of gross floor area to lot area.
 
-Table 5: Mapping of density regulation in a zone in Toronto
 
 <table>
 <colgroup>
@@ -683,6 +692,8 @@ letter "d" in residential zones.)</p>
 </tr>
 </tbody>
 </table>
+Table 5: Mapping of density regulation in a zone in Toronto
+
 
 Table 6 specifies the mapping to represent [Zoning Height
 Overlay](https://open.toronto.ca/dataset/zoning-by-law/). The same
@@ -690,7 +701,6 @@ general approach can be defined for any area-based regulations defined
 independently of zoning types (not incorporated in the zoning area
 layer)
 
-Table 6: Mapping of Zoning Height Overlay in Toronto
 
 | **"Zone Categories" Field** | **Mapping to HPCDM**                       |                        |                                            |                                                                 |
 |-----------------------------|--------------------------------------------|------------------------|--------------------------------------------|-----------------------------------------------------------------|
@@ -714,6 +724,8 @@ Table 6: Mapping of Zoning Height Overlay in Toronto
 |                             | tor:height_zone{\_id}MaxHeight             | i72:parameter_of_var   | tor:height_zone{\_id}BuildingHeight        |                                                                 |
 |                             | tor:height_zone{\_id}BuildingHeight        | i72:hasName            | "hp:hasBuildngHeight"                      |                                                                 |
 |                             | tor:BuildingPopulation                     | rdfs:subClassOf        | i72:Population                             |                                                                 |
+Table 6: Mapping of Zoning Height Overlay in Toronto
+
 
 ## 
 
