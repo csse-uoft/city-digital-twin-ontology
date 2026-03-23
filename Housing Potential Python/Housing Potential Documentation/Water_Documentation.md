@@ -59,7 +59,8 @@ and ontology definitions that follow</u>: 
 
 ![Figure 1](https://github.com/csse-uoft/city-digital-twin-ontology/blob/8805fc77c472c008d82c617f019b663efd477a6e/Housing%20Potential%20Python/Housing%20Potential%20Diagrams/Figure%201%20Diagram%20of%20bylaw%20reference%20mapping%20result.png)
 
-Figure 1: Diagram of Water Pattern.
+**Figure 1**: Diagram of Water Pattern.
+
 
 | **Data Provided by Watermains Dataset** |                                                |                       |                                                |                                                       |
 |-----------------------------------------|------------------------------------------------|-----------------------|------------------------------------------------|-------------------------------------------------------|
@@ -70,16 +71,15 @@ Figure 1: Diagram of Water Pattern.
 |                                         | tor:waterservice\_ distributionpipes{\_id}     | loc:hasLocation       | tor:waterservice\_ distributionpipes_loc{\_id} |                                                       |
 | geometry                                | tor:waterservice\_ distributionpipes_loc{\_id} | geo:asWKT             | "{geo}"                                        | Geometry.                                             |
 
-: Mapping Watermains Data to City Digital Twins
+**Table 1**: Mapping Watermains Data to City Digital Twins
+
 
 | **Data Provided by Ward Locations Dataset** |                                                      |                 |            |                                                                                                                                        |
 |---------------------------------------------|------------------------------------------------------|-----------------|------------|----------------------------------------------------------------------------------------------------------------------------------------|
 | **Field Name**                              | **Subject**                                          | **Property**    | **Object** | **Notes**                                                                                                                              |
 | loc                                         | tor:water_distributionservice \_ward_catchment{Ward} | loc:hasLocation | {loc}      | parse the tor:{ward} value for {s} to generate the ward number needed for {Ward} in tor:water_distributionservice_ward_catchment{Ward} |
 
-: Mapping Water Capacity Data to City Digital Twins
-
-Table 2: Mapping Ward Locations Data to City Digital Twins
+**Table 2**: Mapping Ward Locations Data to City Digital Twins
 
 Toronto [Watermain
 locations](https://data.urbandatacentre.ca/catalogue/watermains)
@@ -197,7 +197,7 @@ ward{Ward}_{Year}_capacityuse_measure</td>
 </tbody>
 </table>
 
-Table 3: Mapping Water Billing (by ward) Data to City Digital Twins
+**Table 3**: Mapping Water Billing (by ward) Data to City Digital Twins
 
 Toronto [Water billing by
 ward](https://data.urbandatacentre.ca/catalogue/city-toronto-water-billing-by-ward)
@@ -308,6 +308,9 @@ Dataset</strong></th>
 </tr>
 </tbody>
 </table>
+
+**Table 4**: Mapping Water Capacity Data to City Digital Twins
+
 
 Implementation of Water Data in Mapping TTL
 
