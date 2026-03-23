@@ -93,7 +93,7 @@ The following is a list of namespace prefixes<u> used in the mappings and ontol
 
     - This could be captured as a “capacity in use” metric of the actual ratio, however it is not worthwhile encoding this as it is too general to be useful for the use cases
 
-- There is the potential to link each catchment area to a specific fire station (corresponding to a sub-service of tor:emergency_service), however this is not
+- There is the potential to link each catchment area to a specific fire station (corresponding to a sub-service of tor:emergency_service), however this is not required by the use cases
 
 # Implementation of Fire Data in Mapping TTL
 
