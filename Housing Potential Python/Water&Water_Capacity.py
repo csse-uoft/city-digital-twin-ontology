@@ -135,10 +135,9 @@ ISO50871 = Namespace("http://ontology.eil.utoronto.ca/5087/1/SpatialLoc/")  # ns
 toronto_g = Graph()
 toronto_g.parse(TORONTO_TTL_PATH, format="turtle")
 
-ward_loc_index: dict[str, str] = {}
+ward_wkt_index: dict[str, object] = {}
 
 for ward_uri in toronto_g.subjects(RDF.type, TORONTO_NS.Ward):
-    # ward URIs look like ...#ward16, ...#ward3, etc.
     local = str(ward_uri).split("#")[-1]
     digits = "".join(ch for ch in local if ch.isdigit())
     ward_num = digits.lstrip("0") or "0"
@@ -147,19 +146,17 @@ for ward_uri in toronto_g.subjects(RDF.type, TORONTO_NS.Ward):
     if loc_uri is None:
         continue
 
-    ward_loc_index[ward_num] = str(loc_uri)
+    wkt_lit = next(toronto_g.objects(loc_uri, GEO.asWKT), None)
+    if wkt_lit is None:
+        continue
 
-    # create the catchment + link to the ward location
+    ward_wkt_index[ward_num] = wkt_lit
+
     catchment_uri = TOR[f"water_distributionservice_ward_catchment{ward_num}"]
     g.add((catchment_uri, RDF.type, SERVICE.CatchmentArea))
-    g.add((catchment_uri, LOC.hasLocation, loc_uri))
+    g.add((catchment_uri, GEO.asWKT, wkt_lit))
 
-    # OPTIONAL (recommended): copy the geometry into your output TTL so it's self-contained
-    for wkt_lit in toronto_g.objects(loc_uri, GEO.asWKT):
-        g.add((loc_uri, RDF.type, LOC.Location))
-        g.add((loc_uri, GEO.asWKT, wkt_lit))
-
-print(f"[WARD-OFFLINE] loaded {len(ward_loc_index)} wards from {TORONTO_TTL_PATH}")
+print(f"[WARD-OFFLINE] loaded {len(ward_wkt_index)} wards from {TORONTO_TTL_PATH}")
 
 
 
@@ -228,9 +225,9 @@ for xls_path in consumption_files:
         g.add((distribution_uri, SERVICE.hasCatchmentArea, catchment_uri))
         g.add((distribution_uri, RDF.type, TOR.TorWaterService))
 
-        if ward_num in ward_loc_index:
+        if ward_num in ward_wkt_index:
             g.add((catchment_uri, RDF.type, SERVICE.CatchmentArea))
-            g.add((catchment_uri, LOC.hasLocation, URIRef(ward_loc_index[ward_num])))
+            g.add((catchment_uri, GEO.asWKT, ward_wkt_index[ward_num]))
 
         g.add((distribution_uri, CHANGE.existsAt, interval_uri))
         g.add((interval_uri, TIME.hasBeginning, start_uri))
