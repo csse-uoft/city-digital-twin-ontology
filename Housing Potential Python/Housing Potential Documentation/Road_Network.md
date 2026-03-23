@@ -73,8 +73,9 @@ The following is a list of namespace prefixes used in the mappings and ontology 
 - res: <https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Resource/>
 
 - orn: http://ontology.eil.toronto.ca/Ontario/OMNR/ORNELEM#
+- 
 
-<img src="Road_Network_media/image1.png" style="width:6.07639in;height:3.20439in" alt="A black screen with white squares AI-generated content may be incorrect." />
+![Figure 1](https://github.com/csse-uoft/city-digital-twin-ontology/blob/7c01273321c48ff630beffff2193fd3583f445ca/Housing%20Potential%20Python/Housing%20Potential%20Diagrams/Figure%201%20Diagram%20of%20the%20Transportation%20Network%20Pattern.png)
 
 *<u>Figure 1: Diagram of the Transportation Network Pattern</u>*
 
@@ -153,7 +154,7 @@ Information regarding the junctions in the dataset specified in the ORN_JUNCTION
 <td>cdt:hasJunctionType</td>
 <td>orn:junction_ type_{JUNCTION_ID}</td>
 <td rowspan="4"><p>The classification of a junction is based on the valency of the junction. The number of road elements or ferry connections joining at a junction is termed the valency of a junction.</p>
-<p><img src="Road_Network_media/image2.png" style="width:1.52688in;height:0.83401in" alt="Picture 1, Picture" /></p></td>
+<p></td>
 </tr>
 <tr class="odd">
 <td>orn:junction_ type_{JUNCTION_ID}</td>
@@ -233,7 +234,7 @@ Each RoadLink instance is generated using the unique OGF_ID as an identifier (e.
 
 Each RoadLink can be one of three element types: Ferry Connection, Road Element, and Virtual Road. We use the ELEM_TYPE attribute in the shapefile to filter out all the roads that are of type “Virtual Road.”
 
-<img src="Road_Network_media/image3.png" style="width:5.54869in;height:3.03472in" alt="Picture 1, Picture" />
+![Figure 1](https://github.com/csse-uoft/city-digital-twin-ontology/blob/751b7cde9ef9c6a9d22b4ba7dded51282c157016/Housing%20Potential%20Python/Housing%20Potential%20Diagrams/Figure%202%20Descriptions%20of%20road%20element%20types%20from%20the%20ORN%20dataset%2C%20including%20ferry%20connections%2C%20standard%20road%20elements%2C%20and%20virtual%20roads%20used%20for%20addressing%20in%20inaccessible%20areas.png)
 
 *<u>Figure 2: Descriptions of road element types from the ORN dataset, including ferry connections, standard road elements, and virtual roads used for addressing in inaccessible areas</u>*
 
@@ -249,7 +250,7 @@ Each RoadLink can be one of three element types: Ferry Connection, Road Element,
 </colgroup>
 <thead>
 <tr class="header">
-<th colspan="5"><img src="Road_Network_media/image4.png" alt="A diagram of a computer AI-generated content may be incorrect., Picture" />Data Provided by ORN_ROAD_NET_ELEMENT.shp:</th>
+<th colspan="5">
 </tr>
 </thead>
 <tbody>
@@ -325,7 +326,7 @@ Each RoadLink can be one of three element types: Ferry Connection, Road Element,
 <td>cdt:dataAquisitionTechnique</td>
 <td>orn:acqtech_ {OGF_ID}</td>
 <td rowspan="4"><p>The type of data source or technique used to create or revise the road net element. </p>
-<p><img src="Road_Network_media/image5.png" style="width:1.51496in;height:2.58968in" alt="Picture 1, Picture" /></p></td>
+<p></p></td>
 </tr>
 <tr class="even">
 <td>orn:acqtech_ {OGF_ID}</td>
@@ -542,7 +543,7 @@ Each RoadLink can be one of three element types: Ferry Connection, Road Element,
 <td>cdt:hasRoadClass</td>
 <td>orn:roadClass_{OGF_ID}</td>
 <td rowspan="4"><p>The classification of a road.</p>
-<p><img src="Road_Network_media/image6.png" style="width:1.51496in;height:2.62014in" alt="Picture 1, Picture" /></p></td>
+<p></p></td>
 </tr>
 <tr class="odd">
 <td>orn:roadClass_{OGF_ID}</td>
@@ -613,7 +614,7 @@ Each RoadLink can be one of three element types: Ferry Connection, Road Element,
 <td>cdt:hasSurfaceType</td>
 <td>orn:surface_type_{OGF_ID}</td>
 <td rowspan="4"><p>A linear event indicating the surface type of a road element.</p>
-<p><img src="Road_Network_media/image7.png" style="width:1.53736in;height:0.74306in" alt="Picture 1, Picture" /></p></td>
+<p></p></td>
 </tr>
 <tr class="odd">
 <td>orn:surface_type_{OGF_ID}</td>
@@ -698,7 +699,7 @@ Each RoadLink can be one of three element types: Ferry Connection, Road Element,
 <td>transinfras:supports</td>
 <td>Infras: {STRUCTURE_ TYPE}_{OGF_ID}</td>
 <td rowspan="2"><p>The classification of a structure, that exists on a road element and is managed as a linear event.</p>
-<p><img src="Road_Network_media/image8.png" style="width:1.56567in;height:1.60417in" alt="Picture 1, Picture" /></p></td>
+<p></p></td>
 </tr>
 <tr class="odd">
 <td>Infras: {STRUCTURE_ TYPE}_{OGF_ID}</td>
@@ -740,7 +741,7 @@ Each RoadLink can be one of three element types: Ferry Connection, Road Element,
 <td>cdt:hasTollPoint</td>
 <td>orn:tollPoint_ {OGF_ID}</td>
 <td rowspan="4"><p>A point event on a road element identifying the existence of an underpass. An underpass occurs where the road element runs underneath a passage accommodating the movement of water, a building, road, rail, pedestrian or wildlife.</p>
-<p><img src="Road_Network_media/image9.png" style="width:1.53472in;height:0.91832in" alt="Picture 1, Picture" /></p></td>
+<p></p></td>
 </tr>
 <tr class="odd">
 <td>orn:tollPoint_ {OGF_ID}</td>
@@ -791,7 +792,7 @@ Each RoadLink can be one of three element types: Ferry Connection, Road Element,
 <td>cdt:hasUnderpass</td>
 <td>orn:underpass_{OGF_ID}</td>
 <td rowspan="6"><p>Identifies the type of underpass present at this road location.</p>
-<p><img src="Road_Network_media/image10.png" style="width:1.52083in;height:1.00973in" alt="Picture 1, Picture" /></p></td>
+<p></p></td>
 </tr>
 <tr class="odd">
 <td>orn:underpass_{OGF_ID}</td>
