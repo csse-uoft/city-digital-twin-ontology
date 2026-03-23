@@ -1022,7 +1022,7 @@ This section provides a brief summary of how the tags used in OpenStreetMap and 
 
 **Table 2**: Mapping Toronto Open Data Portal Library Data to City Digital Twin
 
-### Implementation of Library Data in Mapping TTL
+# Implementation of Library Data in Mapping TTL
 
 **Script:** [Library.py](https://github.com/csse-uoft/city-digital-twin-ontology/tree/main/Housing%20Potential%20Python)
 
