@@ -81,9 +81,8 @@ chapter identify the relevant parts for the identified zoning type.
 These references are useful for referencing the relevant parts of a
 document for a restriction.
 
-<img src="media/image1.png" style="width:3.67692in;height:2.77026in"
-alt="A screenshot of a computer screen AI-generated content may be incorrect." />
 
+![alt text](Picture1.png)
 Figure 1: Diagram of bylaw reference mapping result
 
 - ZN_STATUS = (Status of the Zone, primarily indicating whether the
