@@ -82,7 +82,7 @@ These references are useful for referencing the relevant parts of a
 document for a restriction.
 
 
-![Figure 1](https://github.com/csse-uoft/city-digital-twin-ontology/blob/48f10fcb7b7cc4179f7bf0068468f43fa7bb4c6d/Housing%20Potential%20Python/Housing%20Potential%20Diagrams/Figure%201%20Diagram%20of%20bylaw%20reference%20mapping%20result.png)
+![Figure 1](https://github.com/csse-uoft/city-digital-twin-ontology/blob/8805fc77c472c008d82c617f019b663efd477a6e/Housing%20Potential%20Python/Housing%20Potential%20Diagrams/Figure%201%20Diagram%20of%20bylaw%20reference%20mapping%20result.png)
 
 Figure 1: Diagram of bylaw reference mapping result
 
@@ -109,7 +109,7 @@ Table 1: Mapping bylaw references from Toronto "Zone Categories" data
 |                                           | tor:zoning_by-law_569-2013_SECTN{ZBL_SECTN} | rdf:type                    | hp:ZoiningBylawPart                         |           |
 |                                           | tor:zoning_by-law_569-2013_SECTN{ZBL_SECTN} | genprop:hasIdentifier       | {ZBL_SECTN}                                 |           |
 
-![Figure 2](https://github.com/csse-uoft/city-digital-twin-ontology/blob/e12477edc1505d75bc6ed457df8d43a5bdbec0a7/Housing%20Potential%20Python/Housing%20Potential%20Diagrams/Figure%202%20Diagram%20of%20zoning%20type%20assignment%20mapping%20result.png)
+![Figure 2](https://github.com/csse-uoft/city-digital-twin-ontology/blob/8805fc77c472c008d82c617f019b663efd477a6e/Housing%20Potential%20Python/Housing%20Potential%20Diagrams/Figure%202%20Diagram%20of%20zoning%20type%20assignment%20mapping%20result.png)
 
 Figure 2: Diagram of zoning type assignment mapping result
 
@@ -306,7 +306,7 @@ required classes could be identified and defined in a separate extension
 to the HPCDM, such that they could be referenced directly in any mapping
 implementation.
 
-![Figure 3](https://github.com/csse-uoft/city-digital-twin-ontology/blob/e12477edc1505d75bc6ed457df8d43a5bdbec0a7/Housing%20Potential%20Python/Housing%20Potential%20Diagrams/Figure%203%20Diagram%20of%20Frontage%20restriction%20mapping%20result.png)
+![Figure 3](https://github.com/csse-uoft/city-digital-twin-ontology/blob/8805fc77c472c008d82c617f019b663efd477a6e/Housing%20Potential%20Python/Housing%20Potential%20Diagrams/Figure%203%20Diagram%20of%20Frontage%20restriction%20mapping%20result.png)
 
 Figure 3: Diagram of Frontage restriction mapping result
 
