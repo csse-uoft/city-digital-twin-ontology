@@ -1235,5 +1235,3 @@ The core graph is serialized to toronto_roads.ttl, and the synthetic capacity gr
 - Virtual roads are explicitly excluded from the mapping.
 
 - The transportation capacity values are synthetic approximations intended for demo use, not observed traffic measurements. Capacity-in-use is randomized from estimated capacity.
-
-- The current script types the synthetic service as TORONTO.TorTransportationNetworkServicee, which appears to include an extra e and may need correction if you want it to match the intended ontology class name exactly.
