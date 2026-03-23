@@ -75,7 +75,7 @@ The following is a list of namespace prefixes used in the mappings and ontology 
 - orn: http://ontology.eil.toronto.ca/Ontario/OMNR/ORNELEM#
 - 
 
-![Figure 1](https://github.com/csse-uoft/city-digital-twin-ontology/blob/7c01273321c48ff630beffff2193fd3583f445ca/Housing%20Potential%20Python/Housing%20Potential%20Diagrams/Figure%201%20Diagram%20of%20the%20Transportation%20Network%20Pattern.png)
+![Figure 1](https://github.com/csse-uoft/city-digital-twin-ontology/blob/ce2d59b4f229e20b29a5b11c56fb5b8b562dbefd/Housing%20Potential%20Python/Housing%20Potential%20Diagrams/Figure%201%20Diagram%20of%20the%20Transportation%20Network%20Pattern.png)
 
 *<u>Figure 1: Diagram of the Transportation Network Pattern</u>*
 
