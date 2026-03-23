@@ -109,8 +109,7 @@ Table 1: Mapping bylaw references from Toronto "Zone Categories" data
 |                                           | tor:zoning_by-law_569-2013_SECTN{ZBL_SECTN} | rdf:type                    | hp:ZoiningBylawPart                         |           |
 |                                           | tor:zoning_by-law_569-2013_SECTN{ZBL_SECTN} | genprop:hasIdentifier       | {ZBL_SECTN}                                 |           |
 
-<img src="media/image2.png" style="width:6.5in;height:2.86667in"
-alt="A screenshot of a computer screen AI-generated content may be incorrect." />
+![Figure 2](https://github.com/csse-uoft/city-digital-twin-ontology/blob/e12477edc1505d75bc6ed457df8d43a5bdbec0a7/Housing%20Potential%20Python/Housing%20Potential%20Diagrams/Figure%202%20Diagram%20of%20zoning%20type%20assignment%20mapping%20result.png)
 
 Figure 2: Diagram of zoning type assignment mapping result
 
@@ -307,8 +306,7 @@ required classes could be identified and defined in a separate extension
 to the HPCDM, such that they could be referenced directly in any mapping
 implementation.
 
-<img src="media/image3.png" style="width:6.5in;height:4.24444in"
-alt="A computer screen shot of a diagram AI-generated content may be incorrect." />
+![Figure 3](https://github.com/csse-uoft/city-digital-twin-ontology/blob/e12477edc1505d75bc6ed457df8d43a5bdbec0a7/Housing%20Potential%20Python/Housing%20Potential%20Diagrams/Figure%203%20Diagram%20of%20Frontage%20restriction%20mapping%20result.png)
 
 Figure 3: Diagram of Frontage restriction mapping result
 
