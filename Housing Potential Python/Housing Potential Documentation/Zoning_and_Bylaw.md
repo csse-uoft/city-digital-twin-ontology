@@ -83,7 +83,7 @@ document for a restriction.
 
 ![Figure 1](https://github.com/csse-uoft/city-digital-twin-ontology/blob/8805fc77c472c008d82c617f019b663efd477a6e/Housing%20Potential%20Python/Housing%20Potential%20Diagrams/Figure%201%20Diagram%20of%20bylaw%20reference%20mapping%20result.png)
 
-Figure 1: Diagram of bylaw reference mapping result
+**Figure 1**: Diagram of bylaw reference mapping result
 
 - ZN_STATUS = (Status of the Zone, primarily indicating whether the
   lands have been incorporated into By-law 569-2013 or not.) \[0-4 and 6
@@ -108,12 +108,12 @@ Figure 1: Diagram of bylaw reference mapping result
 |                                           | tor:zoning_by-law_569-2013_SECTN{ZBL_SECTN} | rdf:type                    | hp:ZoiningBylawPart                         |           |
 |                                           | tor:zoning_by-law_569-2013_SECTN{ZBL_SECTN} | genprop:hasIdentifier       | {ZBL_SECTN}                                 |           |
 
-Table 1: Mapping bylaw references from Toronto "Zone Categories" data
+**Table 1**: Mapping bylaw references from Toronto "Zone Categories" data
 
 
 ![Figure 2](https://github.com/csse-uoft/city-digital-twin-ontology/blob/8805fc77c472c008d82c617f019b663efd477a6e/Housing%20Potential%20Python/Housing%20Potential%20Diagrams/Figure%202%20Diagram%20of%20zoning%20type%20assignment%20mapping%20result.png)
 
-Figure 2: Diagram of zoning type assignment mapping result
+**Figure 2**: Diagram of zoning type assignment mapping result
 
 Each row in the table associates a zoning type with a particular area.
 This mapping is outlined in Table 2 Note that each of GEN_ZONE, ZN_ZONE,
@@ -293,7 +293,7 @@ bylaw</td>
 </tbody>
 </table>
 
-Table 2: Mapping zoning type assignments in Toronto
+**Table 2**: Mapping zoning type assignments in Toronto
 
 
 
@@ -314,7 +314,7 @@ implementation.
 
 ![Figure 3](https://github.com/csse-uoft/city-digital-twin-ontology/blob/8805fc77c472c008d82c617f019b663efd477a6e/Housing%20Potential%20Python/Housing%20Potential%20Diagrams/Figure%203%20Diagram%20of%20Frontage%20restriction%20mapping%20result.png)
 
-Figure 3: Diagram of Frontage restriction mapping result
+**Figure 3**: Diagram of Frontage restriction mapping result
 
 
 
@@ -437,7 +437,7 @@ restrict parameters more precisely - that should be addressed by
 </tbody>
 </table>
 
-Table 3: Mapping the defined Frontage restriction for lots in the zone
+**Table 3**: Mapping the defined Frontage restriction for lots in the zone
 in Toronto
 
 
@@ -576,7 +576,7 @@ specified by the geometry, e.g. tor:area_{OBJECTID}_geometry</td>
 </tbody>
 </table>
 
-Table 4: Mapping the maximum number of units per lot in the zone in
+**Table 4**: Mapping the maximum number of units per lot in the zone in
 Toronto
 
 
@@ -695,7 +695,7 @@ letter "d" in residential zones.)</p>
 </tbody>
 </table>
 
-Table 5: Mapping of density regulation in a zone in Toronto
+**Table 5**: Mapping of density regulation in a zone in Toronto
 
 
 Table 6 specifies the mapping to represent [Zoning Height
@@ -728,7 +728,7 @@ layer)
 |                             | tor:height_zone{\_id}BuildingHeight        | i72:hasName            | "hp:hasBuildngHeight"                      |                                                                 |
 |                             | tor:BuildingPopulation                     | rdfs:subClassOf        | i72:Population                             |                                                                 |
 
-Table 6: Mapping of Zoning Height Overlay in Toronto
+**Table 6**: Mapping of Zoning Height Overlay in Toronto
 
 
 ## 
