@@ -27,11 +27,12 @@ The following is a list of namespace prefixes<u> used in the mappings and ontol
 - res: https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Resource/
 
 - i72: http://ontology.eil.utoronto.ca/ISO21972/iso21972#
-- 
+  
 
 ![Figure 1](https://github.com/csse-uoft/city-digital-twin-ontology/blob/e7ddff502e8b82190e12781280852868372c9853/Housing%20Potential%20Python/Housing%20Potential%20Diagrams/Figure%201%20Diagram%20of%20Fire%20Pattern..png)
 
-Figure 1: Diagram of Fire Pattern.
+**Figure 1**: Diagram of Fire Pattern.
+
 
 | **Data Provided by Fire Services Run Areas Dataset** |                               |                          |                               |                                                                                                                                                                         |
 |------------------------------------------------------|-------------------------------|--------------------------|-------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -41,7 +42,8 @@ Figure 1: Diagram of Fire Pattern.
 | AREA_ID                                              | tor:fire_catchment\_{AREA_ID} | genprop:has Identifier   | "{AREA_ID}"                   | Note - there are other attributes for the area (not required)                                                                                                           |
 | geometry                                             | tor:fire_catchment\_{AREA_ID} | geo:asWKT                | {geometry}                    | Geometry.                                                                                                                                                               |
 
-Table 1: Mapping Fire Services Run Areas Data to City Digital Twins
+**Table 1**: Mapping Fire Services Run Areas Data to City Digital Twins
+
 
 | **Data Provided by Fire Facility Locations Dataset** |                                              |                         |                                              |                                                    |
 |------------------------------------------------------|----------------------------------------------|-------------------------|----------------------------------------------|----------------------------------------------------|
@@ -63,7 +65,8 @@ Table 1: Mapping Fire Services Run Areas Data to City Digital Twins
 |                                                      | tor:fire_service{STATION}CapacityMeasure     | i72:hasNumericalValue   | 0.001                                        |                                                    |
 |                                                      | tor:fire_service{STATION}CapacityMeasure     | i72:hasUnit             | i72:population_ratio_unit                    |                                                    |
 
-Table 2: Mapping Fire Facility Locations Data to City Digital Twins
+**Table 2**: Mapping Fire Facility Locations Data to City Digital Twins
+
 
 | **Data Provided by Synthetic firefighter population counts Dataset** |                                                |                          |                                                |                                                                       |
 |----------------------------------------------------------------------|------------------------------------------------|--------------------------|------------------------------------------------|-----------------------------------------------------------------------|
@@ -79,7 +82,8 @@ Table 2: Mapping Fire Facility Locations Data to City Digital Twins
 |                                                                      | tor:fire_service{RUN_AREA}AvailCapacityMeasure | i72:hasNumericalValue    | 0.001 - {Firefighters per person in run area}  |                                                                       |
 |                                                                      | tor:fire_service{RUN_AREA}AvailCapacityMeasure | i72:hasUnit              | i72:population_ratio_unit                      |                                                                       |
 
-Table 3: Mapping Synthetic firefighter population counts Data to City Digital Twins
+**Table 3**: Mapping Synthetic firefighter population counts Data to City Digital Twins
+
 
 - Capacity information:
 
@@ -91,7 +95,7 @@ Table 3: Mapping Synthetic firefighter population counts Data to City Digital Tw
 
 - There is the potential to link each catchment area to a specific fire station (corresponding to a sub-service of tor:emergency_service), however this is not
 
-Implementation of Fire Data in Mapping TTL
+# Implementation of Fire Data in Mapping TTL
 
 **Script:** [Fire.py](https://github.com/csse-uoft/city-digital-twin-ontology/tree/main/Housing%20Potential%20Python)
 
