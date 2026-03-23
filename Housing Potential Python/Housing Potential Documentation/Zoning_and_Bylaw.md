@@ -292,6 +292,7 @@ bylaw</td>
 </tr>
 </tbody>
 </table>
+
 Table 2: Mapping zoning type assignments in Toronto
 
 
