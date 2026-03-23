@@ -319,7 +319,7 @@ for road_name, group in road_groups:
             g.add((road_link_uri, CDT.numLanes, Literal(int(num_lanes), datatype=XSD.integer)))
 
 
-        if pd.notna(road_class and speed_limit and num_lanes): # ORN Capacity
+        if pd.notna(road_class) and pd.notna(speed_limit) and pd.notna(num_lanes) and pd.notna(road_name): # ORN Capacity
             capacity_uri = ORN[f"roadLinkCapacity_{road_id}"]
             capacity_measure_uri = ORN[f"roadLinkCapacityMeasure_{road_id}"]
             in_use_uri = ORN[f"roadLinkCapacityUse_{road_id}"]
@@ -340,7 +340,7 @@ for road_name, group in road_groups:
             synthetic.add((service_uri, RDF.type, TORONTO.TorTransportationNetworkService))
             synthetic.add((service_uri, HP.providedFromSite, road_link_uri))
 
-            synthetic.add((road_link_uri, GEN.hasName, Literal(f"Road Element {road_id}", datatype=XSD.string)))
+            synthetic.add((road_link_uri, GEN.hasName, Literal(f"{road_name} (Road Element {road_id})", datatype=XSD.string)))
 
             synthetic.add((road_link_uri, RES.hasCapacity, capacity_uri))
             synthetic.add((service_uri, RES.hasCapacity, capacity_uri))
@@ -443,7 +443,7 @@ for road_name, group in road_groups:
             g.add((acqtech_Code, GEN.hasName, Literal(acqtech, datatype=XSD.string)))
 
         if pd.notna(road_name):
-            g.add((road_link_uri, GEN.hasName, Literal(road_name, datatype=XSD.string)))
+            g.add((road_link_uri, GEN.hasName, Literal(f"{road_name} (Road Element {road_id})", datatype=XSD.string)))
 
         # if pd.notna(blocked_passage):
         #     blocked_uri = ORN[f"blockedPassage_{road_id}"]
