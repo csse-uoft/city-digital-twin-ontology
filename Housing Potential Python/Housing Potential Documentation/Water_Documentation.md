@@ -56,11 +56,10 @@ and ontology definitions that follow</u>: 
 
 - i72: http://ontology.eil.utoronto.ca/ISO21972/iso21972#
 
-<img src="/mnt/data/Water_Documentation_media/media/image1.png"
-style="width:6.5in;height:3.42778in"
-alt="A screenshot of a computer AI-generated content may be incorrect." />
 
-Figure : Diagram of Water Pattern.
+![Figure 1](https://github.com/csse-uoft/city-digital-twin-ontology/blob/8805fc77c472c008d82c617f019b663efd477a6e/Housing%20Potential%20Python/Housing%20Potential%20Diagrams/Figure%201%20Diagram%20of%20bylaw%20reference%20mapping%20result.png)
+
+Figure 1: Diagram of Water Pattern.
 
 | **Data Provided by Watermains Dataset** |                                                |                       |                                                |                                                       |
 |-----------------------------------------|------------------------------------------------|-----------------------|------------------------------------------------|-------------------------------------------------------|
