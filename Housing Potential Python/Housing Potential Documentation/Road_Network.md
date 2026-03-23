@@ -77,7 +77,7 @@ The following is a list of namespace prefixes used in the mappings and ontology 
 
 ![Figure 1](https://github.com/csse-uoft/city-digital-twin-ontology/blob/ce2d59b4f229e20b29a5b11c56fb5b8b562dbefd/Housing%20Potential%20Python/Housing%20Potential%20Diagrams/Figure%201%20Diagram%20of%20the%20Transportation%20Network%20Pattern.png)
 
-*<u>Figure 1: Diagram of the Transportation Network Pattern</u>*
+*<u>**Figure 1**: Diagram of the Transportation Network Pattern</u>*
 
 ## Junction
 
@@ -195,7 +195,8 @@ Information regarding the junctions in the dataset specified in the ORN_JUNCTION
 </tbody>
 </table>
 
-*<u>Table 1: Mapping ORN_JUNCTION.csv to City Digital Twin</u>*
+*<u>**Table 1**: Mapping ORN_JUNCTION.csv to City Digital Twin</u>*
+
 
 **NOTE:** The TO_JCT and FROM_JCT; are both junction IDs that are within the ORN_JUNCTION.csv files. So, using the ID, we can find the URI for the junction that has already been created. When the junction entities are found, then we use the properties above on the corresponding RoadLinks.
 
@@ -205,7 +206,8 @@ Information regarding the junctions in the dataset specified in the ORN_JUNCTION
 | TO_JCT                                     | orn:Junction\_{JUNCTION_ID} | transnet:ingress | orn:roadLink\_{OGF_ID} | The end junction for a road element or ferry connection.       |
 | FROM_JCT                                   | orn:Junction\_{JUNCTION_ID} | transnet:egress  | orn:roadLink\_{OGF_ID} | The beginning junction for a road element or ferry connection. |
 
-*<u>Table 2: Mapping ORN_ROAD_NET_ELEMENT.shp Junction data to City Digital Twin</u>*
+*<u>**Table 2**: Mapping ORN_ROAD_NET_ELEMENT.shp Junction data to City Digital Twin</u>*
+
 
 ## Road
 
@@ -218,7 +220,8 @@ A Road is modeled as a transinfras:Road, a subclass of TravelledWay, and is defi
 | **Field Name**                                 | **Subject** | **Property**    | **Object**         | **Notes**                                                                                                                                                                                                                        |
 | FULL_STREET_NAME                               | orn:Road    | genprop:hasName | {FULL_STREET_NAME} | This attribute is derived from the individual street name components where present, namely directional prefix, street type prefix, street name body, street type suffix and directional suffix and is stored in upper case text. |
 
-*<u>Table 3: Mapping ORN_OFFICIAL_STREET_NAME.csv Road data to City Digital Twin</u>*
+*<u>**Table 3**: Mapping ORN_OFFICIAL_STREET_NAME.csv Road data to City Digital Twin</u>*
+
 
 The ORN data is grouped using the road name to identify the collection of RoadLinks that form a single Road. A unique URI is generated for each Road entity, and all corresponding RoadLinks are created and linked to that Road using the partwhole:hasProperPart property.
 
@@ -236,7 +239,7 @@ Each RoadLink can be one of three element types: Ferry Connection, Road Element,
 
 ![Figure 1](https://github.com/csse-uoft/city-digital-twin-ontology/blob/751b7cde9ef9c6a9d22b4ba7dded51282c157016/Housing%20Potential%20Python/Housing%20Potential%20Diagrams/Figure%202%20Descriptions%20of%20road%20element%20types%20from%20the%20ORN%20dataset%2C%20including%20ferry%20connections%2C%20standard%20road%20elements%2C%20and%20virtual%20roads%20used%20for%20addressing%20in%20inaccessible%20areas.png)
 
-*<u>Figure 2: Descriptions of road element types from the ORN dataset, including ferry connections, standard road elements, and virtual roads used for addressing in inaccessible areas</u>*
+*<u>**Figure 2**: Descriptions of road element types from the ORN dataset, including ferry connections, standard road elements, and virtual roads used for addressing in inaccessible areas</u>*
 
 **All the following properties are for associated with the cdt:RoadLink class, which is a subclass of the RoadLink class in the TransportationInfrastructure ontology.**
 
@@ -450,7 +453,8 @@ Each RoadLink can be one of three element types: Ferry Connection, Road Element,
 </tbody>
 </table>
 
-*<u>Table 4: Mapping ORN_ROAD_NET_ELEMENT.shp Road Link data to City Digital Twin</u>*
+*<u>**Table 4**: Mapping ORN_ROAD_NET_ELEMENT.shp Road Link data to City Digital Twin</u>*
+
 
 **ORN_SPEED_LIMIT.csv:** The maximum speed limit assigned to a road element in kilometres per hour in accordance with Municipal By-Laws or Provincial Law. In cases where a road element has more than one speed limit value, the speed limit of the longest portion of the road element is supplied.
 
@@ -512,7 +516,8 @@ Each RoadLink can be one of three element types: Ferry Connection, Road Element,
 </tbody>
 </table>
 
-*<u>Table 5: Mapping ORN_SPEED_LIMIT.csv to City Digital Twin</u>*
+*<u>**Table 5**: Mapping ORN_SPEED_LIMIT.csv to City Digital Twin</u>*
+
 
 **ORN_ROAD_CLASS.csv:** A linear event identifying the class of road based on a functional classification schema.
 
@@ -563,7 +568,8 @@ Each RoadLink can be one of three element types: Ferry Connection, Road Element,
 </tbody>
 </table>
 
-*<u>Table 6: Mapping ORN_ROAD_CLASS.csv to City Digital Twin</u>*
+*<u>**Table 6**: Mapping ORN_ROAD_CLASS.csv to City Digital Twin</u>*
+
 
 **ORN_OFFICIAL_STREET_NAME.csv:** An event identifying an official street name and may be associated with a bilingual name.
 
@@ -572,7 +578,8 @@ Each RoadLink can be one of three element types: Ferry Connection, Road Element,
 | **Field Name**                                 | **Subject**            | **Property**    | **Object**          | **Notes**                                                                                                                                                                                                                        |
 | FULL_STREET_NAME                               | orn:roadLink\_{OGF_ID} | genProp:hasName | { FULL_STREET_NAME} | This attribute is derived from the individual street name components where present, namely directional prefix, street type prefix, street name body, street type suffix and directional suffix and is stored in upper case text. |
 
-*<u>Table 7: Mapping ORN_OFFICIAL_STREET_NAME.csv Road Link data to City Digital Twin</u>*
+*<u>**Table 7**: Mapping ORN_OFFICIAL_STREET_NAME.csv Road Link data to City Digital Twin</u>*
+
 
 **ORN_JURISDICTION.csv:** Identifies jurisdictional, or custodianship, responsibility of the road  
 
@@ -583,7 +590,8 @@ Each RoadLink can be one of three element types: Ferry Connection, Road Element,
 |                                        | org:govOrg\_{OGF_ID}   | rdf:type         | org:Government Organization |                                                                                                                                                                                                                                                        |
 |                                        | org:govOrg\_{OGF_ID}   | genprop:hasName  | {JURISDICTION}              |                                                                                                                                                                                                                                                        |
 
-*<u>Table 9: Mapping ORN_JURISDICTION.csv to City Digital Twin</u>*
+*<u>**Table 8**: Mapping ORN_JURISDICTION.csv to City Digital Twin</u>*
+
 
 **ORN_ROAD_SURFACE.csv:** The surface type of a road element.
 
@@ -641,7 +649,8 @@ Each RoadLink can be one of three element types: Ferry Connection, Road Element,
 </tbody>
 </table>
 
-  *<u>Table 10: Mapping ORN_ROAD_SURFACE.csv to City Digital Twin</u>*
+  *<u>**Table 9**: Mapping ORN_ROAD_SURFACE.csv to City Digital Twin</u>*
+  
 
 **ORN_NUMBER_OF_LANES.csv:** A linear event indicating the number of lanes. 
 
@@ -650,7 +659,8 @@ Each RoadLink can be one of three element types: Ferry Connection, Road Element,
 | **Field Name**                            | **Subject**            | **Property** | **Object**          | **Notes**                      |
 | NUMBER_OF_LANES                           | orn:roadLink\_{OGF_ID} | cdt:numLanes | {NUMBER_OF\_ LANES} | The number of lanes of a road. |
 
-*<u>Table 11: Mapping ORN_NUMBER_OF_LANES.csv to City Digital Twin</u>*
+*<u>**Table 10**: Mapping ORN_NUMBER_OF_LANES.csv to City Digital Twin</u>*
+
 
 **ORN_ROUTE_NAME.csv:** The name attached to a road net element as defined by a Municipality, Provincial Ministry, or Federal Agency and is associated to an established and/or maintained route.  
 
@@ -659,7 +669,8 @@ Each RoadLink can be one of three element types: Ferry Connection, Road Element,
 | **Field Name**                      | **Subject**            | **Property**  | **Object**           | **Notes**                                                                                                                                                                                 |
 | ROUTE_NAME_ENGLISH                  | orn:roadLink\_{OGF_ID} | cdt:routeName | {ROUTE_NAME_ENGLISH} | The English name that is attached to a road net element as defined by a Municipality, Provincial Ministry, or Federal Agency and is associated to an established and/or maintained route. |
 
-*<u>Table 12: Mapping ORN_ROUTE_NAME.csv to City Digital Twin</u>*
+*<u>**Table 11**: Mapping ORN_ROUTE_NAME.csv to City Digital Twin</u>*
+
 
 **ORN_ROUTE_NUMBER.csv:** The route number attached to a road net element as defined by a Municipality, Provincial Ministry, or Federal Agency and is typically associated with provincial highways, secondary highways, county roads and regional roads
 
@@ -668,7 +679,8 @@ Each RoadLink can be one of three element types: Ferry Connection, Road Element,
 | **Field Name**                         | **Subject**            | **Property**    | **Object**       | **Notes**                                                                                                                                                                                                                                                |
 | ROUTE_NUMBER                           | orn:roadLink\_{OGF_ID} | cdt:routeNumber | {ROUTE\_ NUMBER} | The route number assigned to a road typically associated with provincial highways, secondary highways, county roads and regional roads and is represented by a numeric and/or an alpha-numeric character. A road can be assigned multiple route numbers. |
 
-*<u>Table 13: Mapping ORN_ROUTE_NUMBER.csv to City Digital Twin</u>*
+*<u>**Table 12**: Mapping ORN_ROUTE_NUMBER.csv to City Digital Twin</u>*
+
 
 **ORN_STRUCTURE.csv:** The classification of a structure, that exists on a road element and is managed as a linear event. The types are mutually exclusive. 
 
@@ -710,7 +722,8 @@ Each RoadLink can be one of three element types: Ferry Connection, Road Element,
 </tbody>
 </table>
 
-*<u>Table 14: Mapping ORN_STRUCTURE.csv to City Digital Twin</u>*
+*<u>**Table 13**: Mapping ORN_STRUCTURE.csv to City Digital Twin</u>*
+
 
 **ORN_TOLL_POINT.csv:** A point event along a road element indicating the presence of a toll point.  
 
@@ -761,7 +774,8 @@ Each RoadLink can be one of three element types: Ferry Connection, Road Element,
 </tbody>
 </table>
 
-*<u>Table 15: Mapping ORN_TOLL_POINT.csv to City Digital Twin</u>*
+*<u>**Table 14**: Mapping ORN_TOLL_POINT.csv to City Digital Twin</u>*
+
 
 **ORN_UNDERPASS.csv:** A point event on a road element identifying the existence of an underpass. An underpass occurs where the road element runs underneath a passage accommodating the movement of water, a building, road, rail, pedestrian or wildlife. 
 
@@ -823,7 +837,8 @@ Each RoadLink can be one of three element types: Ferry Connection, Road Element,
 </tbody>
 </table>
 
-*<u>Table 16: Mapping ORN_UNDERPASS.csv to City Digital Twin</u>*
+*<u>**Table 15**: Mapping ORN_UNDERPASS.csv to City Digital Twin</u>*
+
 
 <table>
 <colgroup>
@@ -969,7 +984,8 @@ Each RoadLink can be one of three element types: Ferry Connection, Road Element,
 </tbody>
 </table>
 
-*<u>Table 17: Mapping ORN Capacity to City Digital Twin</u>*
+*<u>**Table 16**: Mapping ORN Capacity to City Digital Twin</u>*
+
 
 ## Implementation of ORN Data Mapping to TTL 
 
