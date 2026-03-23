@@ -38,7 +38,9 @@ The following is a list of namespace prefixes<u> used in the mappings and ontol
 
 This section provides a brief summary of how the tags used in OpenStreetMap and Toronto Open Data Portal were mapped into the ontology used in the City Digital Twin.
 
-<img src="Library_media/media/image1.png" style="width:6.5in;height:3.05in" alt="A black background with white squares AI-generated content may be incorrect." />*<u>Figure 1: Diagram of Library Pattern</u>*
+![Figure 1](https://github.com/csse-uoft/city-digital-twin-ontology/blob/d7a47ad419f6db2977fadaf32cc502cc4592e8ea/Housing%20Potential%20Python/Housing%20Potential%20Diagrams/Figure%201%20Diagram%20of%20Library%20Pattern.png)
+
+*<u>Figure 1: Diagram of Library Pattern</u>*
 
 <table>
 <colgroup>
