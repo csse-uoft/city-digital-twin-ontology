@@ -332,6 +332,38 @@
     
 
 
+    <!-- http://ontology.eil.utoronto.ca/CDT#ClinicAmenity -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#ClinicAmenity">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#CDTCompleteCommunityAmenity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.eil.utoronto.ca/CDT#ClinicService -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#ClinicService">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#Service"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.eil.utoronto.ca/CDT#CollegeAmenity -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#CollegeAmenity">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#SchoolAmenity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.eil.utoronto.ca/CDT#CollegeService -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#CollegeService">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#SchoolService"/>
+    </owl:Class>
+    
+
+
     <!-- http://ontology.eil.utoronto.ca/CDT#CompleteCommunityAmenity -->
 
     <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#CompleteCommunityAmenity">
@@ -347,11 +379,219 @@
     
 
 
+    <!-- http://ontology.eil.utoronto.ca/CDT#DoctorsOfficeAmenity -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#DoctorsOfficeAmenity">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#CDTCompleteCommunityAmenity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.eil.utoronto.ca/CDT#DoctorsOfficeService -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#DoctorsOfficeService">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#Service"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.eil.utoronto.ca/CDT#FastFoodAmenity -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#FastFoodAmenity">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#CDTCompleteCommunityAmenity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.eil.utoronto.ca/CDT#FastFoodService -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#FastFoodService">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#Service"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.eil.utoronto.ca/CDT#GreengrocerAmenity -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#GreengrocerAmenity">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#CDTCompleteCommunityAmenity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.eil.utoronto.ca/CDT#GreengrocerService -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#GreengrocerService">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#Service"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.eil.utoronto.ca/CDT#HospitalAmenity -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#HospitalAmenity">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#CDTCompleteCommunityAmenity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.eil.utoronto.ca/CDT#HospitalService -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#HospitalService">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#Service"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.eil.utoronto.ca/CDT#KindergartenAmenity -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#KindergartenAmenity">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#SchoolAmenity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.eil.utoronto.ca/CDT#KindergartenService -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#KindergartenService">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#SchoolService"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.eil.utoronto.ca/CDT#LibraryAmenity -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#LibraryAmenity">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#CDTCompleteCommunityAmenity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.eil.utoronto.ca/CDT#LibraryService -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#LibraryService">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#Service"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.eil.utoronto.ca/CDT#ParkAmenity -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#ParkAmenity">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#CDTCompleteCommunityAmenity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.eil.utoronto.ca/CDT#ParkService -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#ParkService">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#Service"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.eil.utoronto.ca/CDT#PharmacyAmenity -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#PharmacyAmenity">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#CDTCompleteCommunityAmenity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.eil.utoronto.ca/CDT#PharmacyService -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#PharmacyService">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#Service"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.eil.utoronto.ca/CDT#PublicTransitAmenity -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#PublicTransitAmenity">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#CDTCompleteCommunityAmenity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.eil.utoronto.ca/CDT#PublicTransitService -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#PublicTransitService">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#Service"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.eil.utoronto.ca/CDT#RestaurantAmenity -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#RestaurantAmenity">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#CDTCompleteCommunityAmenity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.eil.utoronto.ca/CDT#RestaurantService -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#RestaurantService">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#Service"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.eil.utoronto.ca/CDT#SchoolAmenity -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#SchoolAmenity">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#CDTCompleteCommunityAmenity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.eil.utoronto.ca/CDT#SchoolService -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#SchoolService">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#Service"/>
+    </owl:Class>
+    
+
+
     <!-- http://ontology.eil.utoronto.ca/CDT#Service -->
 
     <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#Service">
         <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#CDTOntologyThing"/>
         <rdfs:label xml:lang="en">Service</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.eil.utoronto.ca/CDT#SupermarketAmenity -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#SupermarketAmenity">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#CDTCompleteCommunityAmenity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.eil.utoronto.ca/CDT#SupermarketService -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#SupermarketService">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#Service"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.eil.utoronto.ca/CDT#UniversityAmenity -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#UniversityAmenity">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#SchoolAmenity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.eil.utoronto.ca/CDT#UniversityService -->
+
+    <owl:Class rdf:about="http://ontology.eil.utoronto.ca/CDT#UniversityService">
+        <rdfs:subClassOf rdf:resource="http://ontology.eil.utoronto.ca/CDT#SchoolService"/>
     </owl:Class>
     
 
@@ -488,5 +728,5 @@
 
 
 
-<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+<!-- Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi -->
 
