@@ -1,0 +1,543 @@
+@prefix : <http://ontology.eil.utoronto.ca/CDT#> .
+@prefix WV: <http://www.wurvoc.org/vocabularies/WV/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix ns: <http://creativecommons.org/ns#> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix adms: <http://www.w3.org/ns/adms#> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix om-1: <http://www.wurvoc.org/vocabularies/om-1.8/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix terms: <http://purl.org/dc/terms/> .
+@prefix Change: <https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Change/> .
+@prefix CityUnits: <https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/CityUnits/> .
+@prefix wgs84_pos: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix RecurringEvent: <https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/RecurringEvent/> .
+@prefix RecurringEvent1: <https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/RecurringEvent/#> .
+@base <http://ontology.eil.utoronto.ca/CDT#> .
+
+<http://ontology.eil.utoronto.ca/CDT/> rdf:type owl:Ontology ;
+                                        owl:imports org: ,
+                                                    <https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/GenericProperties/> ,
+                                                    RecurringEvent: ,
+                                                    <https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/SpatialLoc/> ,
+                                                    <https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization> ,
+                                                    <https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Code/> ;
+                                        dc:description "An ontology for representing City Digital Twin data"@en ;
+                                        dc:title "City Digital Twin Ontology"@en .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://purl.org/dc/elements/1.1/description
+dc:description rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/elements/1.1/title
+dc:title rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Datatypes
+#################################################################
+
+###  http://www.opengis.net/ont/geosparql#wktLiteral
+<http://www.opengis.net/ont/geosparql#wktLiteral> rdf:type rdfs:Datatype .
+
+
+###  http://www.w3.org/2001/XMLSchema#time
+xsd:time rdf:type rdfs:Datatype .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://ontology.eil.utoronto.ca/CDT/providesService
+:providesService rdf:type owl:ObjectProperty ;
+                 rdfs:label "Provides service"@en .
+
+
+###  http://www.w3c.org/ns/org#hasSite
+<http://www.w3c.org/ns/org#hasSite> rdf:type owl:ObjectProperty ;
+                                    rdfs:label "Has site"@en .
+
+
+###  http://www.w3c.org/ns/org#hasUnit
+<http://www.w3c.org/ns/org#hasUnit> rdf:type owl:ObjectProperty ;
+                                    rdfs:label "Has unit"@en .
+
+
+###  https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/RecurringEvent/hasDayOfWeek
+RecurringEvent:hasDayOfWeek rdf:type owl:ObjectProperty ;
+                            rdfs:label "Has day of week"@en .
+
+
+###  https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/SpatialLoc/hasLocation
+<https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/SpatialLoc/hasLocation> rdf:type owl:ObjectProperty ;
+                                                                                    rdfs:label "Has location"@en .
+
+
+###  https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Code/hasCode
+<https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Code/hasCode> rdf:type owl:ObjectProperty ;
+                                                                          rdfs:label "Has code"@en .
+
+
+###  https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Contact/hasTelephone
+<https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Contact/hasTelephone> rdf:type owl:ObjectProperty ;
+                                                                                  rdfs:label "Has telephone"@en .
+
+
+###  https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/hasIndustryType
+<https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/hasIndustryType> rdf:type owl:ObjectProperty ;
+                                                                                          rdfs:label "Has industry type"@en .
+
+
+###  https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/operatingHours
+<https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/operatingHours> rdf:type owl:ObjectProperty ;
+                                                                                         rdfs:label "Operating hours"@en .
+
+
+###  https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/orgAddress
+<https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/orgAddress> rdf:type owl:ObjectProperty ;
+                                                                                     rdfs:label "Org address"@en .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://ontology.eil.utoronto.ca/CDT/hasClosingTime
+:hasClosingTime rdf:type owl:DatatypeProperty ;
+                rdfs:label "Has closing time"@en .
+
+
+###  http://www.opengis.net/ont/geosparql#asWKT
+<http://www.opengis.net/ont/geosparql#asWKT> rdf:type owl:DatatypeProperty ;
+                                             rdfs:label "As WKT"@en .
+
+
+###  https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/GenericProperties/hasDescription
+<https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/GenericProperties/hasDescription> rdf:type owl:DatatypeProperty ;
+                                                                                              rdfs:label "Has description"@en .
+
+
+###  https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/GenericProperties/hasIdentifier
+<https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/GenericProperties/hasIdentifier> rdf:type owl:DatatypeProperty ;
+                                                                                             rdfs:label "Has identifier"@en .
+
+
+###  https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/GenericProperties/hasName
+<https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/GenericProperties/hasName> rdf:type owl:DatatypeProperty ;
+                                                                                       rdfs:label "Has name"@en .
+
+
+###  https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/hasOpeningTime
+<https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/hasOpeningTime> rdf:type owl:DatatypeProperty ;
+                                                                                         rdfs:label "Has opening time"@en .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://ontology.eil.utoronto.ca/5087/2/Contact//Address
+<http://ontology.eil.utoronto.ca/5087/2/Contact//Address> rdf:type owl:Class ;
+                                                          rdfs:label "Address"@en .
+
+
+###  http://ontology.eil.utoronto.ca/5087/2/Contact//PhoneNumber
+<http://ontology.eil.utoronto.ca/5087/2/Contact//PhoneNumber> rdf:type owl:Class ;
+                                                              rdfs:label "Phone Number"@en .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/CDTForProfitOrganization
+:CDTForProfitOrganization rdf:type owl:Class ;
+                          rdfs:subClassOf :CDTOrganization ,
+                                          <http://ontology.eil.utoronto.ca/CDT/https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/ForProfitOrganization> .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/CDTGovernmentOrganization
+:CDTGovernmentOrganization rdf:type owl:Class ;
+                           rdfs:subClassOf :CDTOrganization ,
+                                           <https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/GovernmentOrganization> ;
+                           rdfs:label "CDT Government Organization"@en .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/CDTNonProfitOrganization
+:CDTNonProfitOrganization rdf:type owl:Class ;
+                          rdfs:subClassOf :CDTOrganization ,
+                                          <http://ontology.eil.utoronto.ca/CDT/https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/NonProfitOrganization> ;
+                          rdfs:label "CDT Non Profit Organization"@en .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/CDTOntologyThing
+:CDTOntologyThing rdf:type owl:Class .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/CDTOrganization
+:CDTOrganization rdf:type owl:Class ;
+                 rdfs:subClassOf <https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/Organization> ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty <http://www.w3c.org/ns/org#hasSite> ;
+                                   owl:someValuesFrom :CDTSite
+                                 ] ;
+                 rdfs:label "CDT Organization"@en .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/CDTSite
+:CDTSite rdf:type owl:Class ;
+         rdfs:subClassOf org:Site ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty <https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/SpatialLoc/hasLocation> ;
+                           owl:someValuesFrom <https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/SpatialLoc/Location>
+                         ] ;
+         rdfs:label "CDT Site"@en .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/ClinicAmenity
+:ClinicAmenity rdf:type owl:Class ;
+               rdfs:subClassOf :HealthAmenity ;
+               rdfs:label "Clinic" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/ClinicService
+:ClinicService rdf:type owl:Class ;
+               rdfs:subClassOf :Service ;
+               rdfs:label "Clinic" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/CollegeAmenity
+:CollegeAmenity rdf:type owl:Class ;
+                rdfs:subClassOf :SchoolAmenity ;
+                rdfs:label "College" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/CollegeService
+:CollegeService rdf:type owl:Class ;
+                rdfs:subClassOf :SchoolService .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/CommunalAmenity
+:CommunalAmenity rdf:type owl:Class ;
+                 rdfs:subClassOf :CompleteCommunityAmenity ;
+                 rdfs:label "Communal" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/CompleteCommunityAmenity
+:CompleteCommunityAmenity rdf:type owl:Class ;
+                          rdfs:subClassOf :CDTOntologyThing ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty :providesService ;
+                                            owl:someValuesFrom :Service
+                                          ] ;
+                          rdfs:label "Complete Community Amenity"@en .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/CulturalAmenity
+:CulturalAmenity rdf:type owl:Class ;
+                 rdfs:subClassOf :CompleteCommunityAmenity ;
+                 rdfs:label "Cultural" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/DoctorsOfficeAmenity
+:DoctorsOfficeAmenity rdf:type owl:Class ;
+                      rdfs:subClassOf :HealthAmenity ;
+                      rdfs:label "Doctor's Office" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/DoctorsOfficeService
+:DoctorsOfficeService rdf:type owl:Class ;
+                      rdfs:subClassOf :Service ;
+                      rdfs:label "Doctor's Office" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/EducationAndChildcareAmenity
+:EducationAndChildcareAmenity rdf:type owl:Class ;
+                              rdfs:subClassOf :CompleteCommunityAmenity ;
+                              rdfs:label "Education and Childcare" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/FastFoodAmenity
+:FastFoodAmenity rdf:type owl:Class ;
+                 rdfs:subClassOf :RetailAndServicesAmenity ;
+                 rdfs:label "Fast Food" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/FastFoodService
+:FastFoodService rdf:type owl:Class ;
+                 rdfs:subClassOf :Service ;
+                 rdfs:label "Fast Food" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/GreengrocerAmenity
+:GreengrocerAmenity rdf:type owl:Class ;
+                    rdfs:subClassOf :RetailAndServicesAmenity ;
+                    rdfs:label "Greengrocer" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/GreengrocerService
+:GreengrocerService rdf:type owl:Class ;
+                    rdfs:subClassOf :Service ;
+                    rdfs:label "Greengrocer" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/HealthAmenity
+:HealthAmenity rdf:type owl:Class ;
+               rdfs:subClassOf :CompleteCommunityAmenity ;
+               rdfs:label "Health" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/HospitalAmenity
+:HospitalAmenity rdf:type owl:Class ;
+                 rdfs:subClassOf :HealthAmenity ;
+                 rdfs:label "Hospital" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/HospitalService
+:HospitalService rdf:type owl:Class ;
+                 owl:equivalentClass <http://ontology.eil.utoronto.ca/HPCDM/HospitalService> ;
+                 rdfs:subClassOf :Service ;
+                 rdfs:label "Hospital" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/KindergartenAmenity
+:KindergartenAmenity rdf:type owl:Class ;
+                     rdfs:subClassOf :SchoolAmenity ;
+                     rdfs:label "Kindergarten" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/KindergartenService
+:KindergartenService rdf:type owl:Class ;
+                     rdfs:subClassOf :SchoolService .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/LibraryAmenity
+:LibraryAmenity rdf:type owl:Class ;
+                rdfs:subClassOf :CommunalAmenity ,
+                                :CulturalAmenity ;
+                rdfs:label "Library" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/LibraryService
+:LibraryService rdf:type owl:Class ;
+                owl:equivalentClass <http://ontology.eil.utoronto.ca/HPCDM/LibraryService> ;
+                rdfs:subClassOf :Service ;
+                rdfs:label "Library" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/ParkService
+:ParkService rdf:type owl:Class ;
+             owl:equivalentClass <http://ontology.eil.utoronto.ca/HPCDM/ParkService> ;
+             rdfs:subClassOf :Service ;
+             rdfs:label "Park" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/PharmacyAmenity
+:PharmacyAmenity rdf:type owl:Class ;
+                 rdfs:subClassOf :HealthAmenity ;
+                 rdfs:label "Pharmacy" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/PharmacyService
+:PharmacyService rdf:type owl:Class ;
+                 rdfs:subClassOf :Service ;
+                 rdfs:label "Pharmacy" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/PublicTransitService
+:PublicTransitService rdf:type owl:Class ;
+                      owl:equivalentClass <http://ontology.eil.utoronto.ca/HPCDM/PublicTransitService> ;
+                      rdfs:subClassOf :Service ;
+                      rdfs:label "Public Transit Node" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/RecreationalAmenity
+:RecreationalAmenity rdf:type owl:Class ;
+                     rdfs:subClassOf :CompleteCommunityAmenity ;
+                     rdfs:label "Recreational" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/RestaurantAmenity
+:RestaurantAmenity rdf:type owl:Class ;
+                   rdfs:subClassOf :RetailAndServicesAmenity ;
+                   rdfs:label "Restaurant" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/RestaurantService
+:RestaurantService rdf:type owl:Class ;
+                   rdfs:subClassOf :Service ;
+                   rdfs:label "Restaurant" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/RetailAndServicesAmenity
+:RetailAndServicesAmenity rdf:type owl:Class ;
+                          rdfs:subClassOf :CompleteCommunityAmenity ;
+                          rdfs:label "Retail and Services" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/SchoolAmenity
+:SchoolAmenity rdf:type owl:Class ;
+               rdfs:subClassOf :EducationAndChildcareAmenity ;
+               rdfs:label "School" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/SchoolService
+:SchoolService rdf:type owl:Class ;
+               owl:equivalentClass <http://ontology.eil.utoronto.ca/HPCDM/SchoolService> ;
+               rdfs:subClassOf :Service ;
+               rdfs:label "School" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/Service
+:Service rdf:type owl:Class ;
+         rdfs:subClassOf :CDTOntologyThing ;
+         rdfs:label "Service"@en .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/SpiritualAmenity
+:SpiritualAmenity rdf:type owl:Class ;
+                  rdfs:subClassOf :CompleteCommunityAmenity ;
+                  rdfs:label "Spiritual" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/SupermarketAmenity
+:SupermarketAmenity rdf:type owl:Class ;
+                    rdfs:subClassOf :RetailAndServicesAmenity ;
+                    rdfs:label "Supermarket" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/SupermarketService
+:SupermarketService rdf:type owl:Class ;
+                    rdfs:subClassOf :Service ;
+                    rdfs:label "Supermarket" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/UniversityAmenity
+:UniversityAmenity rdf:type owl:Class ;
+                   rdfs:subClassOf :SchoolAmenity ;
+                   rdfs:label "University" .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/UniversityService
+:UniversityService rdf:type owl:Class ;
+                   rdfs:subClassOf :SchoolService .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/ForProfitOrganization
+<http://ontology.eil.utoronto.ca/CDT/https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/ForProfitOrganization> rdf:type owl:Class ;
+                                                                                                                                    rdfs:subClassOf <https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/Organization> ;
+                                                                                                                                    rdfs:label "For Profit Organization"@en .
+
+
+###  http://ontology.eil.utoronto.ca/CDT/https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/NonProfitOrganization
+<http://ontology.eil.utoronto.ca/CDT/https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/NonProfitOrganization> rdf:type owl:Class ;
+                                                                                                                                    rdfs:subClassOf <https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/Organization> ;
+                                                                                                                                    rdfs:label "Non Profit Organization"@en .
+
+
+###  http://ontology.eil.utoronto.ca/HPCDM/HospitalService
+<http://ontology.eil.utoronto.ca/HPCDM/HospitalService> rdf:type owl:Class .
+
+
+###  http://ontology.eil.utoronto.ca/HPCDM/LibraryService
+<http://ontology.eil.utoronto.ca/HPCDM/LibraryService> rdf:type owl:Class .
+
+
+###  http://ontology.eil.utoronto.ca/HPCDM/ParkService
+<http://ontology.eil.utoronto.ca/HPCDM/ParkService> rdf:type owl:Class .
+
+
+###  http://ontology.eil.utoronto.ca/HPCDM/PublicTransitService
+<http://ontology.eil.utoronto.ca/HPCDM/PublicTransitService> rdf:type owl:Class .
+
+
+###  http://ontology.eil.utoronto.ca/HPCDM/SchoolService
+<http://ontology.eil.utoronto.ca/HPCDM/SchoolService> rdf:type owl:Class .
+
+
+###  http://ontology.eil.utoronto.ca/HPCDM/SupermarketService
+<http://ontology.eil.utoronto.ca/HPCDM/SupermarketService> rdf:type owl:Class .
+
+
+###  http://www.w3.org/2006/time#DayOfWeek
+<http://www.w3.org/2006/time#DayOfWeek> rdf:type owl:Class ;
+                                        rdfs:label "Day Of Week"@en .
+
+
+###  http://www.w3.org/ns/org#OrganizationalUnit
+org:OrganizationalUnit rdf:type owl:Class ;
+                       rdfs:label "Organizational Unit"@en .
+
+
+###  https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/SpatialLoc/Location
+<https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/SpatialLoc/Location> rdf:type owl:Class ;
+                                                                                 rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                                                                                   owl:onProperty <http://www.opengis.net/ont/geosparql#asWKT> ;
+                                                                                                   owl:someValuesFrom <http://www.opengis.net/ont/geosparql#wktLiteral>
+                                                                                                 ] ;
+                                                                                 rdfs:label "Location"@en .
+
+
+###  https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Code/Code
+<https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Code/Code> rdf:type owl:Class ;
+                                                                       rdfs:label "Code"@en .
+
+
+###  https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/GovernmentOrganization
+<https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/GovernmentOrganization> rdf:type owl:Class ;
+                                                                                                 rdfs:subClassOf <https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/Organization> ;
+                                                                                                 rdfs:label "Government Organization"@en .
+
+
+###  https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/IndustryType
+<https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/IndustryType> rdf:type owl:Class ;
+                                                                                       rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                                                                                         owl:onProperty <https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Code/hasCode> ;
+                                                                                                         owl:someValuesFrom <https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Code/Code>
+                                                                                                       ] ;
+                                                                                       rdfs:label "Industry Type"@en .
+
+
+###  https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/Operation
+<https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/Operation> rdf:type owl:Class ;
+                                                                                    rdfs:label "Operation"@en .
+
+
+###  https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/Organization
+<https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/Organization> rdf:type owl:Class ;
+                                                                                       rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                                                                                         owl:onProperty :providesService ;
+                                                                                                         owl:someValuesFrom :Service
+                                                                                                       ] ,
+                                                                                                       [ rdf:type owl:Restriction ;
+                                                                                                         owl:onProperty <http://www.w3c.org/ns/org#hasUnit> ;
+                                                                                                         owl:someValuesFrom org:OrganizationalUnit
+                                                                                                       ] ,
+                                                                                                       [ rdf:type owl:Restriction ;
+                                                                                                         owl:onProperty <https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Contact/hasTelephone> ;
+                                                                                                         owl:someValuesFrom <http://ontology.eil.utoronto.ca/5087/2/Contact//PhoneNumber>
+                                                                                                       ] ,
+                                                                                                       [ rdf:type owl:Restriction ;
+                                                                                                         owl:onProperty <https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/hasIndustryType> ;
+                                                                                                         owl:someValuesFrom <https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/IndustryType>
+                                                                                                       ] ,
+                                                                                                       [ rdf:type owl:Restriction ;
+                                                                                                         owl:onProperty <https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/operatingHours> ;
+                                                                                                         owl:someValuesFrom <https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/Operation>
+                                                                                                       ] ,
+                                                                                                       [ rdf:type owl:Restriction ;
+                                                                                                         owl:onProperty <https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Organization/orgAddress> ;
+                                                                                                         owl:someValuesFrom <http://ontology.eil.utoronto.ca/5087/2/Contact//Address>
+                                                                                                       ] ;
+                                                                                       rdfs:label "Organization"@en .
+
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi
