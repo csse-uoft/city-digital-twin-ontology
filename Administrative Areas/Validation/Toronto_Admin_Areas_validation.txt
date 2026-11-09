@@ -1,0 +1,18 @@
+Toronto Administrative Areas - Validation
+===========================================
+
+Wards:                       25
+Neighbourhoods:              140
+Census tracts:               572
+Ward-neighbourhood links:    175
+Toronto-neighbourhood links: 140
+WKT geometries:              737
+Total RDF triples:           7583
+
+Expected historical entity counts:
+- 25 wards
+- 140 neighbourhoods
+- 572 census tracts
+
+Ward-neighbourhood crosswalk:
+Recovered from the legacy Toronto2*.ttl file.
