@@ -1,0 +1,15 @@
+Overture Toronto Building Mapping Validation
+============================================
+
+Input features:                    226
+Mapped buildings:                  226
+Skipped features missing ID:       0
+Buildings with primary name:       94
+Buildings with geometry:           226
+Buildings with subtype/use:        135
+Buildings with height:             66
+Buildings with num_floors:         147
+Mapped provenance source entities: 269
+Total RDF triples:                 3431
+
+First Canadian Place example:      PASS

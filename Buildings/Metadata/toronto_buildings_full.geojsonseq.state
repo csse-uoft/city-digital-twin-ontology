@@ -1,0 +1,14 @@
+{
+  "last_release": "2026-10-21.0",
+  "last_run": "2026-11-03T17:53:38.491447+00:00",
+  "theme": "buildings",
+  "type": "building",
+  "bbox": {
+    "xmin": -79.65,
+    "ymin": 43.58,
+    "xmax": -79.1,
+    "ymax": 43.86
+  },
+  "backend": "geojsonseq",
+  "output": "C:\\Users\\divno\\Downloads\\Overture\\toronto_buildings_full.geojsonseq"
+}
