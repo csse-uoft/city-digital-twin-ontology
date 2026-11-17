@@ -1,0 +1,21 @@
+Overture Toronto Building Mapping Validation
+============================================
+
+Input file:                        toronto_buildings_downtown_test.geojsonseq
+Input format:                      geojsonseq
+Boundary clipping:                 neighbourhoods-historical-140-4326.geojson
+
+Input features processed:          10000
+Mapped Toronto buildings:          10000
+Excluded outside boundary:         0
+Skipped missing ID:                0
+Skipped no geometry for clipping:  0
+Buildings with primary name:       874
+Buildings with geometry:           10000
+Buildings with subtype/use:        5434
+Buildings with height:             1984
+Buildings with num_floors:         2654
+Mapped provenance source entities: 11824
+Total RDF triples written:         136373
+
+First Canadian Place example:      PASS

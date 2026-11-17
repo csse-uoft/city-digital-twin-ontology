@@ -7,7 +7,7 @@ Implemented mapping:
 - Overture building -> bdg:Building
 - id -> genprop:hasIdentifier
 - names.primary -> genprop:hasName
-- geometry -> loc:associatedLocation -> loc:Location -> geo:asWKT
+- geometry -> loc:hasLocation -> loc:Location -> geo:asWKT
 - subtype -> shared bdg:BuildingUse + code:Code
 - height -> bdg:hasBuildingHeight -> cityunits:Length -> i72:Measure
 - num_floors -> bdg:numAboveGroundFloors
@@ -72,7 +72,7 @@ TOR = Namespace("http://ontology.eil.utoronto.ca/Toronto/Toronto#")
 GENPROP = Namespace(
     "https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/GenericProperties/"
 )
-CDT = Namespace("http://ontology.eil.utoronto.ca/CDT#")
+CDT = Namespace("http://ontology.eil.utoronto.ca/CDT/")
 LOC = Namespace(
     "https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/SpatialLoc/"
 )
@@ -94,7 +94,7 @@ TORONTO_CITY = TOR.toronto
 FIRST_CANADIAN_PLACE_ID = "cc964f89-dd07-4eec-a0d1-8fc383c3b264"
 
 PREFIX_HEADER = """@prefix bdg: <https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Building/> .
-@prefix cdt: <http://ontology.eil.utoronto.ca/CDT#> .
+@prefix cdt: <http://ontology.eil.utoronto.ca/CDT/> .
 @prefix cityunits: <https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/CityUnits/> .
 @prefix code: <https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/Code/> .
 @prefix genprop: <https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/GenericProperties/> .
@@ -309,7 +309,7 @@ def add_geometry(
 ) -> bool:
     if geom is None:
         return False
-    graph.add((building_uri, LOC.associatedLocation, location_uri))
+    graph.add((building_uri, LOC.hasLocation, location_uri))
     graph.add((location_uri, RDF.type, LOC.Location))
     graph.add((location_uri, GEO.asWKT, Literal(geom.wkt, datatype=GEO.wktLiteral)))
     return True
@@ -612,7 +612,7 @@ def build_report(
         warnings.append("No buildings were mapped.")
     if stats["mapped_buildings"] != stats["with_geometry"]:
         warnings.append(
-            "Some mapped buildings do not have geometry / loc:associatedLocation."
+            "Some mapped buildings do not have geometry / loc:hasLocation."
         )
     if boundary_path is None and input_kind(input_path) == "geojsonseq":
         warnings.append(
