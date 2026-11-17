@@ -1,13 +1,26 @@
 # Services and Amenities
 
-This folder contains the City Digital Twin services and amenities work.
+This folder is organized by service or amenity rather than by file type.
 
-The repository is organized by subject/domain rather than by source. OpenStreetMap remains visible as the source inside the domain.
+Each subfolder keeps the files for that service together: its RDF-generation/mapping Python script, source data, ontology diagram, and any service-specific Overpass extraction script.
 
-## Contents
+## Services and amenities
 
-- `Scripts/OpenStreetMap/` - OpenStreetMap and Overpass transformation scripts.
-- `OpenStreetMap GeoJSON/` - source GeoJSON files used by the OpenStreetMap mappings.
-- `Diagrams/` - service and amenity ontology diagrams.
+- **Clinic/**
+- **College/**
+- **Doctors/**
+- **Fast Food/**
+- **Greengrocer/**
+- **Hospital/**
+- **Kindergarten/**
+- **Library/**
+- **Parks/**
+- **Pharmacy/**
+- **Restaurant/**
+- **School/**
+- **Supermarket/**
+- **University/**
 
-The former top-level `OpenStreetMap/`, `OpenStreetMap GeoJSON/`, and service/amenity `Diagrams/` folders have been consolidated here.
+Shared extraction scripts that support more than one amenity are intentionally included in each relevant service folder so that each folder is self-contained.
+
+The previous organization by `Diagrams/`, `OpenStreetMap GeoJSON/`, and `Scripts/OpenStreetMap/` has been removed.
