@@ -9,11 +9,12 @@ This repository is organized primarily by subject/domain.
 - `Administrative Areas/`
 - `Buildings/`
 - `Census/`
+- `Road Network/`
 - `Services and Amenities/`
 
 ## Shared and project material
 
-- `Housing Potential Project/` - historical Housing Potential work, including the Road Network.
+- `Housing Potential Project/` - historical Housing Potential project snapshot. It includes a historical Road Network copy, while current Road Network development continues in the top-level `Road Network/` folder.
 - `OWL/` - shared ontology files pending migration to the proposed `Ontologies/` structure.
 - `Documentation/` - project-wide documentation.
 - `Toronto Common Data Model/` - project-level TCDM documentation pending consolidation under Documentation.
